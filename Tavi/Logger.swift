@@ -92,24 +92,22 @@ class Logger
 	static func error<T>(vals: T?..., seperator: String = " ") { error(seperator: seperator, arr: vals) }
 	private static func error<T>(seperator seperator: String, arr: [T])  { log(LogLevel.Error, seperator: seperator, arr: arr) }
 	private static func error<T>(seperator seperator: String, arr: [T?]) { log(LogLevel.Error, seperator: seperator, arr: arr) }
-}
-
-struct LogLevel {
-	private static var nextIndex = 0
 	
-	static let Plain = LogLevel(prefix: "",        color: UIColor.redColor())
-	static let Debug = LogLevel(prefix: "DEBUG: ", color: UIColor.whiteColor())
-	static let Trace = LogLevel(prefix: "TRACE: ", color: UIColor.whiteColor())
-	static let Info =  LogLevel(prefix: " INFO: ", color: UIColor.whiteColor())
-	static let Warn =  LogLevel(prefix: " WARN: ", color: UIColor.yellowColor())
-	static let Error = LogLevel(prefix: "ERROR: ", color: UIColor.redColor())
-	
-	let prefix: String
-	let color: UIColor
-	let index: Int
-	private init(prefix: String, color: UIColor) {
-		self.prefix = prefix
-		self.color = color
-		self.index = LogLevel.nextIndex++
+	struct LogLevel {
+		static let Debug = LogLevel(index: 0, prefix: "DEBUG: ", color: UIColor.whiteColor())
+		static let Plain = LogLevel(index: 1, prefix: "",        color: UIColor.redColor())
+		static let Trace = LogLevel(index: 2, prefix: "TRACE: ", color: UIColor.whiteColor())
+		static let Info =  LogLevel(index: 3, prefix: " INFO: ", color: UIColor.whiteColor())
+		static let Warn =  LogLevel(index: 4, prefix: " WARN: ", color: UIColor.yellowColor())
+		static let Error = LogLevel(index: 5, prefix: "ERROR: ", color: UIColor.redColor())
+		
+		let prefix: String
+		let color: UIColor
+		let index: Int
+		private init(index: Int, prefix: String, color: UIColor) {
+			self.prefix = prefix
+			self.color = color
+			self.index = index
+		}
 	}
 }
