@@ -133,6 +133,50 @@ extension Bool {
 	}
 }
 
+extension SequenceType {
+	func find(search: (Self.Generator.Element) -> Bool) -> Self.Generator.Element? {
+		for el in self {
+			if search(el) {
+				return el
+			}
+		}
+		return nil
+	}
+	func findWithPos(search: (Self.Generator.Element) -> Bool) -> (index: Int, element: Self.Generator.Element?) {
+		for (index, el) in self.enumerate() {
+			if search(el) {
+				return (index, el)
+			}
+		}
+		return (-1, nil)
+	}
+}
+extension SequenceType where Generator.Element: Equatable {
+	func find(element: Self.Generator.Element) -> Self.Generator.Element? {
+		for el in self {
+			if el == element {
+				return el
+			}
+		}
+		return nil
+	}
+	func findWithPos(element: Self.Generator.Element) -> (index: Int, element: Self.Generator.Element?) {
+		for (index, el) in self.enumerate() {
+			if el == element {
+				return (index, el)
+			}
+		}
+		return (-1, nil)
+	}
+}
+
+extension Array {
+	mutating func moveElementFromPos(from: Int, toPos end: Int) {
+		let tmp = self.removeAtIndex(from)
+		self.insert(tmp, atIndex: end)
+	}
+}
+
 public enum ViewOrientation {
 	case Portrait
 	case Landscape
