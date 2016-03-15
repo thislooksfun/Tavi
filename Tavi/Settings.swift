@@ -31,8 +31,10 @@ class Settings
 	
 	enum InAppNoteType {
 		case All
+		case Start
 		case Pass
 		case Fail
+		case Cancel
 		case None
 	}
 	
