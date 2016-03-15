@@ -110,21 +110,14 @@ class RepoCell: UITableViewCell
 		}, completion: self.rotate)
 	}
 	
-	private func formatDuration(repo: TravisRepo)
+	func formatDuration(repo: TravisRepo)
 	{
 		guard let start = repo.lastBuild?.startedAt else {
 			self.durationLabel.text = "Duration: -"
 			return
 		}
 		
-		var end: NSDate
-		if repo.lastBuild?.finishedAt != nil {
-			end = repo.lastBuild!.finishedAt!
-		} else {
-			end = NSDate()
-			delay(0.5, cb: { self.formatDuration(repo) })
-		}
-		
+		let end = repo.lastBuild?.finishedAt ?? NSDate()
 		let comps = start.timeTo(end)
 		
 		var out = ""
