@@ -13,32 +13,41 @@ class Notifications
 	// MARK: Sending notifications
 	
 	static func fireTest() {
-		fireBuildPassed("vidr-group/vidr-manifest", buildNumber: 13, date: NSDate(timeIntervalSinceNow: 1))
-		fireBuildPassed("vidr-group/vidr-core",     buildNumber: 18, date: NSDate(timeIntervalSinceNow: 5))
-		fireBuildFailed("vidr-group/gpool",         buildNumber: 22, date: NSDate(timeIntervalSinceNow: 9))
+		//TODO: Remove this
+		fireBuildPassed("vidr-group/vidr-manifest", buildNumber: 13, fireDate: NSDate(timeIntervalSinceNow: 1))
+		fireBuildPassed("vidr-group/vidr-core",     buildNumber: 18, fireDate: NSDate(timeIntervalSinceNow: 5))
+		fireBuildFailed("vidr-group/gpool",         buildNumber: 22, fireDate: NSDate(timeIntervalSinceNow: 9))
 	}
 	
-	static func fireBuildPassed(slug: String, buildNumber: Int, date: NSDate) {
-		fireBuildStatus(slug, buildNumber: buildNumber, status: "passed", date: date)
+	static func fireBuildStarted(slug: String, buildNumber: Int, fireDate: NSDate = NSDate()) {
+		fireBuildStatus(slug, buildNumber: buildNumber, status: "started", fireDate: fireDate)
 	}
-	static func fireBuildFailed(slug: String, buildNumber: Int, date: NSDate) {
-		fireBuildStatus(slug, buildNumber: buildNumber, status: "failed", date: date)
+	static func fireBuildPassed(slug: String, buildNumber: Int, fireDate: NSDate = NSDate()) {
+		fireBuildStatus(slug, buildNumber: buildNumber, status: "passed", fireDate: fireDate)
 	}
-	static func fireBuildStatus(slug: String, buildNumber: Int, status: String, date: NSDate)
+	static func fireBuildFailed(slug: String, buildNumber: Int, fireDate: NSDate = NSDate()) {
+		fireBuildStatus(slug, buildNumber: buildNumber, status: "failed", fireDate: fireDate)
+	}
+	static func fireBuildCancelled(slug: String, buildNumber: Int, fireDate: NSDate = NSDate()) {
+		fireBuildStatus(slug, buildNumber: buildNumber, status: "cancelled", fireDate: fireDate)
+	}
+	static func fireBuildStatus(slug: String, buildNumber: Int, status: String, fireDate: NSDate = NSDate())
 	{
-		if Settings.displayInAppNotifications == .None                       { return }
-		if Settings.displayInAppNotifications == .Pass && status != "passed" { return }
-		if Settings.displayInAppNotifications == .Fail && status != "failed" { return }
+		if Settings.displayInAppNotifications == .None                            { return }
+		if Settings.displayInAppNotifications == .Start  && status != "started"   { return }
+		if Settings.displayInAppNotifications == .Pass   && status != "passed"    { return }
+		if Settings.displayInAppNotifications == .Fail   && status != "failed"    { return }
+		if Settings.displayInAppNotifications == .Cancel && status != "cancelled" { return }
 		
-		buildNotification("\(slug):\nBuild #\(buildNumber) \(status)", userInfo: ["slug": slug, "build": buildNumber, "status": status], date: date)
+		buildNotification("\(slug):\nBuild #\(buildNumber) \(status)", userInfo: ["slug": slug, "build": buildNumber, "status": status], fireDate: fireDate)
 	}
 	
-	private static func buildNotification(title: String, action: String? = nil, date: NSDate = NSDate(), sound: String = UILocalNotificationDefaultSoundName, userInfo: [NSObject: AnyObject]? = nil, category: String? = nil, incBadge: Int = 1)
+	private static func buildNotification(title: String, action: String? = nil, fireDate: NSDate = NSDate(), sound: String = UILocalNotificationDefaultSoundName, userInfo: [NSObject: AnyObject]? = nil, category: String? = nil, incBadge: Int = 1)
 	{
 		let note = UILocalNotification()
 		note.alertBody = title                      // Message content
 		note.alertAction = action                   // What to display after after "Slide to..." on the lock screen - defaults to "Slide to view"
-		note.fireDate = date	                    // When notification will be fired
+		note.fireDate = fireDate	                    // When notification will be fired
 		note.soundName = sound                      // The sound to play
 		note.userInfo = userInfo                    // Any specific information, such as a UUID to later backtrack
 		note.category = category                    // ??

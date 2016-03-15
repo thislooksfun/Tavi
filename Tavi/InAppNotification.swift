@@ -10,6 +10,12 @@ import UIKit
 
 class InAppNotification: UIView
 {
+	private var slug: String!
+	
+	private var shownYConstraint: NSLayoutConstraint!
+	private var hiddenYConstraint: NSLayoutConstraint!
+	private var label: UILabel!
+	
 	private override init(frame: CGRect) {
 		super.init(frame: frame)
 		buildView()
@@ -18,10 +24,6 @@ class InAppNotification: UIView
 	required init(coder aDecoder: NSCoder) {
 		fatalError("This class does not support NSCoding")
 	}
-	
-	private var shownYConstraint: NSLayoutConstraint!
-	private var hiddenYConstraint: NSLayoutConstraint!
-	private var label: UILabel!
 	
 	private func buildView()
 	{
@@ -32,7 +34,8 @@ class InAppNotification: UIView
 		view.addSubview(self)
 		
 		initSelfConstraints(view)
-		addLabels(view)
+		addLabels()
+		addButton()
 		
 		view.layoutIfNeeded()
 	}
@@ -45,11 +48,9 @@ class InAppNotification: UIView
 		shownYConstraint = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Bottom, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: 0)
 		hiddenYConstraint = NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: 0)
 		view.addConstraint(hiddenYConstraint)
-		
-//		view.addConstraint(NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 50))
 	}
 	
-	private func addLabels(view: UIView)
+	private func addLabels()
 	{
 		self.label = UILabel()
 		self.label.translatesAutoresizingMaskIntoConstraints = false
@@ -71,33 +72,54 @@ class InAppNotification: UIView
 		self.addConstraint(NSLayoutConstraint(item: self.label, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.GreaterThanOrEqual, toItem: nil,  attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant:  0))
 	}
 	
+	private func addButton()
+	{
+		let button = UIButton()
+		button.translatesAutoresizingMaskIntoConstraints = false
+		
+		button.addTarget(self, action: "goToRepo:", forControlEvents: .TouchUpInside)
+		
+		self.addSubview(button)
+		
+		initButtonConstraints(button)
+	}
+	
+	private func initButtonConstraints(button: UIButton)
+	{
+		self.addConstraint(NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Top,    relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Top,    multiplier: 1, constant: 0))
+		self.addConstraint(NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Bottom, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: 0))
+		self.addConstraint(NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Left,   relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Left,   multiplier: 1, constant: 0))
+		self.addConstraint(NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Right,  relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Right,  multiplier: 1, constant: 0))
+	}
+	
 	
 	static func display(info: [String: AnyObject])
 	{
 		let note = InAppNotification(frame: CGRect.zero)
 		
-		let slug = info["slug"] as! String
+		note.slug = info["slug"] as! String
 		let build = info["build"] as! Int
 		let status = info["status"] as! String
 		
 		var color: UIColor
 		switch status {
-			case "passed": color = TravisAPI.passingColor
-			case "failed": color = TravisAPI.failingColor
+			case "started":   color = TravisAPI.inProgressColor
+			case "passed":    color = TravisAPI.passingColor
+			case "failed":    color = TravisAPI.failingColor
+			case "cancelled": color = TravisAPI.cancelColor
 			default:
-				//FIXME: add other statuses
 				Logger.error("'\(status)' is not a valid status")
 				return
 		}
 		
 		let text = NSMutableAttributedString()
-		text += "\(slug)\n"
+		text += "\(note.slug)\n"
 		text += NSAttributedString(string: "#\(build) \(status)", attributes: [NSForegroundColorAttributeName: color])
 		
 		note.label.attributedText = text
 		
 		note.display()
-		delay(2, cb: note.remove)
+		delay(3, cb: note.remove)
 	}
 	private func display() {
 		self.superview!.removeConstraints([shownYConstraint, hiddenYConstraint])
@@ -116,5 +138,9 @@ class InAppNotification: UIView
 		}, completion: { (done) in
 			self.removeFromSuperview()
 		})
+	}
+	
+	func goToRepo(sender: AnyObject) {
+		JLRoutes.routeURL(NSURL(string: "tavi://repo/\(self.slug)"))
 	}
 }
