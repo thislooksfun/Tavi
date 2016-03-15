@@ -32,26 +32,44 @@ class Pusher: NSObject, PTPusherDelegate
 		
 		internal_instance = Pusher(key: "5df8ac576dcccf4fd076")
 		
-		/*
 		TravisAPI.getConfig()
 		{ (authState, json) in
 			if authState == .Success {
 				Logger.info(json!)
-				instance = Pusher(key: json!.getJson("config")!.getJson("pusher")!.getString("key")!)
+//				instance = Pusher(key: json!.getJson("config")!.getJson("pusher")!.getString("key")!)
 			} else {
 				Logger.error("Oh dear")
 			}
 		}
-		*/
 	}
 	
-	static func bindToChannel(chann: String, forEvent event: String, withHandler handler: (PTPusherEvent!) -> Void) -> PTPusherEventBinding
-	{
+	static func bindToAllEventsForChannel(chann: String, withHandler handler: (PTPusherEvent?) -> Void) -> NSObjectProtocol{
+		let channel = instance.client.subscribeToChannelNamed(chann)
+		
+		return NSNotificationCenter.defaultCenter().addObserverForName(PTPusherEventReceivedNotification, object: channel, queue: nil, usingBlock: blockForHandler(handler))
+	}
+	static func bindToChannel(chann: String, forEvents events: [String], withHandler handler: (PTPusherEvent!) -> Void) -> [PTPusherEventBinding] {
+		guard events.count > 0 else { return [] }
+		
+		var out = [PTPusherEventBinding]()
+		let channel = instance.client.subscribeToChannelNamed(chann)
+		
+		for event in events {
+			out.append(channel.bindToEventNamed(event, handleWithBlock: handler))
+		}
+		
+		return out
+	}
+	static func bindToChannel(chann: String, forEvent event: String, withHandler handler: (PTPusherEvent!) -> Void) -> PTPusherEventBinding {
 		let channel = instance.client.subscribeToChannelNamed(chann)
 		return channel.bindToEventNamed(event, handleWithBlock: handler)
 	}
 	
-	static func unbindChannel(chann: String) {
+	static func unbindChannel(chann: String, withBinding binding: NSObjectProtocol? = nil) {
+		if binding != nil {
+			NSNotificationCenter.defaultCenter().removeObserver(binding!)
+		}
+		
 		let channel = instance.client.channelNamed(chann)
 		channel.unsubscribe()
 	}
@@ -70,5 +88,11 @@ class Pusher: NSObject, PTPusherDelegate
 	
 	static func disconnect() {
 		instance.client.disconnect()
+	}
+	
+	private static func blockForHandler(handler: (PTPusherEvent?) -> Void) -> (NSNotification?) -> Void {
+		return { (note: NSNotification?) in
+			handler(note?.userInfo?[PTPusherEventUserInfoKey] as? PTPusherEvent)
+		}
 	}
 }
