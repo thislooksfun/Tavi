@@ -18,6 +18,12 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	@IBOutlet var favoriteIconFilled: UIImageView!
 	@IBOutlet var loading: UIView!
 	
+	var id: Int? {
+		didSet {
+			self.idSet()
+		}
+	}
+	
 	var slug: String? {
 		didSet {
 			self.slugSet()
@@ -79,6 +85,20 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		return [favToggle]
 	}
 	
+	func idSet() {
+		guard id != nil else { return }
+		
+		TravisRepo.repoForID(self.id!) {
+			(newRepo) in
+			guard newRepo != nil else {
+				let action = Alert.getDefaultActionWithTitle("OK", andHandler: { (_) in self.navigationController!.popViewControllerAnimated(true) })
+				Alert.showAlertWithTitle("Error", andMessage: "There was an error loading this repository. Check the slug or try again later", andActions: [action])
+				return
+			}
+			self.repo = newRepo
+			self.configureView()
+		}
+	}
 	func slugSet() {
 		guard slug != nil else { return }
 		
@@ -97,6 +117,7 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	}
 	func configureView() {
 		if self.repo != nil {
+			self.navigationItem.title = self.repo!.slug
 			self.loading.hidden = true
 			
 			if let first = self.repo!.lastBuild?.jobs.first {
@@ -105,6 +126,8 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		} else if self.slug != nil {
 			self.loading.hidden = false
 			setFavorite(Favorites.isFavorite(self.slug!))
+		} else if self.id != nil {
+			self.loading.hidden = false
 		}
 	}
 	

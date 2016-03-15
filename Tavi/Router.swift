@@ -13,14 +13,27 @@ class Router {
 		JLRoutes.addRoute("repo/:id") {
 			(params) -> Bool in
 			
-			Logger.warn("Trying to use unsupported path '/repo/:id'")
-			//TODO: Support this?
+			Logger.trace("Attempting to open repo from ID")
 			
-			return false
+			guard TravisAPI.authed() else { return false }
+			
+			let repoView = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("RepoView") as! DetailViewController
+			guard let controller = UIViewController.rootViewController() as? UINavigationController else { return false }
+			
+			repoView.id = params["id"] as? Int
+			
+			Logger.trace("ID to open: \(repoView.id)")
+			
+			controller.popToRootViewControllerAnimated(true)
+			controller.pushViewController(repoView, animated: true)
+			
+			return true
 		}
 		
 		JLRoutes.addRoute("repo/:user/:repo") {
 			(params) -> Bool in
+			
+			Logger.trace("Attempting to open repo from slug")
 			
 			guard TravisAPI.authed() else { return false }
 			
@@ -28,6 +41,8 @@ class Router {
 			guard let controller = UIViewController.rootViewController() as? UINavigationController else { return false }
 			
 			repoView.slug = "\(params["user"] as! String)/\(params["repo"] as! String)"
+			
+			Logger.trace("Slug to open: \(repoView.slug)")
 			
 			controller.popToRootViewControllerAnimated(true)
 			controller.pushViewController(repoView, animated: true)
