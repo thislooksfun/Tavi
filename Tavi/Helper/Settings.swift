@@ -29,6 +29,7 @@ class Settings
 		defaults.synchronize()
 	}
 	
+	//TODO: Add this in the menu
 	enum InAppNoteType {
 		case All
 		case Start

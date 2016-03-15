@@ -48,6 +48,8 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 			self.addRow("Filler text...", reloadAndResize: false)
 		}
 		
+		//TODO: Load console from remote
+		
 		self.reloadAndResize()
 	}
 	
@@ -121,7 +123,8 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 		return data.count - sumContractedGroups()
 	}
 	
-	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+	{
 		let cell = tableView.dequeueReusableCellWithIdentifier("ConsoleCell", forIndexPath: indexPath) as! ConsoleLineCell
 		
 		cell.selectionStyle = UITableViewCellSelectionStyle.None

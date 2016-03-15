@@ -196,10 +196,10 @@
 		F401444C1C123BFC000AA6DD /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
-				F401444D1C123C0E000AA6DD /* Notifications.swift */,
 				F40144531C12A3CA000AA6DD /* InAppNotification.swift */,
+				F401444D1C123C0E000AA6DD /* Notifications.swift */,
 			);
-			name = Notifications;
+			path = Notifications;
 			sourceTree = "<group>";
 		};
 		F408EF701C617A1700CFF351 /* Pusher */ = {
@@ -207,7 +207,7 @@
 			children = (
 				F408EF711C617A2100CFF351 /* Pusher.swift */,
 			);
-			name = Pusher;
+			path = Pusher;
 			sourceTree = "<group>";
 		};
 		F40977741C62D959003F7081 /* FadeLabel */ = {
@@ -216,16 +216,16 @@
 				F40977751C62D97E003F7081 /* GTMFadeTruncatingLabel.h */,
 				F40977761C62D97E003F7081 /* GTMFadeTruncatingLabel.m */,
 			);
-			name = FadeLabel;
+			path = FadeLabel;
 			sourceTree = "<group>";
 		};
 		F41556821C6E929A008300E0 /* Favorites */ = {
 			isa = PBXGroup;
 			children = (
-				F41D830B1C6D972E0076BDBD /* FavoritesListController.swift */,
 				F415567E1C6D9C98008300E0 /* FavoritesCell.swift */,
+				F41D830B1C6D972E0076BDBD /* FavoritesListController.swift */,
 			);
-			name = Favorites;
+			path = Favorites;
 			sourceTree = "<group>";
 		};
 		F41556831C6E92A6008300E0 /* Filter */ = {
@@ -233,18 +233,18 @@
 			children = (
 				F41556841C6E92D5008300E0 /* FilterController.swift */,
 			);
-			name = Filter;
+			path = Filter;
 			sourceTree = "<group>";
 		};
 		F41D83071C6D35390076BDBD /* Orientation */ = {
 			isa = PBXGroup;
 			children = (
-				F4EA57971C5C399F004E92C3 /* OrientationRespectfulNavController.swift */,
 				F43533CD1C11343D00CE3EB7 /* LandscapeCapableViewController.swift */,
-				F415568C1C6EAD35008300E0 /* PortraitViewController.swift */,
+				F4EA57971C5C399F004E92C3 /* OrientationRespectfulNavController.swift */,
 				F415568E1C6EAD79008300E0 /* PortraitTableViewController.swift */,
+				F415568C1C6EAD35008300E0 /* PortraitViewController.swift */,
 			);
-			name = Orientation;
+			path = Orientation;
 			sourceTree = "<group>";
 		};
 		F41D830A1C6D97170076BDBD /* Menu */ = {
@@ -254,7 +254,7 @@
 				F41556831C6E92A6008300E0 /* Filter */,
 				F4B00B591C14F6E1008DA9EE /* MenuController.swift */,
 			);
-			name = Menu;
+			path = Menu;
 			sourceTree = "<group>";
 		};
 		F42C29631C63D05B009B8C13 /* Disclaimer */ = {
@@ -262,101 +262,101 @@
 			children = (
 				F42C29641C63D071009B8C13 /* DisclaimerController.swift */,
 			);
-			name = Disclaimer;
+			path = Disclaimer;
 			sourceTree = "<group>";
 		};
 		F43533BE1C1133E900CE3EB7 /* GitHub */ = {
 			isa = PBXGroup;
 			children = (
+				F401444F1C1247D5000AA6DD /* GithubAPI.swift */,
 				F43533BF1C1133F100CE3EB7 /* GithubAPIAuthorization.swift */,
 				F40144501C1247D5000AA6DD /* GithubAPIBackend.swift */,
-				F401444F1C1247D5000AA6DD /* GithubAPI.swift */,
 				F43533C31C1133F100CE3EB7 /* Secret.swift */,
 			);
-			name = GitHub;
+			path = GitHub;
 			sourceTree = "<group>";
 		};
 		F43533CF1C11677C00CE3EB7 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				F42C29631C63D05B009B8C13 /* Disclaimer */,
-				F45533B91C68542F004DF145 /* Nav */,
-				F41D830A1C6D97170076BDBD /* Menu */,
-				F4B00B4C1C13FCC6008DA9EE /* Master */,
 				F4B00B4D1C13FCCB008DA9EE /* Detail */,
+				F42C29631C63D05B009B8C13 /* Disclaimer */,
+				F4B00B4C1C13FCC6008DA9EE /* Master */,
+				F41D830A1C6D97170076BDBD /* Menu */,
+				F45533B91C68542F004DF145 /* Nav */,
 			);
-			name = Main;
+			path = Main;
 			sourceTree = "<group>";
 		};
 		F43533D61C1169E000CE3EB7 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				F408EF701C617A1700CFF351 /* Pusher */,
-				F43533DC1C116D8D00CE3EB7 /* Helper */,
-				F43533D71C1169F300CE3EB7 /* Travis */,
 				F43533BE1C1133E900CE3EB7 /* GitHub */,
+				F43533DC1C116D8D00CE3EB7 /* Helper */,
+				F408EF701C617A1700CFF351 /* Pusher */,
+				F43533D71C1169F300CE3EB7 /* Travis */,
 			);
-			name = API;
+			path = API;
 			sourceTree = "<group>";
 		};
 		F43533D71C1169F300CE3EB7 /* Travis */ = {
 			isa = PBXGroup;
 			children = (
-				F43533DA1C116D1900CE3EB7 /* TravisAPIBackend.swift */,
 				F43533D81C116C7C00CE3EB7 /* TravisAPI.swift */,
-				F4B00B4E1C1407E9008DA9EE /* TravisRepo.swift */,
+				F43533DA1C116D1900CE3EB7 /* TravisAPIBackend.swift */,
 				F4B00B501C1409EC008DA9EE /* TravisBuild.swift */,
 				F42ED8D81C6FF63D002F980F /* TravisBuildJob.swift */,
+				F4B00B4E1C1407E9008DA9EE /* TravisRepo.swift */,
 			);
-			name = Travis;
+			path = Travis;
 			sourceTree = "<group>";
 		};
 		F43533DC1C116D8D00CE3EB7 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				F43533C11C1133F100CE3EB7 /* JSON.swift */,
-				F43533DD1C116D9A00CE3EB7 /* HTTPMethod.swift */,
 				F43533DF1C116DEB00CE3EB7 /* AuthHelper.swift */,
+				F43533DD1C116D9A00CE3EB7 /* HTTPMethod.swift */,
+				F43533C11C1133F100CE3EB7 /* JSON.swift */,
 			);
-			name = Helper;
+			path = Helper;
 			sourceTree = "<group>";
 		};
 		F45533B91C68542F004DF145 /* Nav */ = {
 			isa = PBXGroup;
 			children = (
-				F4B00B5E1C14F823008DA9EE /* MainNavDelegate.swift */,
 				F45533BA1C685455004DF145 /* MainNavController.swift */,
+				F4B00B5E1C14F823008DA9EE /* MainNavDelegate.swift */,
 			);
-			name = Nav;
+			path = Nav;
 			sourceTree = "<group>";
 		};
 		F474F4731C0F612400F1CEDC /* ObjC */ = {
 			isa = PBXGroup;
 			children = (
-				F40977741C62D959003F7081 /* FadeLabel */,
 				F474F4821C11297800F1CEDC /* 1Password */,
+				F40977741C62D959003F7081 /* FadeLabel */,
 				F474F4741C0F615C00F1CEDC /* Tavi-Bridging-Header.h */,
 			);
-			name = ObjC;
+			path = ObjC;
 			sourceTree = "<group>";
 		};
 		F474F4751C0F67BA00F1CEDC /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				F40144551C13B3B8000AA6DD /* Octicons.ttf */,
 				F474F4761C0F67C100F1CEDC /* Inconsolata-Bold.ttf */,
 				F474F4771C0F67C100F1CEDC /* Inconsolata-Regular.ttf */,
+				F40144551C13B3B8000AA6DD /* Octicons.ttf */,
 			);
-			name = Fonts;
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		F474F47A1C0F72E700F1CEDC /* Console output */ = {
 			isa = PBXGroup;
 			children = (
-				F474F47B1C0F732400F1CEDC /* ConsoleTableSource.swift */,
 				F474F47D1C0F753000F1CEDC /* ConsoleLineCell.swift */,
+				F474F47B1C0F732400F1CEDC /* ConsoleTableSource.swift */,
 			);
-			name = "Console output";
+			path = "Console output";
 			sourceTree = "<group>";
 		};
 		F474F47F1C111F4400F1CEDC /* Helper */ = {
@@ -364,17 +364,17 @@
 			children = (
 				F4B00B5B1C14F749008DA9EE /* Animators */,
 				F41D83071C6D35390076BDBD /* Orientation */,
-				F43533C91C11341D00CE3EB7 /* Logger.swift */,
-				F43533BC1C1133A000CE3EB7 /* OverloadsAndConvenience.swift */,
-				F43533B81C11336100CE3EB7 /* Connection.swift */,
-				F43533CB1C11342C00CE3EB7 /* Settings.swift */,
-				F4C306DE1C5BDD3000CB9621 /* NoConnectionPopup.swift */,
-				F4F328661C6AB1E600C2E6D3 /* KeyboardNotification.swift */,
-				F41D83051C6C4AD30076BDBD /* Favorites.swift */,
-				F41556801C6DAE32008300E0 /* Router.swift */,
 				F41556861C6E986A008300E0 /* Alert.swift */,
+				F43533B81C11336100CE3EB7 /* Connection.swift */,
+				F41D83051C6C4AD30076BDBD /* Favorites.swift */,
+				F4F328661C6AB1E600C2E6D3 /* KeyboardNotification.swift */,
+				F43533C91C11341D00CE3EB7 /* Logger.swift */,
+				F4C306DE1C5BDD3000CB9621 /* NoConnectionPopup.swift */,
+				F43533BC1C1133A000CE3EB7 /* OverloadsAndConvenience.swift */,
+				F41556801C6DAE32008300E0 /* Router.swift */,
+				F43533CB1C11342C00CE3EB7 /* Settings.swift */,
 			);
-			name = Helper;
+			path = Helper;
 			sourceTree = "<group>";
 		};
 		F474F4821C11297800F1CEDC /* 1Password */ = {
@@ -384,19 +384,19 @@
 				F474F4841C11297F00F1CEDC /* OnePasswordExtension.h */,
 				F474F4851C11297F00F1CEDC /* OnePasswordExtension.m */,
 			);
-			name = 1Password;
+			path = 1Password;
 			sourceTree = "<group>";
 		};
 		F496F9FE1C0F56D400639A26 = {
 			isa = PBXGroup;
 			children = (
-				F45533C01C685927004DF145 /* Credits.rtf */,
+				FE5C4CCD1986A31769507819 /* Frameworks */,
+				4D143C8C2FD093EB40FF5308 /* Pods */,
+				F496FA081C0F56D400639A26 /* Products */,
 				F496FA091C0F56D400639A26 /* Tavi */,
 				F496FA201C0F56D400639A26 /* TaviTests */,
 				F496FA2B1C0F56D400639A26 /* TaviUITests */,
-				F496FA081C0F56D400639A26 /* Products */,
-				4D143C8C2FD093EB40FF5308 /* Pods */,
-				FE5C4CCD1986A31769507819 /* Frameworks */,
+				F45533C01C685927004DF145 /* Credits.rtf */,
 			);
 			sourceTree = "<group>";
 		};
@@ -413,20 +413,20 @@
 		F496FA091C0F56D400639A26 /* Tavi */ = {
 			isa = PBXGroup;
 			children = (
-				F474F4751C0F67BA00F1CEDC /* Fonts */,
-				F474F4731C0F612400F1CEDC /* ObjC */,
 				F43533D61C1169E000CE3EB7 /* API */,
+				F474F4751C0F67BA00F1CEDC /* Fonts */,
 				F474F47F1C111F4400F1CEDC /* Helper */,
-				F401444C1C123BFC000AA6DD /* Notifications */,
 				F4EA57941C5C372D004E92C3 /* Login */,
 				F43533CF1C11677C00CE3EB7 /* Main */,
+				F401444C1C123BFC000AA6DD /* Notifications */,
+				F474F4731C0F612400F1CEDC /* ObjC */,
 				F496FA0A1C0F56D400639A26 /* AppDelegate.swift */,
-				F43533D41C1168E000CE3EB7 /* LaunchScreen.storyboard */,
-				F496FA101C0F56D400639A26 /* Main.storyboard */,
-				F4EA57921C5C3087004E92C3 /* Login.storyboard */,
-				F42C29661C641EC4009B8C13 /* Disclaimer.storyboard */,
 				F496FA131C0F56D400639A26 /* Assets.xcassets */,
+				F42C29661C641EC4009B8C13 /* Disclaimer.storyboard */,
 				F496FA181C0F56D400639A26 /* Info.plist */,
+				F43533D41C1168E000CE3EB7 /* LaunchScreen.storyboard */,
+				F4EA57921C5C3087004E92C3 /* Login.storyboard */,
+				F496FA101C0F56D400639A26 /* Main.storyboard */,
 			);
 			path = Tavi;
 			sourceTree = "<group>";
@@ -434,8 +434,8 @@
 		F496FA201C0F56D400639A26 /* TaviTests */ = {
 			isa = PBXGroup;
 			children = (
-				F496FA211C0F56D400639A26 /* TravisCITests.swift */,
 				F496FA231C0F56D400639A26 /* Info.plist */,
+				F496FA211C0F56D400639A26 /* TravisCITests.swift */,
 			);
 			path = TaviTests;
 			sourceTree = "<group>";
@@ -443,8 +443,8 @@
 		F496FA2B1C0F56D400639A26 /* TaviUITests */ = {
 			isa = PBXGroup;
 			children = (
-				F496FA2C1C0F56D400639A26 /* TravisCIUITests.swift */,
 				F496FA2E1C0F56D400639A26 /* Info.plist */,
+				F496FA2C1C0F56D400639A26 /* TravisCIUITests.swift */,
 			);
 			path = TaviUITests;
 			sourceTree = "<group>";
@@ -455,7 +455,7 @@
 				F496FA0C1C0F56D400639A26 /* MasterViewController.swift */,
 				F4C12B021C13ECA0003DB1D6 /* RepoCell.swift */,
 			);
-			name = Master;
+			path = Master;
 			sourceTree = "<group>";
 		};
 		F4B00B4D1C13FCCB008DA9EE /* Detail */ = {
@@ -464,7 +464,7 @@
 				F474F47A1C0F72E700F1CEDC /* Console output */,
 				F496FA0E1C0F56D400639A26 /* DetailViewController.swift */,
 			);
-			name = Detail;
+			path = Detail;
 			sourceTree = "<group>";
 		};
 		F4B00B5B1C14F749008DA9EE /* Animators */ = {
@@ -473,7 +473,7 @@
 				F4B00B5C1C14F759008DA9EE /* LeftToRightAnimator.swift */,
 				F4B00B601C14F8F8008DA9EE /* RightToLeftRevealAnimator.swift */,
 			);
-			name = Animators;
+			path = Animators;
 			sourceTree = "<group>";
 		};
 		F4EA57941C5C372D004E92C3 /* Login */ = {
@@ -481,7 +481,7 @@
 			children = (
 				F4EA57991C5C3ED9004E92C3 /* LoginController.swift */,
 			);
-			name = Login;
+			path = Login;
 			sourceTree = "<group>";
 		};
 		FE5C4CCD1986A31769507819 /* Frameworks */ = {
@@ -796,6 +796,7 @@
 				F496FA111C0F56D400639A26 /* Base */,
 			);
 			name = Main.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
