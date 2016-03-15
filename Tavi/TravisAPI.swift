@@ -8,6 +8,7 @@
 
 import UIKit
 
+//TODO: Consolidate duplicate code sections?
 class TravisAPI
 {
 	static let passingColor =    UIColor(red:  63/255, green: 167/255, blue: 95/255, alpha: 1)
@@ -147,8 +148,49 @@ class TravisAPI
 		}
 	}
 	
-	static func loadRepo(slug: String, forceMainThread: Bool = true, callback: (HTTPState, JSON?) -> Void) {
-		Logger.info("\n============== TravisAPI.loadRepo")
+	static func loadRepoFromID(id: Int, forceMainThread: Bool = true, callback: (HTTPState, JSON?) -> Void) {
+		Logger.info("\n============== TravisAPI.loadRepoFromID")
+		if !forceMainThread {
+			Logger.warn("The callback will not be running on the main thread!")
+		}
+		
+		var exitState: HTTPState?
+		
+		func exit(state: HTTPState, _ message: String?) -> Void {
+			if message != nil { Logger.info(message!) }
+			
+			guard exitState == nil else {
+				Logger.warn("exitState already set!")
+				return
+			}
+			
+			exitState = state
+		}
+		
+		TravisAPIBackend.apiCall("repos/\(id)", method: .GET)
+		{ (let errMsg, let json, let httpResponse) in
+			
+			if errMsg != nil {
+				Logger.warn(errMsg!)
+				exit(.Other, nil)
+			} else if json == nil {
+				exit(.NoJson, nil)
+			} else {
+				exit(.Success, nil)
+			}
+			
+			if (forceMainThread) {
+				NSOperationQueue.mainQueue().addOperationWithBlock({
+					callback(exitState!, json)
+				})
+			} else {
+				callback(exitState!, json)
+			}
+		}
+	}
+	
+	static func loadRepoFromSlug(slug: String, forceMainThread: Bool = true, callback: (HTTPState, JSON?) -> Void) {
+		Logger.info("\n============== TravisAPI.loadRepoFromSlug")
 		if !forceMainThread {
 			Logger.warn("The callback will not be running on the main thread!")
 		}
