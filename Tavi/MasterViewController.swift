@@ -17,6 +17,8 @@ class MasterViewController: PortraitTableViewController
 	private var notAuthedBackground: UIView!
 	private var lastFilter: Settings.Filter?
 	
+	private var timer: NSTimer!
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -33,6 +35,9 @@ class MasterViewController: PortraitTableViewController
 		
 		self.constructNoBuilds()
 		self.constructNotAuthed()
+		
+		self.timer = NSTimer(timeInterval: 0.25, target: self, selector: "timerTick", userInfo: nil, repeats: true)
+		NSRunLoop.currentRunLoop().addTimer(self.timer, forMode: NSRunLoopCommonModes)
 	}
 
 	override func viewWillAppear(animated: Bool) {
@@ -121,6 +126,7 @@ class MasterViewController: PortraitTableViewController
 					Logger.info(count - 1)
 					
 					if rp != nil {
+						rp!.setBindingCallback(self.onRepoEventForRepo)
 						newRepos.append(rp!)
 					}
 					
@@ -158,6 +164,41 @@ class MasterViewController: PortraitTableViewController
 				self.showNoBuilds()
 				Logger.warn("Problem loading Travis")
 			}
+		}
+	}
+	
+	func onRepoEventForRepo(repo: TravisRepo)
+	{
+		let (index, repo) = self.repos.findWithPos(repo)
+		
+		guard index > -1 else { return }
+		guard let last = repo?.lastBuild else { return }
+		
+		Logger.info("Got status \(last.status), for repo \(repo!.slug), at index \(index)")
+		if last.status == .Created && index > 0 {
+			Logger.info("Created, moving")
+			self.tableView.reloadData()
+			self.repos.moveElementFromPos(index, toPos: 0)
+			self.tableView.moveSection(index, toSection: 0)
+		} else if !last.status.isInProgress() {
+			Logger.info("Not in progress")
+			self.tableView.reloadSections(NSIndexSet(index: index), withRowAnimation: .None)
+			
+			var newIndex = index
+			
+			for i in (index+1)..<repos.count {
+				if repos[i].lastBuild == nil || (!repos[i].lastBuild!.status.isInProgress()) {
+					newIndex = i-1
+					break;
+				}
+			}
+			Logger.info("New index: \(newIndex)")
+			self.tableView.reloadData()
+			self.repos.moveElementFromPos(index, toPos: newIndex)
+			self.tableView.moveSection(index, toSection: newIndex)
+		} else {
+			Logger.info("Other")
+			self.tableView.reloadSections(NSIndexSet(index: index), withRowAnimation: .None)
 		}
 	}
 	
@@ -252,6 +293,19 @@ class MasterViewController: PortraitTableViewController
 		Logger.info("Done!")
 	}
 	
+	func timerTick() {
+		for i in 0..<repos.count {
+			let repo = repos[i]
+			
+			guard repo.lastBuild != nil && repo.lastBuild!.status.isInProgress() else { break }
+			
+			let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: i))
+			guard cell is RepoCell else { continue }
+			
+			(cell as! RepoCell).formatDuration(repo)
+		}
+	}
+	
 	// MARK: - Segues
 
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -287,10 +341,14 @@ class MasterViewController: PortraitTableViewController
 		let cell = tableView.dequeueReusableCellWithIdentifier("RepoCell", forIndexPath: indexPath) as! RepoCell
 		cell.selectionStyle = UITableViewCellSelectionStyle.None
 		
-		cell.loadFromRepo(repos[indexPath.section])
-		//TODO: Use repo.setBindingCallback:
+		let repo = repos[indexPath.section]
+		cell.loadFromRepo(repo)
 		
 		return cell
+	}
+	
+	override func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+		self.repos.moveElementFromPos(sourceIndexPath.section, toPos: destinationIndexPath.section)
 	}
 	
 	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

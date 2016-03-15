@@ -23,16 +23,29 @@ class TravisRepo: Equatable
 		}
 	}
 	
-	private let repoID: Int
+	let repoID: Int
 	
-	private var bindings = [PTPusherEventBinding]()
-	private var onBindEvent: (() -> Void)?
+	private var binding: NSObjectProtocol?
+	private var onBindEvent: ((TravisRepo) -> Void)?
 	
 	// MARK: Static functions
+	static func repoForID(id: Int, done: (TravisRepo?) -> Void)
+	{
+		Logger.info("Loading repo for id \(id)")
+		TravisAPI.loadRepoFromID(id) {
+			(state, json) in
+			guard state == .Success else {
+				done(nil)
+				return
+			}
+			
+			TravisRepo.repoFromJson(json, done: done)
+		}
+	}
 	static func repoForSlug(slug: String, done: (TravisRepo?) -> Void)
 	{
 		Logger.info("Loading repo for slug \(slug)")
-		TravisAPI.loadRepo(slug) {
+		TravisAPI.loadRepoFromSlug(slug) {
 			(state, json) in
 			guard state == .Success else {
 				done(nil)
@@ -68,14 +81,12 @@ class TravisRepo: Equatable
 		self.slug = slug
 		self.repoID = repoID
 		
-		self.bindings.append(Pusher.bindToChannel("repo-\(repoID)", forEvent: "build:created",  withHandler: buildEvent))
-		self.bindings.append(Pusher.bindToChannel("repo-\(repoID)", forEvent: "build:started",  withHandler: buildEvent))
-		self.bindings.append(Pusher.bindToChannel("repo-\(repoID)", forEvent: "build:finished", withHandler: buildEvent))
+		self.binding = Pusher.bindToAllEventsForChannel("repo-\(repoID)", withHandler: pusherEvent)
 		
 		getBuilds(cb)
 	}
 	
-	func setBindingCallback(cb: () -> Void) {
+	func setBindingCallback(cb: (TravisRepo) -> Void) {
 		self.onBindEvent = cb
 	}
 	
@@ -132,14 +143,32 @@ class TravisRepo: Equatable
 		}
 	}
 	
-	func buildEvent(event: PTPusherEvent!)
+	func pusherEvent(event: PTPusherEvent?)
 	{
-		let json = JSON(obj: event.data)
-		guard json != nil else { return }
+		Logger.trace("Got pusher event in repo \(self.slug)")
+		guard event != nil else {
+			Logger.trace("Event is nil")
+			return
+		}
+		Logger.trace("Event: \(event!.name ?? "")")
 		
-		Logger.info(json!)
+		guard (event!.name ?? "").hasPrefix("build:") else {
+			Logger.warn("Event prefix is not 'build:'")
+			return
+		}
 		
-		let newBuild = TravisBuild(buildJSON: json!.getJson("build")!)
+		guard let json = JSON(obj: event!.data) else {
+			Logger.trace("Event data is not json")
+			return
+		}
+		guard let buildJson = json.getJson("build") else {
+			Logger.trace("Event json does not have a key 'build'")
+			return
+		}
+		
+		Logger.info(json)
+		
+		let newBuild = TravisBuild(buildJSON: buildJson)
 		if let last = self.lastBuild {
 			if newBuild.buildID > last.buildID {
 				self.builds.insert(newBuild, atIndex: 0)
@@ -153,15 +182,23 @@ class TravisRepo: Equatable
 					}
 				}
 			}
+		} else {
+			self.builds.append(newBuild)
 		}
 		
-		self.onBindEvent?()
+		self.onBindEvent?(self)
+		
+		switch self.lastBuild!.status {
+		case .Started: Notifications.fireBuildStarted(self.slug, buildNumber: self.lastBuild!.buildNumber)
+		case .Passing: Notifications.fireBuildPassed(self.slug, buildNumber: self.lastBuild!.buildNumber)
+		case .Failing: Notifications.fireBuildFailed(self.slug, buildNumber: self.lastBuild!.buildNumber)
+		case .Cancelled: Notifications.fireBuildCancelled(self.slug, buildNumber: self.lastBuild!.buildNumber)
+		default: break
+		}
 	}
 	
 	func dismiss() {
-		for binding in self.bindings {
-			Pusher.unbindEvent(binding)
-		}
+		Pusher.unbindChannel("repo-\(self.repoID)", withBinding: self.binding)
 		
 		for build in self.builds {
 			build.dismiss()
