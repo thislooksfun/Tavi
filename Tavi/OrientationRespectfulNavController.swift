@@ -15,6 +15,7 @@ class OrientationRespectfulNavController: UINavigationController
 	}
 	
 	override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+		guard !(self.visibleViewController is UIAlertController) else { return UIInterfaceOrientationMask.Portrait }
 		return self.visibleViewController?.supportedInterfaceOrientations() ?? UIInterfaceOrientationMask.Portrait
 	}
 }

@@ -14,6 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	var window: UIWindow?
 
 	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+		Logger.setLogLevel(.Trace)
+		
 		Logger.info("App started")
 		
 		application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))
@@ -24,11 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		Favorites.appStarted()
 		
 		Router.initHandlers()
-		
-		
-		var a: String?
-		a = "Hello there\nThis is on two lines"
-		Logger.info(a)
 		
 		
 		//Various debug testing things
@@ -50,8 +47,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 	
 	func application(application: UIApplication, supportedInterfaceOrientationsForWindow window: UIWindow?) -> UIInterfaceOrientationMask {
-		Logger.info("supportedInterfaceOrientationsForWindow")
-		if let root = window?.rootViewController {
+		Logger.debug("supportedInterfaceOrientationsForWindow")
+		if let root = window?.rootViewController where !(window!.rootViewController! is UIAlertController) {
 			return root.supportedInterfaceOrientations()
 		} else {
 			return UIInterfaceOrientationMask.Portrait
@@ -67,6 +64,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		}
 		
 		completionHandler(false)
+	}
+	
+	func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+		return JLRoutes.routeURL(url)
 	}
 	
 	func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
