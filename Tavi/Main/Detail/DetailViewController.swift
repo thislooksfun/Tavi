@@ -16,7 +16,15 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	@IBOutlet var consoleTable: UITableView!
 	@IBOutlet var favoriteIconOutline: UIImageView!
 	@IBOutlet var favoriteIconFilled: UIImageView!
-	@IBOutlet var loading: UIView!
+	@IBOutlet var loadingTop: UIView!
+	@IBOutlet var loadingBottom: UIView!
+	
+	@IBOutlet var colorBar: UIView!
+	@IBOutlet var buildStatus: UIImageView!
+	@IBOutlet var branchLabel: UILabel!
+	@IBOutlet var commitMsgLabel: UILabel!
+	@IBOutlet var buildHash: UIImageView!
+	@IBOutlet var buildNumberLabel: UILabel!
 	
 	var id: Int? {
 		didSet {
@@ -30,7 +38,9 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		}
 	}
 	
-	private var repo: TravisRepo?
+	var repo: TravisRepo?
+	
+	private var isRotating = false
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -65,11 +75,6 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 		self.consoleTableSource.didLayoutSubviews()
-	}
-
-	override func didReceiveMemoryWarning() {
-		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
 	}
 	
 	override func previewActionItems() -> [UIPreviewActionItem] {
@@ -117,19 +122,227 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	}
 	func configureView() {
 		if self.repo != nil {
-			self.navigationItem.title = self.repo!.slug
-			self.loading.hidden = true
-			
-			if let first = self.repo!.lastBuild?.jobs.first {
-				self.consoleTableSource.load(first)
+			self.loadingTop.hide()
+			self.loadingBottom.hide()
+			self.loadFromRepo(self.repo!)
+		} else {
+			self.hideAll()
+			if self.slug != nil {
+				self.loadingTop.show()
+				self.loadingBottom.show()
+				setFavorite(Favorites.isFavorite(self.slug!))
+			} else if self.id != nil {
+				self.loadingTop.show()
+				self.loadingBottom.show()
 			}
-		} else if self.slug != nil {
-			self.loading.hidden = false
-			setFavorite(Favorites.isFavorite(self.slug!))
-		} else if self.id != nil {
-			self.loading.hidden = false
+		}
+		
+		self.view.layoutIfNeeded()
+	}
+	
+	private func hideAll()
+	{
+		self.colorBar.hidden = true
+		self.buildStatus.hidden = true
+		self.branchLabel.alpha = 0.4
+		self.commitMsgLabel.alpha = 0.4
+//		self.buildHash.hidden = true
+		self.buildNumberLabel.hidden = true
+	}
+	
+	private func showAll()
+	{
+		self.colorBar.show()
+		self.buildStatus.show()
+		self.branchLabel.show()
+		self.branchLabel.show()
+		self.commitMsgLabel.show()
+//		self.buildHash.show()
+		self.buildNumberLabel.show()
+	}
+	
+	private func loadFromRepo(repo: TravisRepo)
+	{
+		Logger.info(repo.slug)
+		
+		self.navigationItem.title = repo.slug
+		
+		if let first = repo.lastBuild?.jobs.first {
+			self.consoleTableSource.load(first)
+		}
+		
+		setFavorite(Favorites.isFavorite(repo.slug))
+		
+		var sideColor: UIColor
+		var textColor: UIColor?
+		
+		if repo.lastBuild == nil {
+			//TODO: Special view when there have been no builds.
+			self.buildNumberLabel.hidden = true
+			self.buildHash.hidden = true
+			
+			sideColor = TravisAPI.noBuildColor
+			textColor = TravisAPI.cancelColor
+			self.buildStatus.image = UIImage(named: "icon-no-builds")
+		} else {
+			self.buildNumberLabel.text = "\(repo.lastBuild!.buildNumber)"
+			switch repo.lastBuild!.status {
+			case .Passing:
+				sideColor = TravisAPI.passingColor
+				self.buildStatus.image = UIImage(named: "icon-passed")
+			case .Failing:
+				sideColor = TravisAPI.failingColor
+				self.buildStatus.image = UIImage(named: "icon-failed")
+			case .Created, .Started:
+				sideColor = TravisAPI.inProgressColor
+				self.buildStatus.image = UIImage(named: "icon-in-progress")
+			case .Cancelled:
+				sideColor = TravisAPI.cancelColor
+				self.buildStatus.image = UIImage(named: "icon-cancelled")
+			case .Unknown:
+				sideColor = TravisAPI.noBuildColor
+				textColor = TravisAPI.cancelColor
+				self.buildStatus.image = UIImage(named: "icon-no-builds")
+			}
+		}
+		
+		if repo.lastBuild?.status == .Created || repo.lastBuild?.status == .Started {
+			self.startRotating()
+		} else {
+			self.stopRotating()
+		}
+		
+		self.colorBar.backgroundColor = sideColor
+		self.branchLabel.textColor = textColor ?? sideColor
+		self.commitMsgLabel.textColor = textColor ?? sideColor
+		self.buildNumberLabel.textColor = textColor ?? sideColor
+		
+		if let last = repo.lastBuild {
+			self.branchLabel.text = last.commit.branch
+			self.commitMsgLabel.text = last.commit.message
+			//TODO: Handle no builds
+		}
+		
+		//TODO: Make these work:
+//		formatDuration(repo)
+//		formatFinishDate(repo.lastBuild?.finishedAt)
+		
+		self.showAll()
+	}
+	
+	private func startRotating() {
+		guard !self.isRotating else { return }
+		self.isRotating = true
+		self.rotate()
+	}
+	
+	private func rotate(_: Bool? = nil) {
+		guard self.isRotating else { return }
+		
+		self.buildStatus.transform = CGAffineTransformMakeRotation(0)
+		
+		UIView.animateWithDuration(1.5, delay: 0.25, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+			self.buildStatus.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
+			}, completion: self.rotate)
+	}
+	
+	override func animationDidStart(anim: CAAnimation) {
+		if self.isRotating {
+			self.rotate()
 		}
 	}
+	
+	private func stopRotating() {
+		guard self.isRotating else { return }
+		self.isRotating = false
+		
+		UIView.animateWithDuration(0, delay: 0, options: UIViewAnimationOptions.BeginFromCurrentState, animations: {
+			self.buildStatus.transform = CGAffineTransformMakeRotation(0)
+			}, completion: self.rotate)
+	}
+	
+//	func formatDuration(repo: TravisRepo)
+//	{
+//		guard let start = repo.lastBuild?.startedAt else {
+//			self.durationLabel.text = "Duration: -"
+//			return
+//		}
+//		
+//		let end = repo.lastBuild?.finishedAt ?? NSDate()
+//		let comps = start.timeTo(end)
+//		
+//		var out = ""
+//		if comps.year > 0 || comps.month > 0 || comps.weekOfYear > 0 || comps.day > 0 {
+//			out = "more than 24 hrs"
+//		} else {
+//			if comps.hour > 0 {
+//				if comps.hour == 1 {
+//					out = "1 hr"
+//				} else {
+//					out = "\(comps.hour) hrs \(comps.minute) min \(comps.second) sec"
+//				}
+//			} else if comps.minute > 0 {
+//				out = "\(comps.minute) min \(comps.second) sec"
+//			} else {
+//				out = "\(comps.second) sec"
+//			}
+//		}
+//		
+//		self.durationLabel.text = "Duration: \(out)"
+//	}
+	
+//	private func formatFinishDate(finishDate: NSDate?)
+//	{
+//		guard let date = finishDate else {
+//			self.finishDateLabel.text = "Finished: -"
+//			return
+//		}
+//		
+//		let comps = date.timeAgo()
+//		
+//		var out = ""
+//		if comps.year > 0 {
+//			if comps.year == 1 {
+//				out = "about a year"
+//			} else {
+//				out = "\(comps.year) years"
+//			}
+//		} else if comps.month > 0 {
+//			if comps.month == 1 {
+//				out = "about a month"
+//			} else {
+//				out = "\(comps.month) months"
+//			}
+//		} else if comps.weekOfYear > 0 {
+//			if comps.weekOfYear == 1 {
+//				out = "about a week"
+//			} else {
+//				out = "\(comps.weekOfYear) weeks"
+//			}
+//		} else if comps.day > 0 {
+//			if comps.day == 1 {
+//				out = "about a day"
+//			} else {
+//				out = "\(comps.day) days"
+//			}
+//		} else if comps.hour > 0 {
+//			if comps.hour == 1 {
+//				out = "about an hour"
+//			} else {
+//				out = "\(comps.hour) hours"
+//			}
+//		} else if comps.minute > 0 {
+//			if comps.minute == 1 {
+//				out = "about a minute"
+//			} else {
+//				out = "\(comps.minute) minutes"
+//			}
+//		} else {
+//			out = "less than a minute"
+//		}
+//		
+//		self.finishDateLabel.text =  "Finished: \(out) ago"
+//	}
 	
 	private func setFavorite(state: Bool) {
 		if state {

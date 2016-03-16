@@ -20,42 +20,37 @@ class Settings
 	static let Travis_Token = SettingsItem<String>(key: "TravisToken")
 	static let HasReadDisclaimer = SettingsItem<Bool>(key: "DisclaimerRead")
 	static let Favorites = SettingsItem<[String]>(key: "Favorites")
-	static let FilterState = SettingsItem<Int>(key: "Filter")
+	static let InAppNotificationTypes = SettingsItem<Int>(key: "NotificationTypes")
 	
-	static var displayInAppNotifications: InAppNoteType = .All
+//	static var displayInAppNotifications: InAppNoteType = .All
 	static var checkForBuildsInBackground = true
 	
 	static func save() {
 		defaults.synchronize()
+		
 	}
 	
-	//TODO: Add this in the menu
-	enum InAppNoteType {
-		case All
-		case Start
-		case Pass
-		case Fail
-		case Cancel
-		case None
-	}
-	
-	enum Filter: Int, CustomStringConvertible {
-		case Active
-		case Favorites
-		case Both
+	struct InAppNoteType: OptionSetType {
+		let rawValue: Int
 		
-		static func fromInt(int: Int?) -> Filter {
-			guard int != nil else { return .Active }
-			return Filter(rawValue: int!) ?? .Active
-		}
+		init(rawValue: Int) { self.rawValue = rawValue }
 		
-		var description: String {
-			get {
-				switch self {
-				case .Active: return "Active"
-				case .Favorites: return "Favorites"
-				case .Both: return "Active + Favorites"
-				}
+		static let Start =  InAppNoteType(rawValue: 1 << 0)
+		static let Pass =   InAppNoteType(rawValue: 1 << 1)
+		static let Fail =   InAppNoteType(rawValue: 1 << 2)
+		static let Cancel = InAppNoteType(rawValue: 1 << 3)
+		
+		static let None: InAppNoteType = []
+		static let All: InAppNoteType = [Start, Pass, Fail, Cancel]
+		
+		static func fromPos(pos: Int) -> InAppNoteType
+		{
+			switch pos {
+			case 0:  return Start
+			case 1:  return Pass
+			case 2:  return Fail
+			case 3:  return Cancel
+			default: return None
 			}
 		}
 	}
@@ -76,6 +71,16 @@ class SettingsItem<T>: CustomStringConvertible
 	
 	func get() -> T? {
 		return Settings.defaults.valueForKey(self.key) as? T
+	}
+	
+	func getWithDefault(deflt: T) -> T {
+		var out = self.get()
+		if out == nil {
+			Logger.trace("Setting default")
+			self.set(deflt)
+			out = deflt
+		}
+		return out!
 	}
 	
 	func set(obj: T?) {

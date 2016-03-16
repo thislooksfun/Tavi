@@ -15,7 +15,6 @@ class MasterViewController: PortraitTableViewController
 	
 	private var noBuildBackground: UIView!
 	private var notAuthedBackground: UIView!
-	private var lastFilter: Settings.Filter?
 	
 	private var timer: NSTimer!
 	
@@ -39,7 +38,7 @@ class MasterViewController: PortraitTableViewController
 		self.timer = NSTimer(timeInterval: 0.25, target: self, selector: "timerTick", userInfo: nil, repeats: true)
 		NSRunLoop.currentRunLoop().addTimer(self.timer, forMode: NSRunLoopCommonModes)
 	}
-
+	
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
 		self.tableView.reloadData()
@@ -47,19 +46,16 @@ class MasterViewController: PortraitTableViewController
 	
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
-		Logger.info("Did appear")
 		
 		if (Settings.HasReadDisclaimer.get()) != true {
 			DisclaimerController.display()
-		} else {
-			let currentFilter = Settings.Filter.fromInt(Settings.FilterState.get())
-			if self.lastFilter != currentFilter {
-				self.lastFilter = currentFilter
-				async(cb: self.reload)
-			}
+		}
+		
+		if self.repos.count == 0 {
+			async(cb: self.reload)
 		}
 	}
-
+	
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
@@ -104,8 +100,6 @@ class MasterViewController: PortraitTableViewController
 	}
 	func reload()
 	{
-		//TODO: Load based on Settings.FilterState
-		
 		self.refreshControl?.endRefreshing()
 		let hud = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
 		hud.labelText = "Loading"
@@ -307,14 +301,14 @@ class MasterViewController: PortraitTableViewController
 	}
 	
 	// MARK: - Segues
-
+	
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		Logger.info("Segue = \(segue.identifier)")
 		MBProgressHUD.hideHUDForView(self.navigationController!.view, animated: true)
 		if segue.identifier == "showDetail" {
-		    if let indexPath = self.tableView.indexPathForSelectedRow {
-		        let detail = segue.destinationViewController as! DetailViewController
-		        detail.slug = repos[indexPath.section].slug
+			if let indexPath = self.tableView.indexPathForSelectedRow {
+				let detail = segue.destinationViewController as! DetailViewController
+				detail.repo = repos[indexPath.section]
 			} else if sender is RepoCell {
 				let detail = segue.destinationViewController as! DetailViewController
 				self.navigationController?.interactivePopGestureRecognizer?.delegate = detail
@@ -323,16 +317,18 @@ class MasterViewController: PortraitTableViewController
 			if let cell = sender as? RepoCell {
 				let detail = segue.destinationViewController as! DetailViewController
 				detail.slug = cell.repoSlugLabel.text
+				//TODO: replace that (^) with this (v)
+//				detail.repo = repos[self.tableView.indexPathForCell(cell)!.section]
 			}
 		}
 	}
 	
 	// MARK: - Table View
-
+	
 	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 		return repos.count
 	}
-
+	
 	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return 1
 	}

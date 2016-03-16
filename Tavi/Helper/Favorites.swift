@@ -15,6 +15,10 @@ class Favorites
 		favoritesSet()
 	}
 	
+	static func getFavorites() -> [String] {
+		return Settings.Favorites.getWithDefault([])
+	}
+	
 	static func favoritesSet() {
 		if let favorites = Settings.Favorites.get() {
 			var favoriteShortcuts = [UIApplicationShortcutItem]()

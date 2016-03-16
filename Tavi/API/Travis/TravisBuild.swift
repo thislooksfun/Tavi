@@ -15,13 +15,18 @@ class TravisBuild: Equatable
 	private(set) var status: TravisAPI.BuildStatus
 	private(set) var startedAt: NSDate?
 	private(set) var finishedAt: NSDate?
-//	private(set) var duration: NSTimeInterval
+	private(set) var commit: Commit
 	
 	let buildID: Int
 	
 	var jobs = [TravisBuildJob]()
 	
-	init(buildJSON: JSON, jobsLoaded: (() -> Void)? = nil)
+	
+	convenience init(buildJSON: JSON, commitJSON: JSON, jobsLoaded: (() -> Void)? = nil)
+	{
+		self.init(buildJSON: buildJSON, commit: Commit(fromJSON: commitJSON), jobsLoaded: jobsLoaded)
+	}
+	init(buildJSON: JSON, commit: Commit, jobsLoaded: (() -> Void)? = nil)
 	{
 		self.buildID = buildJSON.getInt("id")!
 		
@@ -35,14 +40,10 @@ class TravisBuild: Equatable
 		default: self.status = .Unknown
 		}
 		
-//		if self.status == .Started {
-//			Logger.info("Started:")
-//			Logger.info(buildJSON)
-//		}
-		
 		self.startedAt = parseDate(buildJSON.getString("started_at") ?? "")
 		self.finishedAt = parseDate(buildJSON.getString("finished_at") ?? "")
-//		self.duration = NSTimeInterval(buildJSON.getInt("duration") ?? -1)
+		
+		self.commit = commit
 		
 		self.loadJobs(buildJSON, done: jobsLoaded)
 		
@@ -90,6 +91,50 @@ class TravisBuild: Equatable
 	func dismiss() {
 		//TODO: Implement this
 	}
+	
+	struct Commit {
+		var branch: String
+		var authorEmail: String
+		var id: Int
+		var committedAt: NSDate
+		var message: String
+		var authorName: String
+		var sha: String
+		var committerName: String
+		var committerEmail: String
+		var compareUrl: NSURL
+		var pullRequestNumber: Int?
+		
+		init(fromJSON json: JSON) {
+			branch = json.getString("branch")!
+			authorEmail = json.getString("author_email")!
+			id = json.getInt("id")!
+			committedAt = parseDate(json.getString("committed_at")!)!
+			message = json.getString("message")!
+			authorName = json.getString("author_name")!
+			sha = json.getString("sha")!
+			committerName = json.getString("committer_name")!
+			committerEmail = json.getString("committer_email")!
+			compareUrl = NSURL(string: json.getString("compare_url")!)!
+			pullRequestNumber = json.getInt("pull_request_number")
+		}
+		
+		/*
+		[{
+		  "branch" : "master",
+		  "author_email" : "thislooksfun@users.noreply.github.com",
+		  "id" : 27018106,
+		  "committed_at" : "2015-12-05T18:34:51Z",
+		  "message" : "Create .travis.yml",
+		  "author_name" : "thislooksfun",
+		  "sha" : "9ecebfc533f6ad41587be21d5de188fb12a9a79d",
+		  "committer_name" : "thislooksfun",
+		  "committer_email" : "thislooksfun@users.noreply.github.com",
+		  "compare_url" : "https:\/\/github.com\/thislooksfun\/testing\/compare\/67d44b7763ac...9ecebfc533f6",
+		  "pull_request_number" : null
+		}]
+		*/
+	}
 }
 
 func == (left: TravisBuild, right: TravisBuild) -> Bool {
@@ -97,6 +142,5 @@ func == (left: TravisBuild, right: TravisBuild) -> Bool {
 		&& left.status      == right.status
 		&& left.startedAt   == right.startedAt
 		&& left.finishedAt  == right.finishedAt
-//		&& left.duration    == right.duration
 		&& left.buildID     == right.buildID
 }

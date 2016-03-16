@@ -87,6 +87,7 @@ class FavoritesListController: PortraitTableViewController
 	}
 	
 	func showInfo(sender: AnyObject?) {
+		//TODO: Make this button explain that the orange bar on the left of the screen indicates the items that will be in the homescreen quick action window thing
 		Logger.info("Showing info")
 	}
 	

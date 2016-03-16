@@ -35,13 +35,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //		TravisAPI.deAuth()
 //		Settings.HasReadDisclaimer.set(nil)
 		
-		Logger.debug("1")
-		Logger.trace("2")
-		Logger.info("3")
-		Logger.warn("4")
-		Logger.error("5")
-		Logger.plain("6")
-		
+		Logger.plain("1")
+		Logger.debug("2")
+		Logger.trace("3")
+		Logger.info("4")
+		Logger.warn("5")
+		Logger.error("6")
 		
 		return true
 	}

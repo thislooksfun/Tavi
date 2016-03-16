@@ -97,7 +97,7 @@ class TravisRepo: Equatable
 		{ (let state, let json) in
 			
 			if state == .Success && json != nil {
-				self.builds[0] = TravisBuild(buildJSON: json!)
+				self.builds[0] = TravisBuild(buildJSON: json!, commit: build.commit)
 			} else {
 				Logger.warn("Problem reloading last build")
 			}
@@ -115,6 +115,7 @@ class TravisRepo: Equatable
 				self.builds = [TravisBuild]()
 				
 				let builds = json!.getJsonArray("builds")!
+				let commits = json!.getJsonArray("commits")!
 				
 				guard builds.count > 0 else {
 					//If there are no builds, don't bother trying to load them
@@ -129,8 +130,8 @@ class TravisRepo: Equatable
 					}
 				}
 				
-				for build in builds {
-					self.builds.append(TravisBuild(buildJSON: build, jobsLoaded: buildDone))
+				for i in 0..<builds.count {
+					self.builds.append(TravisBuild(buildJSON: builds[i], commitJSON: commits[i], jobsLoaded: buildDone))
 				}
 				
 				self.builds.sortInPlace() { (let build1, let build2) in
@@ -165,10 +166,13 @@ class TravisRepo: Equatable
 			Logger.trace("Event json does not have a key 'build'")
 			return
 		}
-		
+		guard let commitJson = json.getJson("commit") else {
+			Logger.trace("Event json does not have a key 'commit'")
+			return
+		}
 		Logger.info(json)
 		
-		let newBuild = TravisBuild(buildJSON: buildJson)
+		let newBuild = TravisBuild(buildJSON: buildJson, commitJSON: commitJson)
 		if let last = self.lastBuild {
 			if newBuild.buildID > last.buildID {
 				self.builds.insert(newBuild, atIndex: 0)
@@ -207,6 +211,7 @@ class TravisRepo: Equatable
 }
 
 func == (left: TravisRepo, right: TravisRepo) -> Bool {
+	Logger.info("Repo ==")
 	return left.repoID == right.repoID
 		&& left.slug   == right.slug
 		&& left.builds == right.builds

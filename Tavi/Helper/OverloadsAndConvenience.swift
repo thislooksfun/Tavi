@@ -177,6 +177,23 @@ extension Array {
 	}
 }
 
+extension Array where Element: Equatable
+{
+	mutating func removeDuplicates()
+	{
+		var out = [Element]()
+		
+		for repo in self {
+			Logger.info("removedupes")
+			if repo == out.last {
+				out.append(repo)
+			}
+		}
+		
+		self = out
+	}
+}
+
 public enum ViewOrientation {
 	case Portrait
 	case Landscape

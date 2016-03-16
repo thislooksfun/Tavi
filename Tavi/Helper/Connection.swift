@@ -11,8 +11,9 @@ import SystemConfiguration
 
 class Connection
 {
-	//static var x = 0
+	static var x = 0
 	
+	//TODO: add this in many places
 	static func connectedToNetwork() -> Bool {
 		
 		var zeroAddress = sockaddr_in()
@@ -33,7 +34,7 @@ class Connection
 		let isReachable = flags.contains(.Reachable)
 		let needsConnection = flags.contains(.ConnectionRequired)
 		
-		//x++
-		return (isReachable && !needsConnection)// && (x % 3 != 0)
+		x++
+		return (isReachable && !needsConnection) && (x % 3 != 0)
 	}
 }

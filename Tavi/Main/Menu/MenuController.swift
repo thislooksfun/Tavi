@@ -12,20 +12,10 @@ class MenuController: PortraitTableViewController
 {
 	@IBOutlet var favoritesLabel: UILabel!
 	@IBOutlet var favoritesCount: UILabel!
-	@IBOutlet var filterStateLabel: UILabel!
-	
-//	override func viewDidLoad() {
-//		super.viewDidLoad()
-//		self.navigationController!.interactivePopGestureRecognizer?.delegate = nil
-//	}
 	
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
-		if Settings.FilterState.get() == nil {
-			Settings.FilterState.set(Settings.Filter.Active.rawValue)
-		}
 		self.favoritesCount.text = "\((Settings.Favorites.get() ?? []).count)"
-		self.filterStateLabel.text = Settings.Filter.fromInt(Settings.FilterState.get()).description
 	}
 	
 	override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -39,7 +29,7 @@ class MenuController: PortraitTableViewController
 		self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
 		switch indexPath.section {
 		case 0:  self.performSegueWithIdentifier("openFavoritesMenu", sender: self)
-		case 1:  self.performSegueWithIdentifier("openFilterSelect", sender: self)
+		case 1:  self.performSegueWithIdentifier("openNotificationMenu", sender: self)
 		case 2:  DisclaimerController.displayAsLegal(self.navigationController!)
 		case 3:  self.logOut()
 		default: self.warnUnknown(indexPath)

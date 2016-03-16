@@ -12,12 +12,9 @@ class Notifications
 {
 	// MARK: Sending notifications
 	
-	static func fireTest() {
-		//TODO: Remove this
-		fireBuildPassed("vidr-group/vidr-manifest", buildNumber: 13, fireDate: NSDate(timeIntervalSinceNow: 1))
-		fireBuildPassed("vidr-group/vidr-core",     buildNumber: 18, fireDate: NSDate(timeIntervalSinceNow: 5))
-		fireBuildFailed("vidr-group/gpool",         buildNumber: 22, fireDate: NSDate(timeIntervalSinceNow: 9))
-	}
+	private static var lastSlug = ""
+	private static var lastBuildNumber = -1
+	private static var lastStatus = ""
 	
 	static func fireBuildStarted(slug: String, buildNumber: Int, fireDate: NSDate = NSDate()) {
 		fireBuildStatus(slug, buildNumber: buildNumber, status: "started", fireDate: fireDate)
@@ -33,11 +30,20 @@ class Notifications
 	}
 	static func fireBuildStatus(slug: String, buildNumber: Int, status: String, fireDate: NSDate = NSDate())
 	{
-		if Settings.displayInAppNotifications == .None                            { return }
-		if Settings.displayInAppNotifications == .Start  && status != "started"   { return }
-		if Settings.displayInAppNotifications == .Pass   && status != "passed"    { return }
-		if Settings.displayInAppNotifications == .Fail   && status != "failed"    { return }
-		if Settings.displayInAppNotifications == .Cancel && status != "cancelled" { return }
+		//Prevent duplicate notifications
+		if slug == lastSlug && buildNumber == lastBuildNumber && status == lastStatus { return }
+		
+		lastSlug = slug
+		lastBuildNumber = buildNumber
+		lastStatus = status
+		
+		let inAppNoteSettings = Settings.InAppNoteType(rawValue: Settings.InAppNotificationTypes.getWithDefault(Settings.InAppNoteType.All.rawValue))
+		
+		guard inAppNoteSettings != .None else { return }
+		if status == "started"   && !inAppNoteSettings.contains(.Start)  { return }
+		if status == "passed"    && !inAppNoteSettings.contains(.Pass)   { return }
+		if status == "failed"    && !inAppNoteSettings.contains(.Fail)   { return }
+		if status == "cancelled" && !inAppNoteSettings.contains(.Cancel) { return }
 		
 		buildNotification("\(slug):\nBuild #\(buildNumber) \(status)", userInfo: ["slug": slug, "build": buildNumber, "status": status], fireDate: fireDate)
 	}
@@ -47,7 +53,7 @@ class Notifications
 		let note = UILocalNotification()
 		note.alertBody = title                      // Message content
 		note.alertAction = action                   // What to display after after "Slide to..." on the lock screen - defaults to "Slide to view"
-		note.fireDate = fireDate	                    // When notification will be fired
+		note.fireDate = fireDate	                // When notification will be fired
 		note.soundName = sound                      // The sound to play
 		note.userInfo = userInfo                    // Any specific information, such as a UUID to later backtrack
 		note.category = category                    // ??
@@ -56,10 +62,6 @@ class Notifications
 		// Schedule the notification
 		UIApplication.sharedApplication().scheduleLocalNotification(note)
 	}
-	
-	
-	// TODO: Make this work?
-//	private(set) static var unseenNotes = [[String: AnyObject]]()
 	
 	// MARK: Displaying in-app notifications
 	

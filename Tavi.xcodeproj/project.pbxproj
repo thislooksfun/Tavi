@@ -16,7 +16,6 @@
 		F40977771C62D97E003F7081 /* GTMFadeTruncatingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = F40977761C62D97E003F7081 /* GTMFadeTruncatingLabel.m */; };
 		F415567F1C6D9C98008300E0 /* FavoritesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F415567E1C6D9C98008300E0 /* FavoritesCell.swift */; };
 		F41556811C6DAE32008300E0 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41556801C6DAE32008300E0 /* Router.swift */; };
-		F41556851C6E92D5008300E0 /* FilterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41556841C6E92D5008300E0 /* FilterController.swift */; };
 		F41556871C6E986A008300E0 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41556861C6E986A008300E0 /* Alert.swift */; };
 		F415568D1C6EAD35008300E0 /* PortraitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F415568C1C6EAD35008300E0 /* PortraitViewController.swift */; };
 		F415568F1C6EAD79008300E0 /* PortraitTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F415568E1C6EAD79008300E0 /* PortraitTableViewController.swift */; };
@@ -53,6 +52,7 @@
 		F496FA141C0F56D400639A26 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F496FA131C0F56D400639A26 /* Assets.xcassets */; };
 		F496FA221C0F56D400639A26 /* TravisCITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F496FA211C0F56D400639A26 /* TravisCITests.swift */; };
 		F496FA2D1C0F56D400639A26 /* TravisCIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F496FA2C1C0F56D400639A26 /* TravisCIUITests.swift */; };
+		F49728381C98AB8C00D1A738 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49728371C98AB8C00D1A738 /* NotificationController.swift */; };
 		F4B00B4F1C1407E9008DA9EE /* TravisRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B00B4E1C1407E9008DA9EE /* TravisRepo.swift */; };
 		F4B00B511C1409EC008DA9EE /* TravisBuild.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B00B501C1409EC008DA9EE /* TravisBuild.swift */; };
 		F4B00B521C141BFE008DA9EE /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F40144551C13B3B8000AA6DD /* Octicons.ttf */; };
@@ -99,7 +99,6 @@
 		F40977761C62D97E003F7081 /* GTMFadeTruncatingLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMFadeTruncatingLabel.m; sourceTree = "<group>"; };
 		F415567E1C6D9C98008300E0 /* FavoritesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesCell.swift; sourceTree = "<group>"; };
 		F41556801C6DAE32008300E0 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
-		F41556841C6E92D5008300E0 /* FilterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterController.swift; sourceTree = "<group>"; };
 		F41556861C6E986A008300E0 /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		F415568C1C6EAD35008300E0 /* PortraitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortraitViewController.swift; sourceTree = "<group>"; };
 		F415568E1C6EAD79008300E0 /* PortraitTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortraitTableViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +143,7 @@
 		F496FA281C0F56D400639A26 /* TaviUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TaviUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F496FA2C1C0F56D400639A26 /* TravisCIUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravisCIUITests.swift; sourceTree = "<group>"; };
 		F496FA2E1C0F56D400639A26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F49728371C98AB8C00D1A738 /* NotificationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		F4B00B4E1C1407E9008DA9EE /* TravisRepo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravisRepo.swift; sourceTree = "<group>"; };
 		F4B00B501C1409EC008DA9EE /* TravisBuild.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravisBuild.swift; sourceTree = "<group>"; };
 		F4B00B591C14F6E1008DA9EE /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
@@ -228,14 +228,6 @@
 			path = Favorites;
 			sourceTree = "<group>";
 		};
-		F41556831C6E92A6008300E0 /* Filter */ = {
-			isa = PBXGroup;
-			children = (
-				F41556841C6E92D5008300E0 /* FilterController.swift */,
-			);
-			path = Filter;
-			sourceTree = "<group>";
-		};
 		F41D83071C6D35390076BDBD /* Orientation */ = {
 			isa = PBXGroup;
 			children = (
@@ -251,7 +243,7 @@
 			isa = PBXGroup;
 			children = (
 				F41556821C6E929A008300E0 /* Favorites */,
-				F41556831C6E92A6008300E0 /* Filter */,
+				F49728361C98AB6C00D1A738 /* Notifications */,
 				F4B00B591C14F6E1008DA9EE /* MenuController.swift */,
 			);
 			path = Menu;
@@ -447,6 +439,14 @@
 				F496FA2C1C0F56D400639A26 /* TravisCIUITests.swift */,
 			);
 			path = TaviUITests;
+			sourceTree = "<group>";
+		};
+		F49728361C98AB6C00D1A738 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				F49728371C98AB8C00D1A738 /* NotificationController.swift */,
+			);
+			path = Notifications;
 			sourceTree = "<group>";
 		};
 		F4B00B4C1C13FCC6008DA9EE /* Master */ = {
@@ -742,7 +742,6 @@
 				F43533CA1C11341D00CE3EB7 /* Logger.swift in Sources */,
 				F415567F1C6D9C98008300E0 /* FavoritesCell.swift in Sources */,
 				F41556811C6DAE32008300E0 /* Router.swift in Sources */,
-				F41556851C6E92D5008300E0 /* FilterController.swift in Sources */,
 				F4B00B5F1C14F823008DA9EE /* MainNavDelegate.swift in Sources */,
 				F4C12B031C13ECA0003DB1D6 /* RepoCell.swift in Sources */,
 				F41D830C1C6D972E0076BDBD /* FavoritesListController.swift in Sources */,
@@ -752,6 +751,7 @@
 				F4C306DF1C5BDD3000CB9621 /* NoConnectionPopup.swift in Sources */,
 				F43533BD1C1133A000CE3EB7 /* OverloadsAndConvenience.swift in Sources */,
 				F43533C61C1133F100CE3EB7 /* JSON.swift in Sources */,
+				F49728381C98AB8C00D1A738 /* NotificationController.swift in Sources */,
 				F43533CC1C11342C00CE3EB7 /* Settings.swift in Sources */,
 				F4EA57981C5C399F004E92C3 /* OrientationRespectfulNavController.swift in Sources */,
 				F474F47E1C0F753000F1CEDC /* ConsoleLineCell.swift in Sources */,
@@ -907,7 +907,7 @@
 				PRODUCT_NAME = Tavi;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
-				SWIFT_OBJC_BRIDGING_HEADER = "Tavi/Tavi-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tavi/ObjC/Tavi-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -936,7 +936,7 @@
 				PRODUCT_NAME = Tavi;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
-				SWIFT_OBJC_BRIDGING_HEADER = "Tavi/Tavi-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tavi/ObjC/Tavi-Bridging-Header.h";
 			};
 			name = Release;
 		};

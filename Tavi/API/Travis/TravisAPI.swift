@@ -8,7 +8,7 @@
 
 import UIKit
 
-//TODO: Consolidate duplicate code sections?
+//TODO: consolidate duplicate code?
 class TravisAPI
 {
 	static let passingColor =    UIColor(red:  63/255, green: 167/255, blue: 95/255, alpha: 1)
@@ -49,7 +49,7 @@ class TravisAPI
 		
 		var exitState: HTTPState?
 		
-		func exit(state: HTTPState, _ message: String?) {
+		func exit(state: HTTPState, _ message: String? = nil) {
 			if message != nil { Logger.info(message!) }
 			
 			guard exitState == nil else {
@@ -74,12 +74,12 @@ class TravisAPI
 		{ (let errMsg, let json, let httpResponse) in
 			if errMsg != nil {
 				Logger.warn(errMsg!)
-				exit(.Other, nil)
+				exit(.Other)
 			} else
 			{
 				Settings.Travis_Token.set(json!.getString("access_token"))
 				
-				exit(.Success, nil) //TODO check states
+				exit(.Success) //TODO check states
 			}
 			
 			// No need to keep the github token around, discard it
@@ -106,7 +106,7 @@ class TravisAPI
 		
 		var exitState: HTTPState?
 		
-		func exit(state: HTTPState, _ message: String?) -> Void {
+		func exit(state: HTTPState, _ message: String? = nil) -> Void {
 			if message != nil { Logger.info(message!) }
 			
 			guard exitState == nil else {
@@ -129,13 +129,13 @@ class TravisAPI
 			var repos: [JSON]?
 			if errMsg != nil {
 				Logger.warn(errMsg!)
-				exit(.Other, nil)
+				exit(.Other)
 			} else if json == nil {
 				Logger.warn("json is nil")
-				exit(.Other, nil)
+				exit(.Other)
 			} else {
 				repos = json?.getJsonArray("repos")
-				exit(repos == nil ? .Other : .Success, nil)
+				exit(repos == nil ? .Other : .Success)
 			}
 			
 			if (forceMainThread) {
@@ -148,6 +148,68 @@ class TravisAPI
 		}
 	}
 	
+	static func loadFavorites(forceMainThread: Bool = true, callback: (HTTPState, [JSON]?) -> Void)
+	{
+		//TODO: rework to use the '/accounts' and '/repos {member, active}' endpoints
+		Logger.info("\n============== TravisAPI.loadFavorites")
+		if !forceMainThread {
+			Logger.warn("The callback will not be running on the main thread!")
+		}
+		
+		var exitState: HTTPState?
+		
+		func exit(state: HTTPState, _ message: String? = nil) -> Void {
+			if message != nil { Logger.info(message!) }
+			
+			guard exitState == nil else {
+				Logger.warn("exitState already set!")
+				return
+			}
+			
+			exitState = state
+		}
+		
+		guard authed() && Settings.GitHub_User.get() != nil else {
+			exit(.NeedsGithub, "Not authenticated with Travis-CI")
+			callback(exitState!, nil)
+			return
+		}
+		
+		
+		let favorites = Favorites.getFavorites()
+		var repos = [JSON]()
+		
+		var remaining = favorites.count
+		func repoLoaded(state: HTTPState, json: JSON?)
+		{
+			guard exitState == nil else { return }
+			
+			if state == .Success && json != nil {
+				repos.append(json!)
+			} else {
+				
+			}
+			
+			if --remaining <= 0 || exitState != nil {
+				if exitState == nil {
+					exit(.Success)
+				}
+				
+				if (forceMainThread) {
+					NSOperationQueue.mainQueue().addOperationWithBlock({
+						callback(exitState!, repos)
+					})
+				} else {
+					callback(exitState!, repos)
+				}
+			}
+		}
+		
+		for slug in favorites {
+			loadRepoFromSlug(slug, forceMainThread: false, callback: repoLoaded)
+		}
+	}
+	
 	static func loadRepoFromID(id: Int, forceMainThread: Bool = true, callback: (HTTPState, JSON?) -> Void) {
 		Logger.info("\n============== TravisAPI.loadRepoFromID")
 		if !forceMainThread {
@@ -156,7 +218,7 @@ class TravisAPI
 		
 		var exitState: HTTPState?
 		
-		func exit(state: HTTPState, _ message: String?) -> Void {
+		func exit(state: HTTPState, _ message: String? = nil) -> Void {
 			if message != nil { Logger.info(message!) }
 			
 			guard exitState == nil else {
@@ -172,11 +234,11 @@ class TravisAPI
 			
 			if errMsg != nil {
 				Logger.warn(errMsg!)
-				exit(.Other, nil)
+				exit(.Other)
 			} else if json == nil {
-				exit(.NoJson, nil)
+				exit(.NoJson)
 			} else {
-				exit(.Success, nil)
+				exit(.Success)
 			}
 			
 			if (forceMainThread) {
@@ -197,7 +259,7 @@ class TravisAPI
 		
 		var exitState: HTTPState?
 		
-		func exit(state: HTTPState, _ message: String?) -> Void {
+		func exit(state: HTTPState, _ message: String? = nil) -> Void {
 			if message != nil { Logger.info(message!) }
 			
 			guard exitState == nil else {
@@ -213,11 +275,11 @@ class TravisAPI
 			
 			if errMsg != nil {
 				Logger.warn(errMsg!)
-				exit(.Other, nil)
+				exit(.Other)
 			} else if json == nil {
-				exit(.NoJson, nil)
+				exit(.NoJson)
 			} else {
-				exit(.Success, nil)
+				exit(.Success)
 			}
 			
 			if (forceMainThread) {
@@ -239,7 +301,7 @@ class TravisAPI
 		
 		var exitState: HTTPState?
 		
-		func exit(state: HTTPState, _ message: String?) -> Void {
+		func exit(state: HTTPState, _ message: String? = nil) -> Void {
 			if message != nil { Logger.info(message!) }
 			
 			guard exitState == nil else {
@@ -255,11 +317,11 @@ class TravisAPI
 			
 			if errMsg != nil {
 				Logger.warn(errMsg!)
-				exit(.Other, nil)
+				exit(.Other)
 			} else if json == nil {
-				exit(.NoJson, nil)
+				exit(.NoJson)
 			} else {
-				exit(.Success, nil)
+				exit(.Success)
 			}
 			
 			if (forceMainThread) {
@@ -281,7 +343,7 @@ class TravisAPI
 		
 		var exitState: HTTPState?
 		
-		func exit(state: HTTPState, _ message: String?) -> Void {
+		func exit(state: HTTPState, _ message: String? = nil) -> Void {
 			if message != nil { Logger.info(message!) }
 			
 			guard exitState == nil else {
@@ -297,11 +359,11 @@ class TravisAPI
 			
 			if errMsg != nil {
 				Logger.warn(errMsg!)
-				exit(.Other, nil)
+				exit(.Other)
 			} else if json == nil {
-				exit(.NoJson, nil)
+				exit(.NoJson)
 			} else {
-				exit(.Success, nil)
+				exit(.Success)
 			}
 			
 			if (forceMainThread) {
@@ -323,7 +385,7 @@ class TravisAPI
 		
 		var exitState: HTTPState?
 		
-		func exit(state: HTTPState, _ message: String?) -> Void {
+		func exit(state: HTTPState, _ message: String? = nil) -> Void {
 			if message != nil { Logger.info(message!) }
 			
 			guard exitState == nil else {
@@ -339,11 +401,11 @@ class TravisAPI
 			
 			if errMsg != nil {
 				Logger.warn(errMsg!)
-				exit(.Other, nil)
+				exit(.Other)
 			} else if json == nil {
-				exit(.NoJson, nil)
+				exit(.NoJson)
 			} else {
-				exit(.Success, nil)
+				exit(.Success)
 			}
 			
 			if (forceMainThread) {
@@ -365,7 +427,7 @@ class TravisAPI
 		
 		var exitState: HTTPState?
 		
-		func exit(state: HTTPState, _ message: String?) -> Void {
+		func exit(state: HTTPState, _ message: String? = nil) -> Void {
 			if message != nil { Logger.info(message!) }
 			
 			guard exitState == nil else {
@@ -381,11 +443,11 @@ class TravisAPI
 			
 			if errMsg != nil {
 				Logger.warn(errMsg!)
-				exit(.Other, nil)
+				exit(.Other)
 			} else if json == nil {
-				exit(.NoJson, nil)
+				exit(.NoJson)
 			} else {
-				exit(.Success, nil)
+				exit(.Success)
 			}
 			
 			if (forceMainThread) {
