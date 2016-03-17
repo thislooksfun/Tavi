@@ -42,6 +42,10 @@ class MasterViewController: PortraitTableViewController
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
 		self.tableView.reloadData()
+		
+		for repo in self.repos {
+			repo.setBindingCallback(self.onRepoEventForRepo)
+		}
 	}
 	
 	override func viewDidAppear(animated: Bool) {
@@ -316,9 +320,7 @@ class MasterViewController: PortraitTableViewController
 		} else if segue.identifier == "showDetailPeek" {
 			if let cell = sender as? RepoCell {
 				let detail = segue.destinationViewController as! DetailViewController
-				detail.slug = cell.repoSlugLabel.text
-				//TODO: replace that (^) with this (v)
-//				detail.repo = repos[self.tableView.indexPathForCell(cell)!.section]
+				detail.repo = repos[self.tableView.indexPathForCell(cell)!.section]
 			}
 		}
 	}
