@@ -16,8 +16,9 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	@IBOutlet var consoleTable: UITableView!
 	@IBOutlet var favoriteIconOutline: UIImageView!
 	@IBOutlet var favoriteIconFilled: UIImageView!
-	@IBOutlet var loadingTop: UIView!
-	@IBOutlet var loadingBottom: UIView!
+	@IBOutlet var loadingMain: UIView!
+	@IBOutlet var loadingConsole: UIView!
+	@IBOutlet var loadingBottomConstraint: NSLayoutConstraint!
 	
 	@IBOutlet var colorBar: UIView!
 	@IBOutlet var buildStatus: UIImageView!
@@ -28,6 +29,7 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	
 	var id: Int? {
 		didSet {
+			Logger.info("Set id")
 			self.idSet()
 		}
 	}
@@ -38,7 +40,11 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		}
 	}
 	
-	var repo: TravisRepo?
+	var repo: TravisRepo? {
+		didSet {
+			self.repo?.setBindingCallback({ (_) in self.configureView(false) })
+		}
+	}
 	
 	private var isRotating = false
 	
@@ -50,7 +56,7 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		
 		self.favoriteIconFilled.hide(duration: 0)
 		
-		self.configureView()
+		self.configureView(true)
 		
 		self.mainScrollView.scrollsToTop = true
 		self.consoleSidewaysScroll.scrollsToTop = false
@@ -78,11 +84,12 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	}
 	
 	override func previewActionItems() -> [UIPreviewActionItem] {
-		let favToggleTitle = Favorites.isFavorite(self.slug!) ? "Unfavorite" : "Favorite"
+		guard repo != nil || slug != nil else { return [] }
+		
+		let favToggleTitle = Favorites.isFavorite(self.repo?.slug ?? self.slug!) ? "Unfavorite" : "Favorite"
 		let favToggle = UIPreviewAction(title: favToggleTitle, style: .Default) {
 			(action, vc) in
-			guard self.slug	!= nil else { return }
-			Favorites.toggleFavorite(self.slug!)
+			Favorites.toggleFavorite(self.repo?.slug ?? self.slug!)
 			let nav = UIViewController.rootViewController() as! UINavigationController
 			let master = nav.viewControllers.first as! MasterViewController
 			master.tableView.reloadData()
@@ -101,7 +108,7 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 				return
 			}
 			self.repo = newRepo
-			self.configureView()
+			self.configureView(false)
 		}
 	}
 	func slugSet() {
@@ -116,28 +123,41 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 				Alert.showAlertWithTitle("Error", andMessage: "There was an error loading this repository. Check the slug or try again later", andActions: [action])
 				return
 			}
+			Logger.info("Oh dear")
 			self.repo = newRepo
-			self.configureView()
+			self.configureView(false)
 		}
 	}
-	func configureView() {
+	func configureView(isInDidLoad: Bool) {
 		if self.repo != nil {
-			self.loadingTop.hide()
-			self.loadingBottom.hide()
+			self.moveToConsoleLoading(!isInDidLoad)
 			self.loadFromRepo(self.repo!)
 		} else {
 			self.hideAll()
 			if self.slug != nil {
-				self.loadingTop.show()
-				self.loadingBottom.show()
+				self.jumpToMainLoading()
 				setFavorite(Favorites.isFavorite(self.slug!))
 			} else if self.id != nil {
-				self.loadingTop.show()
-				self.loadingBottom.show()
+				self.jumpToMainLoading()
 			}
 		}
 		
 		self.view.layoutIfNeeded()
+	}
+	
+	private func jumpToMainLoading() {
+		self.loadingBottomConstraint.constant = 40
+		self.view.layoutIfNeeded()
+	}
+	
+	private func moveToConsoleLoading(animate: Bool)
+	{
+		self.loadingBottomConstraint.constant = -60
+		if animate {
+			UIView.animateWithDuration(0.4, animations: self.view.layoutIfNeeded)
+		} else {
+			self.view.layoutIfNeeded()
+		}
 	}
 	
 	private func hideAll()
@@ -168,7 +188,8 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		self.navigationItem.title = repo.slug
 		
 		if let first = repo.lastBuild?.jobs.first {
-			self.consoleTableSource.load(first)
+			//TODO: add callback for when jobs are done
+//			self.consoleTableSource.load(first, done: { self.loadingBottom.hide() })
 		}
 		
 		setFavorite(Favorites.isFavorite(repo.slug))
@@ -357,9 +378,9 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	}
 	
 	@IBAction func favorite(sender: AnyObject) {
-		guard self.slug != nil else { return }
-		Favorites.toggleFavorite(self.slug!)
-		setFavorite(Favorites.isFavorite(self.slug!))
+		guard self.repo != nil || self.slug != nil else { return }
+		Favorites.toggleFavorite(self.repo?.slug ?? self.slug!)
+		setFavorite(Favorites.isFavorite(self.repo?.slug ?? self.slug!))
 	}
 	
 	override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {

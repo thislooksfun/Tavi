@@ -21,7 +21,7 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 	private var groupStartColor = UIColor(white: 43/255, alpha: 1)
 	private var defaultColor = UIColor(white: 34/255, alpha: 1)
 	
-	func load(job: TravisBuildJob)
+	func load(job: TravisBuildJob, done: () -> Void)
 	{
 		self.clearRows(reloadAndResize: false)
 		
@@ -51,6 +51,8 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 		//TODO: Load console from remote
 		
 		self.reloadAndResize()
+		
+		async(cb: done)
 	}
 	
 	private func loadFromJson(json: JSON) {
