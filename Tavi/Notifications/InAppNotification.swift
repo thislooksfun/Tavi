@@ -95,11 +95,21 @@ class InAppNotification: UIView
 	
 	static func display(info: [String: AnyObject])
 	{
-		let note = InAppNotification(frame: CGRect.zero)
-		
-		note.slug = info["slug"] as! String
+		let slug = info["slug"] as! String
 		let build = info["build"] as! Int
 		let status = info["status"] as! String
+		
+		//Don't display a notification if we're already looking at that repo, that's just silly.
+		let currentView = UIViewController.currentViewController()
+		if currentView is DetailViewController {
+			if (currentView as! DetailViewController).slug == slug || (currentView as! DetailViewController).repo?.slug == slug {
+				return
+			}
+		}
+		
+		let note = InAppNotification(frame: CGRect.zero)
+		
+		note.slug = slug
 		
 		var color: UIColor
 		switch status {
@@ -113,7 +123,7 @@ class InAppNotification: UIView
 		}
 		
 		let text = NSMutableAttributedString()
-		text += "\(note.slug)\n"
+		text += "\(slug)\n"
 		text += NSAttributedString(string: "#\(build) \(status)", attributes: [NSForegroundColorAttributeName: color])
 		
 		note.label.attributedText = text
