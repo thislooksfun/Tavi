@@ -201,3 +201,5 @@ xcuserdata/
 #!Podfile.lock
 #
 Pods/
+
+Secret.swift
