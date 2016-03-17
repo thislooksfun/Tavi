@@ -103,13 +103,13 @@ class InAppNotification: UIView
 		
 		var color: UIColor
 		switch status {
-			case "started":   color = TravisAPI.inProgressColor
-			case "passed":    color = TravisAPI.passingColor
-			case "failed":    color = TravisAPI.failingColor
-			case "cancelled": color = TravisAPI.cancelColor
-			default:
-				Logger.error("'\(status)' is not a valid status")
-				return
+		case "started":   color = TravisAPI.inProgressColor
+		case "passed":    color = TravisAPI.passingColor
+		case "failed":    color = TravisAPI.failingColor
+		case "cancelled": color = TravisAPI.cancelColor
+		default:
+			Logger.error("'\(status)' is not a valid status")
+			return
 		}
 		
 		let text = NSMutableAttributedString()
@@ -141,6 +141,6 @@ class InAppNotification: UIView
 	}
 	
 	func goToRepo(sender: AnyObject) {
-		JLRoutes.routeURL(NSURL(string: "tavi://repo/\(self.slug)"))
+		JLRoutes.routeURL(NSURL(string: "tavi://slug/\(self.slug)"))
 	}
 }

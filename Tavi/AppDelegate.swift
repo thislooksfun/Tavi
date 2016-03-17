@@ -58,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		let item = shortcutItem.type.substringFromIndex(shortcutItem.type.startIndex.advancedBy(NSBundle.mainBundle().bundleIdentifier!.characters.count+1))
 		
 		switch item {
-		case "openFavorite": JLRoutes.routeURL(NSURL(string: "tavi://repo/\(shortcutItem.localizedTitle)"))
+		case "openFavorite": JLRoutes.routeURL(NSURL(string: "tavi://slug/\(shortcutItem.localizedTitle)"))
 		default: Logger.warn("Tried to trigger a shortcut with an unknown type \(shortcutItem.type)")
 		}
 		

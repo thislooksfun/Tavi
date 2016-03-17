@@ -10,7 +10,7 @@ import UIKit
 
 class Router {
 	static func initHandlers() {
-		JLRoutes.addRoute("repo/:id") {
+		JLRoutes.addRoute("id/:id") {
 			(params) -> Bool in
 			
 			Logger.trace("Attempting to open repo from ID")
@@ -30,7 +30,7 @@ class Router {
 			return true
 		}
 		
-		JLRoutes.addRoute("repo/:user/:repo") {
+		JLRoutes.addRoute("slug/:user/:repo") {
 			(params) -> Bool in
 			
 			Logger.trace("Attempting to open repo from slug")
