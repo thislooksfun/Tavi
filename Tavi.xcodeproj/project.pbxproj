@@ -271,11 +271,11 @@
 		F43533CF1C11677C00CE3EB7 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				F4B00B4D1C13FCCB008DA9EE /* Detail */,
-				F42C29631C63D05B009B8C13 /* Disclaimer */,
-				F4B00B4C1C13FCC6008DA9EE /* Master */,
-				F41D830A1C6D97170076BDBD /* Menu */,
 				F45533B91C68542F004DF145 /* Nav */,
+				F42C29631C63D05B009B8C13 /* Disclaimer */,
+				F41D830A1C6D97170076BDBD /* Menu */,
+				F4B00B4C1C13FCC6008DA9EE /* Master */,
+				F4B00B4D1C13FCCB008DA9EE /* Detail */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -296,9 +296,9 @@
 			children = (
 				F43533D81C116C7C00CE3EB7 /* TravisAPI.swift */,
 				F43533DA1C116D1900CE3EB7 /* TravisAPIBackend.swift */,
+				F4B00B4E1C1407E9008DA9EE /* TravisRepo.swift */,
 				F4B00B501C1409EC008DA9EE /* TravisBuild.swift */,
 				F42ED8D81C6FF63D002F980F /* TravisBuildJob.swift */,
-				F4B00B4E1C1407E9008DA9EE /* TravisRepo.swift */,
 			);
 			path = Travis;
 			sourceTree = "<group>";
@@ -405,13 +405,13 @@
 		F496FA091C0F56D400639A26 /* Tavi */ = {
 			isa = PBXGroup;
 			children = (
+				F474F4731C0F612400F1CEDC /* ObjC */,
 				F43533D61C1169E000CE3EB7 /* API */,
 				F474F4751C0F67BA00F1CEDC /* Fonts */,
 				F474F47F1C111F4400F1CEDC /* Helper */,
 				F4EA57941C5C372D004E92C3 /* Login */,
-				F43533CF1C11677C00CE3EB7 /* Main */,
 				F401444C1C123BFC000AA6DD /* Notifications */,
-				F474F4731C0F612400F1CEDC /* ObjC */,
+				F43533CF1C11677C00CE3EB7 /* Main */,
 				F496FA0A1C0F56D400639A26 /* AppDelegate.swift */,
 				F496FA131C0F56D400639A26 /* Assets.xcassets */,
 				F42C29661C641EC4009B8C13 /* Disclaimer.storyboard */,
