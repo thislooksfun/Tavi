@@ -123,21 +123,16 @@ class TravisRepo: Equatable
 					return
 				}
 				
-				var remaining = builds.count
-				func buildDone() {
-					if --remaining <= 0 {
-						cb(self)
-					}
-				}
-				
 				for i in 0..<builds.count {
-					self.builds.append(TravisBuild(buildJSON: builds[i], commitJSON: commits[i], jobsLoaded: buildDone))
+					self.builds.append(TravisBuild(buildJSON: builds[i], commitJSON: commits[i]))
 				}
 				
 				self.builds.sortInPlace() { (let build1, let build2) in
 					//Just make sure everything is in the right order
 					return build1.buildNumber > build2.buildNumber
 				}
+				
+				cb(self)
 			} else {
 				Logger.warn("Problem loading builds for repo \(self.slug)")
 			}

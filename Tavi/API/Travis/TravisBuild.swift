@@ -22,11 +22,11 @@ class TravisBuild: Equatable
 	var jobs = [TravisBuildJob]()
 	
 	
-	convenience init(buildJSON: JSON, commitJSON: JSON, jobsLoaded: (() -> Void)? = nil)
+	convenience init(buildJSON: JSON, commitJSON: JSON, waitForJobs: Bool = false, buildLoaded: (() -> Void)? = nil)
 	{
-		self.init(buildJSON: buildJSON, commit: Commit(fromJSON: commitJSON), jobsLoaded: jobsLoaded)
+		self.init(buildJSON: buildJSON, commit: Commit(fromJSON: commitJSON), waitForJobs: waitForJobs, buildLoaded: buildLoaded)
 	}
-	init(buildJSON: JSON, commit: Commit, jobsLoaded: (() -> Void)? = nil)
+	init(buildJSON: JSON, commit: Commit, waitForJobs: Bool = false, buildLoaded: (() -> Void)? = nil)
 	{
 		self.buildID = buildJSON.getInt("id")!
 		
@@ -45,7 +45,12 @@ class TravisBuild: Equatable
 		
 		self.commit = commit
 		
-		self.loadJobs(buildJSON, done: jobsLoaded)
+		if waitForJobs {
+			self.loadJobs(buildJSON, done: buildLoaded)
+		} else {
+			buildLoaded?()
+			self.loadJobs(buildJSON, done: nil)
+		}
 		
 		/*
 		Possible other fields:
@@ -105,7 +110,8 @@ class TravisBuild: Equatable
 		var compareUrl: NSURL
 		var pullRequestNumber: Int?
 		
-		init(fromJSON json: JSON) {
+		init(fromJSON json: JSON)
+		{
 			branch = json.getString("branch")!
 			authorEmail = json.getString("author_email")!
 			id = json.getInt("id")!
@@ -115,25 +121,10 @@ class TravisBuild: Equatable
 			sha = json.getString("sha")!
 			committerName = json.getString("committer_name")!
 			committerEmail = json.getString("committer_email")!
-			compareUrl = NSURL(string: json.getString("compare_url")!)!
+			let urlstring = json.getString("compare_url")!.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
+			compareUrl = NSURL(string: urlstring)!
 			pullRequestNumber = json.getInt("pull_request_number")
 		}
-		
-		/*
-		[{
-		  "branch" : "master",
-		  "author_email" : "thislooksfun@users.noreply.github.com",
-		  "id" : 27018106,
-		  "committed_at" : "2015-12-05T18:34:51Z",
-		  "message" : "Create .travis.yml",
-		  "author_name" : "thislooksfun",
-		  "sha" : "9ecebfc533f6ad41587be21d5de188fb12a9a79d",
-		  "committer_name" : "thislooksfun",
-		  "committer_email" : "thislooksfun@users.noreply.github.com",
-		  "compare_url" : "https:\/\/github.com\/thislooksfun\/testing\/compare\/67d44b7763ac...9ecebfc533f6",
-		  "pull_request_number" : null
-		}]
-		*/
 	}
 }
 
