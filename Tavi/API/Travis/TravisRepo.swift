@@ -26,7 +26,7 @@ class TravisRepo: Equatable
 	let repoID: Int
 	
 	private var binding: NSObjectProtocol?
-	private var onBindEvent: ((TravisRepo) -> Void)?
+	private var onPusherEvents: [NSObject : ((TravisRepo) -> Void)] = [:]
 	
 	// MARK: Static functions
 	static func repoForID(id: Int, done: (TravisRepo?) -> Void)
@@ -86,8 +86,11 @@ class TravisRepo: Equatable
 		getBuilds(cb)
 	}
 	
-	func setBindingCallback(cb: (TravisRepo) -> Void) {
-		self.onBindEvent = cb
+	func setPusherEventCallback(cb: (TravisRepo) -> Void, forObject obj: NSObject) {
+		self.onPusherEvents[obj] = cb
+	}
+	func removePusherEventCallbackForObject(obj: NSObject) {
+		self.onPusherEvents.removeValueForKey(obj)
 	}
 	
 	func reloadLastBuild(cb: () -> Void) {
@@ -185,7 +188,9 @@ class TravisRepo: Equatable
 			self.builds.append(newBuild)
 		}
 		
-		self.onBindEvent?(self)
+		for (_, cb) in self.onPusherEvents {
+			cb(self)
+		}
 		
 		switch self.lastBuild!.status {
 		case .Started: Notifications.fireBuildStarted(self.slug, buildNumber: self.lastBuild!.buildNumber)

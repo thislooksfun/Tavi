@@ -18,7 +18,8 @@ class MasterViewController: PortraitTableViewController
 	
 	private var timer: NSTimer!
 	
-	override func viewDidLoad() {
+	override func viewDidLoad()
+	{
 		super.viewDidLoad()
 		
 		if let refresh = self.refreshControl {
@@ -44,11 +45,14 @@ class MasterViewController: PortraitTableViewController
 		self.tableView.reloadData()
 		
 		for repo in self.repos {
-			repo.setBindingCallback(self.onRepoEventForRepo)
+			repo.setPusherEventCallback(self.onRepoEventForRepo, forObject: self)
 		}
+		
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "reload", name: UIApplicationDidBecomeActiveNotification, object: nil)
 	}
 	
-	override func viewDidAppear(animated: Bool) {
+	override func viewDidAppear(animated: Bool)
+	{
 		super.viewDidAppear(animated)
 		
 		if (Settings.HasReadDisclaimer.get()) != true {
@@ -58,6 +62,15 @@ class MasterViewController: PortraitTableViewController
 		if self.repos.count == 0 {
 			async(cb: self.reload)
 		}
+	}
+	
+	override func viewWillDisappear(animated: Bool) {
+		super.viewWillAppear(animated)
+		
+		for repo in self.repos {
+			repo.removePusherEventCallbackForObject(self)
+		}
+		NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidBecomeActiveNotification, object: nil)
 	}
 	
 	override func didReceiveMemoryWarning() {
@@ -99,6 +112,10 @@ class MasterViewController: PortraitTableViewController
 		}
 	}
 	
+	func detailRepoDidChange(newRepo: TravisRepo) {
+		self.onRepoEventForRepo(newRepo)
+	}
+	
 	func reloadFromRefresh(sender: AnyObject?) {
 		reload()
 	}
@@ -124,7 +141,7 @@ class MasterViewController: PortraitTableViewController
 					Logger.info(count - 1)
 					
 					if rp != nil {
-						rp!.setBindingCallback(self.onRepoEventForRepo)
+						rp!.setPusherEventCallback(self.onRepoEventForRepo, forObject: self)
 						newRepos.append(rp!)
 					}
 					
@@ -165,11 +182,14 @@ class MasterViewController: PortraitTableViewController
 		}
 	}
 	
-	func onRepoEventForRepo(repo: TravisRepo)
+	func onRepoEventForRepo(newRepo: TravisRepo)
 	{
-		let (index, repo) = self.repos.findWithPos(repo)
+		let (index, repo) = self.repos.findWithPos({ (testRepo) -> Bool in return testRepo.slug == newRepo.slug && testRepo.repoID == newRepo.repoID})
 		
 		guard index > -1 else { return }
+		
+		self.repos[index] = newRepo
+		
 		guard let last = repo?.lastBuild else { return }
 		
 		Logger.info("Got status \(last.status), for repo \(repo!.slug), at index \(index)")
@@ -313,6 +333,8 @@ class MasterViewController: PortraitTableViewController
 			if let indexPath = self.tableView.indexPathForSelectedRow {
 				let detail = segue.destinationViewController as! DetailViewController
 				detail.repo = repos[indexPath.section]
+				// Set master after repo to prevent `detailRepoDidChange` from being called here
+				detail.master = self
 			} else if sender is RepoCell {
 				let detail = segue.destinationViewController as! DetailViewController
 				self.navigationController?.interactivePopGestureRecognizer?.delegate = detail
@@ -321,6 +343,8 @@ class MasterViewController: PortraitTableViewController
 			if let cell = sender as? RepoCell {
 				let detail = segue.destinationViewController as! DetailViewController
 				detail.repo = repos[self.tableView.indexPathForCell(cell)!.section]
+				// Set master after repo to prevent `detailRepoDidChange` from being called here
+				detail.master = self
 			}
 		}
 	}

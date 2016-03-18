@@ -8,8 +8,8 @@
 
 import UIKit
 
-class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerDelegate {
-
+class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerDelegate
+{
 	@IBOutlet var consoleTableSource: ConsoleTableSource!
 	@IBOutlet var mainScrollView: UIScrollView!
 	@IBOutlet var consoleSidewaysScroll: UIScrollView!
@@ -27,9 +27,10 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	@IBOutlet var buildHash: UIImageView!
 	@IBOutlet var buildNumberLabel: UILabel!
 	
+	var master: MasterViewController?
+	
 	var id: Int? {
 		didSet {
-			Logger.info("Set id")
 			self.idSet()
 		}
 	}
@@ -42,15 +43,18 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	
 	var repo: TravisRepo? {
 		didSet {
-			self.repo?.setBindingCallback({ (_) in self.configureView(false) })
+			if self.repo != nil {
+				master?.detailRepoDidChange(self.repo!)
+			}
+			self.repo?.setPusherEventCallback({ (_) in self.configureView(false) }, forObject: self)
 		}
 	}
 	
 	private var isRotating = false
 	
-	override func viewDidLoad() {
+	override func viewDidLoad()
+	{
 		super.viewDidLoad()
-		// Do any additional setup after loading the view, typically from a nib.
 		
 		self.automaticallyAdjustsScrollViewInsets = false
 		
@@ -68,6 +72,10 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		self.navigationController?.interactivePopGestureRecognizer?.delegate = self
 	}
 	
+	override func viewWillAppear(animated: Bool) {
+		super.viewWillAppear(animated)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "reload", name: UIApplicationDidBecomeActiveNotification, object: nil)
+	}
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
 		self.consoleSidewaysScroll.scrollEnabled = true
@@ -76,6 +84,8 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	override func viewWillDisappear(animated: Bool) {
 		super.viewWillDisappear(animated)
 		self.consoleSidewaysScroll.scrollEnabled = false
+		self.repo?.removePusherEventCallbackForObject(self)
+		NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidBecomeActiveNotification, object: nil)
 	}
 	
 	override func viewDidLayoutSubviews() {
@@ -100,35 +110,34 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	func idSet() {
 		guard id != nil else { return }
 		
-		TravisRepo.repoForID(self.id!) {
-			(newRepo) in
-			guard newRepo != nil else {
-				let action = Alert.getDefaultActionWithTitle("OK", andHandler: { (_) in self.navigationController!.popViewControllerAnimated(true) })
-				Alert.showAlertWithTitle("Error", andMessage: "There was an error loading this repository. Check the slug or try again later", andActions: [action])
-				return
-			}
-			self.repo = newRepo
-			self.configureView(false)
-		}
+		TravisRepo.repoForID(self.id!, done: gotRepo)
 	}
 	func slugSet() {
 		guard slug != nil else { return }
 		
 		self.navigationItem.title = slug!
-		
-		TravisRepo.repoForSlug(self.slug!) {
-			(newRepo) in
-			guard newRepo != nil else {
-				let action = Alert.getDefaultActionWithTitle("OK", andHandler: { (_) in self.navigationController!.popViewControllerAnimated(true) })
-				Alert.showAlertWithTitle("Error", andMessage: "There was an error loading this repository. Check the slug or try again later", andActions: [action])
-				return
-			}
-			Logger.info("Oh dear")
-			self.repo = newRepo
-			self.configureView(false)
-		}
+	
+		TravisRepo.repoForSlug(self.slug!, done: gotRepo)
 	}
-	func configureView(isInDidLoad: Bool) {
+	
+	func gotRepo(newRepo: TravisRepo?)
+	{
+		guard newRepo != nil else {
+			let action = Alert.getDefaultActionWithTitle("OK", andHandler: { (_) in self.navigationController!.popViewControllerAnimated(true) })
+			Alert.showAlertWithTitle("Error", andMessage: "There was an error loading this repository. Check the slug or try again later", andActions: [action])
+			return
+		}
+		self.repo = newRepo
+		self.configureView(false)
+	}
+	
+	func reload() {
+		self.jumpToMainLoading()
+		self.slug = self.repo?.slug ?? self.slug
+	}
+	
+	func configureView(isInDidLoad: Bool)
+	{
 		if self.repo != nil {
 			self.moveToConsoleLoading(!isInDidLoad)
 			self.loadFromRepo(self.repo!)
@@ -146,6 +155,8 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	}
 	
 	private func jumpToMainLoading() {
+		self.loadingMain.show()
+		self.loadingConsole.show()
 		self.loadingBottomConstraint.constant = 40
 		self.view.layoutIfNeeded()
 	}
@@ -154,7 +165,7 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	{
 		self.loadingBottomConstraint.constant = -60
 		if animate {
-			UIView.animateWithDuration(0.4, animations: self.view.layoutIfNeeded)
+			UIView.animateWithDuration(0.4, animations: self.view.layoutIfNeeded, completion: { (_) in self.loadingMain.hide() })
 		} else {
 			self.view.layoutIfNeeded()
 		}
@@ -166,7 +177,6 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		self.buildStatus.hidden = true
 		self.branchLabel.alpha = 0.4
 		self.commitMsgLabel.alpha = 0.4
-//		self.buildHash.hidden = true
 		self.buildNumberLabel.hidden = true
 	}
 	
@@ -177,7 +187,6 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		self.branchLabel.show()
 		self.branchLabel.show()
 		self.commitMsgLabel.show()
-//		self.buildHash.show()
 		self.buildNumberLabel.show()
 	}
 	
@@ -187,10 +196,10 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		
 		self.navigationItem.title = repo.slug
 		
-		if let first = repo.lastBuild?.jobs.first {
+//		if let first = repo.lastBuild?.jobs.first {
 			//TODO: add callback for when jobs are done
 //			self.consoleTableSource.load(first, done: { self.loadingBottom.hide() })
-		}
+//		}
 		
 		setFavorite(Favorites.isFavorite(repo.slug))
 		
