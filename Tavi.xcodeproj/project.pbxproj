@@ -14,6 +14,7 @@
 		F40144541C12A3CA000AA6DD /* InAppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40144531C12A3CA000AA6DD /* InAppNotification.swift */; };
 		F408EF721C617A2100CFF351 /* Pusher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F408EF711C617A2100CFF351 /* Pusher.swift */; };
 		F40977771C62D97E003F7081 /* GTMFadeTruncatingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = F40977761C62D97E003F7081 /* GTMFadeTruncatingLabel.m */; };
+		F40C94831C9A65FB003D431F /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40C94821C9A65FB003D431F /* Secret.swift */; };
 		F415567F1C6D9C98008300E0 /* FavoritesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F415567E1C6D9C98008300E0 /* FavoritesCell.swift */; };
 		F41556811C6DAE32008300E0 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41556801C6DAE32008300E0 /* Router.swift */; };
 		F41556871C6E986A008300E0 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41556861C6E986A008300E0 /* Alert.swift */; };
@@ -28,7 +29,6 @@
 		F43533BD1C1133A000CE3EB7 /* OverloadsAndConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43533BC1C1133A000CE3EB7 /* OverloadsAndConvenience.swift */; };
 		F43533C41C1133F100CE3EB7 /* GithubAPIAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43533BF1C1133F100CE3EB7 /* GithubAPIAuthorization.swift */; };
 		F43533C61C1133F100CE3EB7 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43533C11C1133F100CE3EB7 /* JSON.swift */; };
-		F43533C81C1133F100CE3EB7 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43533C31C1133F100CE3EB7 /* Secret.swift */; };
 		F43533CA1C11341D00CE3EB7 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43533C91C11341D00CE3EB7 /* Logger.swift */; };
 		F43533CC1C11342C00CE3EB7 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43533CB1C11342C00CE3EB7 /* Settings.swift */; };
 		F43533CE1C11343D00CE3EB7 /* LandscapeCapableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43533CD1C11343D00CE3EB7 /* LandscapeCapableViewController.swift */; };
@@ -57,9 +57,6 @@
 		F4B00B511C1409EC008DA9EE /* TravisBuild.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B00B501C1409EC008DA9EE /* TravisBuild.swift */; };
 		F4B00B521C141BFE008DA9EE /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F40144551C13B3B8000AA6DD /* Octicons.ttf */; };
 		F4B00B5A1C14F6E1008DA9EE /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B00B591C14F6E1008DA9EE /* MenuController.swift */; };
-		F4B00B5D1C14F759008DA9EE /* LeftToRightAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B00B5C1C14F759008DA9EE /* LeftToRightAnimator.swift */; };
-		F4B00B5F1C14F823008DA9EE /* MainNavDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B00B5E1C14F823008DA9EE /* MainNavDelegate.swift */; };
-		F4B00B611C14F8F8008DA9EE /* RightToLeftRevealAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B00B601C14F8F8008DA9EE /* RightToLeftRevealAnimator.swift */; };
 		F4C12B031C13ECA0003DB1D6 /* RepoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C12B021C13ECA0003DB1D6 /* RepoCell.swift */; };
 		F4C306DF1C5BDD3000CB9621 /* NoConnectionPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C306DE1C5BDD3000CB9621 /* NoConnectionPopup.swift */; };
 		F4EA57931C5C3087004E92C3 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4EA57921C5C3087004E92C3 /* Login.storyboard */; };
@@ -97,6 +94,7 @@
 		F408EF711C617A2100CFF351 /* Pusher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pusher.swift; sourceTree = "<group>"; };
 		F40977751C62D97E003F7081 /* GTMFadeTruncatingLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMFadeTruncatingLabel.h; sourceTree = "<group>"; };
 		F40977761C62D97E003F7081 /* GTMFadeTruncatingLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMFadeTruncatingLabel.m; sourceTree = "<group>"; };
+		F40C94821C9A65FB003D431F /* Secret.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 		F415567E1C6D9C98008300E0 /* FavoritesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesCell.swift; sourceTree = "<group>"; };
 		F41556801C6DAE32008300E0 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		F41556861C6E986A008300E0 /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
@@ -111,7 +109,6 @@
 		F43533BC1C1133A000CE3EB7 /* OverloadsAndConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverloadsAndConvenience.swift; sourceTree = "<group>"; };
 		F43533BF1C1133F100CE3EB7 /* GithubAPIAuthorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubAPIAuthorization.swift; sourceTree = "<group>"; };
 		F43533C11C1133F100CE3EB7 /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
-		F43533C31C1133F100CE3EB7 /* Secret.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 		F43533C91C11341D00CE3EB7 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		F43533CB1C11342C00CE3EB7 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		F43533CD1C11343D00CE3EB7 /* LandscapeCapableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandscapeCapableViewController.swift; sourceTree = "<group>"; };
@@ -122,6 +119,8 @@
 		F43533DF1C116DEB00CE3EB7 /* AuthHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthHelper.swift; sourceTree = "<group>"; };
 		F45533BA1C685455004DF145 /* MainNavController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavController.swift; sourceTree = "<group>"; };
 		F45533C01C685927004DF145 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		F472EF421C9BAFFA007D05A9 /* highlightTodo.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = highlightTodo.sh; path = ../highlightTodo.sh; sourceTree = "<group>"; };
+		F472EF431C9BB00D007D05A9 /* buildDocs.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = buildDocs.sh; path = ../buildDocs.sh; sourceTree = "<group>"; };
 		F474F4741C0F615C00F1CEDC /* Tavi-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Tavi-Bridging-Header.h"; sourceTree = "<group>"; };
 		F474F4761C0F67C100F1CEDC /* Inconsolata-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inconsolata-Bold.ttf"; sourceTree = "<group>"; };
 		F474F4771C0F67C100F1CEDC /* Inconsolata-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inconsolata-Regular.ttf"; sourceTree = "<group>"; };
@@ -147,9 +146,6 @@
 		F4B00B4E1C1407E9008DA9EE /* TravisRepo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravisRepo.swift; sourceTree = "<group>"; };
 		F4B00B501C1409EC008DA9EE /* TravisBuild.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravisBuild.swift; sourceTree = "<group>"; };
 		F4B00B591C14F6E1008DA9EE /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
-		F4B00B5C1C14F759008DA9EE /* LeftToRightAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftToRightAnimator.swift; sourceTree = "<group>"; };
-		F4B00B5E1C14F823008DA9EE /* MainNavDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavDelegate.swift; sourceTree = "<group>"; };
-		F4B00B601C14F8F8008DA9EE /* RightToLeftRevealAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RightToLeftRevealAnimator.swift; sourceTree = "<group>"; };
 		F4C12B021C13ECA0003DB1D6 /* RepoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepoCell.swift; sourceTree = "<group>"; };
 		F4C306DE1C5BDD3000CB9621 /* NoConnectionPopup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoConnectionPopup.swift; sourceTree = "<group>"; };
 		F4EA57921C5C3087004E92C3 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
@@ -263,7 +259,7 @@
 				F401444F1C1247D5000AA6DD /* GithubAPI.swift */,
 				F43533BF1C1133F100CE3EB7 /* GithubAPIAuthorization.swift */,
 				F40144501C1247D5000AA6DD /* GithubAPIBackend.swift */,
-				F43533C31C1133F100CE3EB7 /* Secret.swift */,
+				F40C94821C9A65FB003D431F /* Secret.swift */,
 			);
 			path = GitHub;
 			sourceTree = "<group>";
@@ -317,9 +313,17 @@
 			isa = PBXGroup;
 			children = (
 				F45533BA1C685455004DF145 /* MainNavController.swift */,
-				F4B00B5E1C14F823008DA9EE /* MainNavDelegate.swift */,
 			);
 			path = Nav;
+			sourceTree = "<group>";
+		};
+		F472EF441C9BC103007D05A9 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				F472EF421C9BAFFA007D05A9 /* highlightTodo.sh */,
+				F472EF431C9BB00D007D05A9 /* buildDocs.sh */,
+			);
+			name = Scripts;
 			sourceTree = "<group>";
 		};
 		F474F4731C0F612400F1CEDC /* ObjC */ = {
@@ -354,7 +358,6 @@
 		F474F47F1C111F4400F1CEDC /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				F4B00B5B1C14F749008DA9EE /* Animators */,
 				F41D83071C6D35390076BDBD /* Orientation */,
 				F41556861C6E986A008300E0 /* Alert.swift */,
 				F43533B81C11336100CE3EB7 /* Connection.swift */,
@@ -405,6 +408,7 @@
 		F496FA091C0F56D400639A26 /* Tavi */ = {
 			isa = PBXGroup;
 			children = (
+				F472EF441C9BC103007D05A9 /* Scripts */,
 				F474F4731C0F612400F1CEDC /* ObjC */,
 				F43533D61C1169E000CE3EB7 /* API */,
 				F474F4751C0F67BA00F1CEDC /* Fonts */,
@@ -465,15 +469,6 @@
 				F496FA0E1C0F56D400639A26 /* DetailViewController.swift */,
 			);
 			path = Detail;
-			sourceTree = "<group>";
-		};
-		F4B00B5B1C14F749008DA9EE /* Animators */ = {
-			isa = PBXGroup;
-			children = (
-				F4B00B5C1C14F759008DA9EE /* LeftToRightAnimator.swift */,
-				F4B00B601C14F8F8008DA9EE /* RightToLeftRevealAnimator.swift */,
-			);
-			path = Animators;
 			sourceTree = "<group>";
 		};
 		F4EA57941C5C372D004E92C3 /* Login */ = {
@@ -699,8 +694,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"\n\nTAGS=\"TODO|FIXME\"\nERRORTAG=\"ERROR\"\nfind \"${SRCROOT}/Tavi\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"\\/\\/ ?($TAGS).*\\$|// ?($ERRORTAG).*\\$\" | perl -p -e \"s/\\/\\/ ?($TAGS)/ warning: \\$1/\" | perl -p -e \"s/\\/\\/ ?($ERRORTAG)/ error: \\$1/\"";
+			shellPath = /bin/bash;
+			shellScript = "bash \"$PROJECT_DIR/highlightTodo.sh\"\nbash \"$PROJECT_DIR/buildDocs.sh\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -709,7 +704,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4B00B5D1C14F759008DA9EE /* LeftToRightAnimator.swift in Sources */,
 				F40144521C1247D5000AA6DD /* GithubAPIBackend.swift in Sources */,
 				F43533B91C11336100CE3EB7 /* Connection.swift in Sources */,
 				F401444E1C123C0E000AA6DD /* Notifications.swift in Sources */,
@@ -723,7 +717,6 @@
 				F43533CE1C11343D00CE3EB7 /* LandscapeCapableViewController.swift in Sources */,
 				F4EA579A1C5C3ED9004E92C3 /* LoginController.swift in Sources */,
 				F43533DE1C116D9A00CE3EB7 /* HTTPMethod.swift in Sources */,
-				F43533C81C1133F100CE3EB7 /* Secret.swift in Sources */,
 				F42ED8D91C6FF63D002F980F /* TravisBuildJob.swift in Sources */,
 				F4B00B511C1409EC008DA9EE /* TravisBuild.swift in Sources */,
 				F43533C41C1133F100CE3EB7 /* GithubAPIAuthorization.swift in Sources */,
@@ -737,12 +730,11 @@
 				F496FA0B1C0F56D400639A26 /* AppDelegate.swift in Sources */,
 				F4F328671C6AB1E600C2E6D3 /* KeyboardNotification.swift in Sources */,
 				F40144511C1247D5000AA6DD /* GithubAPI.swift in Sources */,
-				F4B00B611C14F8F8008DA9EE /* RightToLeftRevealAnimator.swift in Sources */,
+				F40C94831C9A65FB003D431F /* Secret.swift in Sources */,
 				F40977771C62D97E003F7081 /* GTMFadeTruncatingLabel.m in Sources */,
 				F43533CA1C11341D00CE3EB7 /* Logger.swift in Sources */,
 				F415567F1C6D9C98008300E0 /* FavoritesCell.swift in Sources */,
 				F41556811C6DAE32008300E0 /* Router.swift in Sources */,
-				F4B00B5F1C14F823008DA9EE /* MainNavDelegate.swift in Sources */,
 				F4C12B031C13ECA0003DB1D6 /* RepoCell.swift in Sources */,
 				F41D830C1C6D972E0076BDBD /* FavoritesListController.swift in Sources */,
 				F408EF721C617A2100CFF351 /* Pusher.swift in Sources */,
