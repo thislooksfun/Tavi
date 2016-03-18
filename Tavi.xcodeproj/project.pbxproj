@@ -39,6 +39,8 @@
 		F43533E01C116DEB00CE3EB7 /* AuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43533DF1C116DEB00CE3EB7 /* AuthHelper.swift */; };
 		F45533BB1C685456004DF145 /* MainNavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45533BA1C685455004DF145 /* MainNavController.swift */; };
 		F45533C11C685927004DF145 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F45533C01C685927004DF145 /* Credits.rtf */; };
+		F472EF471C9CB52E007D05A9 /* buildDocs.sh in Resources */ = {isa = PBXBuildFile; fileRef = F472EF451C9CB52E007D05A9 /* buildDocs.sh */; };
+		F472EF481C9CB52E007D05A9 /* highlightTodo.sh in Resources */ = {isa = PBXBuildFile; fileRef = F472EF461C9CB52E007D05A9 /* highlightTodo.sh */; };
 		F474F4781C0F6FB100F1CEDC /* Inconsolata-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F474F4761C0F67C100F1CEDC /* Inconsolata-Bold.ttf */; };
 		F474F4791C0F6FB100F1CEDC /* Inconsolata-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F474F4771C0F67C100F1CEDC /* Inconsolata-Regular.ttf */; };
 		F474F47C1C0F732400F1CEDC /* ConsoleTableSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F474F47B1C0F732400F1CEDC /* ConsoleTableSource.swift */; };
@@ -119,8 +121,8 @@
 		F43533DF1C116DEB00CE3EB7 /* AuthHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthHelper.swift; sourceTree = "<group>"; };
 		F45533BA1C685455004DF145 /* MainNavController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavController.swift; sourceTree = "<group>"; };
 		F45533C01C685927004DF145 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
-		F472EF421C9BAFFA007D05A9 /* highlightTodo.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = highlightTodo.sh; path = ../highlightTodo.sh; sourceTree = "<group>"; };
-		F472EF431C9BB00D007D05A9 /* buildDocs.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = buildDocs.sh; path = ../buildDocs.sh; sourceTree = "<group>"; };
+		F472EF451C9CB52E007D05A9 /* buildDocs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = buildDocs.sh; path = scripts/buildDocs.sh; sourceTree = "<group>"; };
+		F472EF461C9CB52E007D05A9 /* highlightTodo.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = highlightTodo.sh; path = scripts/highlightTodo.sh; sourceTree = "<group>"; };
 		F474F4741C0F615C00F1CEDC /* Tavi-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Tavi-Bridging-Header.h"; sourceTree = "<group>"; };
 		F474F4761C0F67C100F1CEDC /* Inconsolata-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inconsolata-Bold.ttf"; sourceTree = "<group>"; };
 		F474F4771C0F67C100F1CEDC /* Inconsolata-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inconsolata-Regular.ttf"; sourceTree = "<group>"; };
@@ -320,8 +322,8 @@
 		F472EF441C9BC103007D05A9 /* Scripts */ = {
 			isa = PBXGroup;
 			children = (
-				F472EF421C9BAFFA007D05A9 /* highlightTodo.sh */,
-				F472EF431C9BB00D007D05A9 /* buildDocs.sh */,
+				F472EF451C9CB52E007D05A9 /* buildDocs.sh */,
+				F472EF461C9CB52E007D05A9 /* highlightTodo.sh */,
 			);
 			name = Scripts;
 			sourceTree = "<group>";
@@ -619,6 +621,8 @@
 				F474F4861C11297F00F1CEDC /* 1Password.xcassets in Resources */,
 				F496FA141C0F56D400639A26 /* Assets.xcassets in Resources */,
 				F496FA121C0F56D400639A26 /* Main.storyboard in Resources */,
+				F472EF471C9CB52E007D05A9 /* buildDocs.sh in Resources */,
+				F472EF481C9CB52E007D05A9 /* highlightTodo.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -695,7 +699,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "bash \"$PROJECT_DIR/highlightTodo.sh\"\nbash \"$PROJECT_DIR/buildDocs.sh\"";
+			shellScript = "bash \"$PROJECT_DIR/Tavi/scripts/highlightTodo.sh\"\nbash \"$PROJECT_DIR/Tavi/scripts/buildDocs.sh\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
