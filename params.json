@@ -1,0 +1,6 @@
+{
+  "name": "Tavi",
+  "tagline": "A simple iOS app for Travis-CI",
+  "body": "### Welcome to Tavi\r\n\r\nTavi is the simple way to check your [Travis-CI](https://travis-ci.org) build statuses.",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}

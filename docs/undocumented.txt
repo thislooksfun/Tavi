@@ -1,0 +1,110 @@
+Connection.swift
+	static var x = 0
+DisclaimerController.swift
+	override func viewDidLoad()
+	override func viewDidLayoutSubviews()
+DetailViewController.swift
+	override func viewDidLoad()
+	override func viewWillAppear(animated: Bool)
+	override func viewDidAppear(animated: Bool)
+	override func viewWillDisappear(animated: Bool)
+	override func viewDidLayoutSubviews()
+	override func previewActionItems() -> [UIPreviewActionItem]
+	override func animationDidStart(anim: CAAnimation)
+	func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool
+	override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator)
+MasterViewController.swift
+	override func viewDidLoad()
+	override func viewWillAppear(animated: Bool)
+	override func viewDidAppear(animated: Bool)
+	override func viewWillDisappear(animated: Bool)
+	override func didReceiveMemoryWarning()
+	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+	override func numberOfSectionsInTableView(tableView: UITableView) -> Int
+	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+	override func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath)
+	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+	override func tableView(tableView: UITableView, canFocusRowAtIndexPath indexPath: NSIndexPath) -> Bool
+	override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool
+	override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool
+	override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat
+	override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat
+	override func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int)
+	override func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int)
+LandscapeCapableViewController.swift
+	override func shouldAutorotate() -> Bool
+	override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask
+	override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation
+LoginController.swift
+	class LoginController: PortraitViewController
+GithubAPIAuthorization.swift
+	let id: Int
+	let note:        String
+	let user:        String
+	let token:       String
+	let scopes:     [String]
+	let tokenHash:   String
+	let fingerprint: String
+PortraitViewController.swift
+	override func shouldAutorotate() -> Bool
+	override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask
+	override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation
+PortraitTableViewController.swift
+	override func shouldAutorotate() -> Bool
+	override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask
+	override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation
+MenuController.swift
+	override func viewWillAppear(animated: Bool)
+	override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath)
+	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+ConsoleTableSource.swift
+	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+	func tableView(tableView: UITableView, canFocusRowAtIndexPath indexPath: NSIndexPath) -> Bool
+	func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool
+	func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool
+AppDelegate.swift
+	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
+	func application(application: UIApplication, supportedInterfaceOrientationsForWindow window: UIWindow?) -> UIInterfaceOrientationMask
+	func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void)
+	func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool
+	func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification)
+	func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void)
+	func applicationDidEnterBackground(application: UIApplication)
+	func applicationWillEnterForeground(application: UIApplication)
+	func applicationDidBecomeActive(application: UIApplication)
+	func applicationWillTerminate(application: UIApplication)
+KeyboardNotification.swift
+	let notification: NSNotification
+	let userInfo: NSDictionary
+Logger.swift
+	let index: Int
+RepoCell.swift
+	override func animationDidStart(anim: CAAnimation)
+FavoritesListController.swift
+	override func viewDidLoad()
+	override func viewDidLayoutSubviews()
+	override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?)
+	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+	override func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath)
+	override func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle
+	override func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool
+MainNavController.swift
+	override func viewDidLoad()
+	override func preferredStatusBarStyle() -> UIStatusBarStyle
+OverloadsAndConvenience.swift
+	func + <ValueType> (left: ValueType, right: [ValueType]) -> [ValueType]
+	func + <ValueType> (left: [ValueType], right: ValueType) -> [ValueType]
+	func += <ValueType> (inout left: [ValueType], right: ValueType)
+NotificationController.swift
+	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+Settings.swift
+	let rawValue: Int
+	init(rawValue: Int) { self.rawValue = rawValue }
+OrientationRespectfulNavController.swift
+	override func shouldAutorotate() -> Bool
+	override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask
