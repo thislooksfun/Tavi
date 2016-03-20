@@ -38,6 +38,8 @@ LandscapeCapableViewController.swift
 	override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation
 LoginController.swift
 	class LoginController: PortraitViewController
+TravisBuild.swift
+	func jobDone()
 GithubAPIAuthorization.swift
 	let id: Int
 	let note:        String
@@ -65,6 +67,16 @@ ConsoleTableSource.swift
 	func tableView(tableView: UITableView, canFocusRowAtIndexPath indexPath: NSIndexPath) -> Bool
 	func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool
 	func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool
+TravisAPI.swift
+	func exit(state: HTTPState)
+	func exit(state: HTTPState, _ message: String? = nil)
+	func exit(state: HTTPState, _ message: String? = nil) -> Void
+	func exit(state: HTTPState, _ message: String? = nil) -> Void
+	func exit(state: HTTPState, _ message: String? = nil) -> Void
+	func exit(state: HTTPState, _ message: String? = nil) -> Void
+	func exit(state: HTTPState, _ message: String? = nil) -> Void
+	func exit(state: HTTPState, _ message: String? = nil) -> Void
+	func exit(state: HTTPState, _ message: String? = nil) -> Void
 AppDelegate.swift
 	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
 	func application(application: UIApplication, supportedInterfaceOrientationsForWindow window: UIWindow?) -> UIInterfaceOrientationMask
@@ -80,7 +92,20 @@ KeyboardNotification.swift
 	let notification: NSNotification
 	let userInfo: NSDictionary
 Logger.swift
+	private static func plain<T>(seperator seperator: String, arr: [T])  { log(LogLevel.Plain, seperator: seperator, arr: arr) }
+	private static func plain<T>(seperator seperator: String, arr: [T?]) { log(LogLevel.Plain, seperator: seperator, arr: arr) }
+	private static func debug<T>(seperator seperator: String, arr: [T])  { log(LogLevel.Debug, seperator: seperator, arr: arr) }
+	private static func debug<T>(seperator seperator: String, arr: [T?]) { log(LogLevel.Debug, seperator: seperator, arr: arr) }
+	private static func trace<T>(seperator seperator: String, arr: [T])  { log(LogLevel.Trace, seperator: seperator, arr: arr) }
+	private static func trace<T>(seperator seperator: String, arr: [T?]) { log(LogLevel.Trace, seperator: seperator, arr: arr) }
+	private static func info<T>(seperator seperator: String, arr: [T])  { log(LogLevel.Info, seperator: seperator, arr: arr) }
+	private static func info<T>(seperator seperator: String, arr: [T?]) { log(LogLevel.Info, seperator: seperator, arr: arr) }
+	private static func warn<T>(seperator seperator: String, arr: [T])  { log(LogLevel.Warn, seperator: seperator, arr: arr) }
+	private static func warn<T>(seperator seperator: String, arr: [T?]) { log(LogLevel.Warn, seperator: seperator, arr: arr) }
+	private static func error<T>(seperator seperator: String, arr: [T])  { log(LogLevel.Error, seperator: seperator, arr: arr) }
+	private static func error<T>(seperator seperator: String, arr: [T?]) { log(LogLevel.Error, seperator: seperator, arr: arr) }
 	let index: Int
+	private init(index: Int, prefix: String, color: UIColor)
 RepoCell.swift
 	override func animationDidStart(anim: CAAnimation)
 FavoritesListController.swift
