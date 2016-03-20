@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// A `UINavigationController` that respects the orientation preferences of its children
 class OrientationRespectfulNavController: UINavigationController
 {
 	override func shouldAutorotate() -> Bool {

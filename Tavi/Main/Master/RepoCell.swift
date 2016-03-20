@@ -8,20 +8,33 @@
 
 import UIKit
 
+/// The cell for a repository overview on the main page
 class RepoCell: UITableViewCell
 {
+	/// The color bar on the left
 	@IBOutlet var colorBar: UIView!
 	
+	/// The build status image
 	@IBOutlet var buildStatus: UIImageView!
+	/// The repo's slug
 	@IBOutlet var repoSlugLabel: UILabel!
+	/// The last build number
 	@IBOutlet var buildNumberLabel: UILabel!
+	/// The build hash image
 	@IBOutlet var buildHash: UIImageView!
+	/// The duration of the last build
 	@IBOutlet var durationLabel: UILabel!
+	/// The finish date of the last build
 	@IBOutlet var finishDateLabel: UILabel!
+	/// The favorited icon
 	@IBOutlet var heartIcon: UIImageView!
 	
+	/// Whether or not the `buildStatus` image is rotating (used for in-progress builds)
 	var isRotating = false
 	
+	/// Loads from a `TravisRepo` object
+	///
+	/// - Parameter repo: The repository to load from
 	func loadFromRepo(repo: TravisRepo)
 	{
 		Logger.info(repo.slug)
@@ -79,12 +92,18 @@ class RepoCell: UITableViewCell
 
 	// MARK: Helper functions
 	
+	/// Start the icon rotating
 	private func startRotating() {
 		guard !self.isRotating else { return }
 		self.isRotating = true
 		self.rotate()
 	}
 	
+	/// Rotates the icon halfway around
+	///
+	/// - Note: While this technically does have a parameter, it is
+	///         unused. It is only there to allow this function to be
+	///         passed directly to the `completion:` section of `UIView.animateWithDuration`
 	private func rotate(_: Bool? = nil) {
 		guard self.isRotating else { return }
 		
@@ -101,6 +120,7 @@ class RepoCell: UITableViewCell
 		}
 	}
 	
+	/// Stop the icon rotating
 	private func stopRotating() {
 		guard self.isRotating else { return }
 		self.isRotating = false
@@ -110,6 +130,9 @@ class RepoCell: UITableViewCell
 		}, completion: self.rotate)
 	}
 	
+	/// Formats the duration of the last build
+	///
+	/// - Parameter repo: The repository to load from
 	func formatDuration(repo: TravisRepo)
 	{
 		guard let start = repo.lastBuild?.startedAt else {
@@ -140,6 +163,9 @@ class RepoCell: UITableViewCell
 		self.durationLabel.text = "Duration: \(out)"
 	}
 	
+	/// Formats the finish date of the last build
+	///
+	/// - Parameter repo: The repository to load from
 	private func formatFinishDate(finishDate: NSDate?)
 	{
 		guard let date = finishDate else {

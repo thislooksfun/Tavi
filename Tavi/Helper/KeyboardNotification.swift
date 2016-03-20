@@ -11,7 +11,6 @@ import UIKit
 /// - UIKeyboardFrameEndUserInfoKey
 /// - UIKeyboardAnimationDurationUserInfoKey
 /// - UIKeyboardAnimationCurveUserInfoKey
-
 public struct KeyboardNotification {
 	
 	let notification: NSNotification
@@ -19,7 +18,7 @@ public struct KeyboardNotification {
 	
 	/// Initializer
 	///
-	/// :param: notification Keyboard-related notification
+	/// - Parameter notification: Keyboard-related notification
 	public init(_ notification: NSNotification) {
 		self.notification = notification
 		if let userInfo = notification.userInfo {
@@ -62,7 +61,7 @@ public struct KeyboardNotification {
 	
 	/// Keyboard animation curve
 	///
-	/// Note that the value returned by this method may not correspond to a
+	/// - Note: The value returned by this method may not correspond to a
 	/// UIViewAnimationCurve enum value.  For example, in iOS 7 and iOS 8,
 	/// this returns the value 7.
 	public var animationCurve: Int {
@@ -74,16 +73,18 @@ public struct KeyboardNotification {
 	
 	/// Start frame of the keyboard in coordinates of specified view
 	///
-	/// :param: view UIView to whose coordinate system the frame will be converted
-	/// :returns: frame rectangle in view's coordinate system
+	/// - Parameter view: UIView to whose coordinate system the frame will be converted
+	///
+	/// - Returns: frame rectangle in view's coordinate system
 	public func frameBeginForView(view: UIView) -> CGRect {
 		return view.convertRect(screenFrameBegin, fromView: view.window)
 	}
 	
 	/// End frame of the keyboard in coordinates of specified view
 	///
-	/// :param: view UIView to whose coordinate system the frame will be converted
-	/// :returns: frame rectangle in view's coordinate system
+	/// - Parameter view: UIView to whose coordinate system the frame will be converted
+	///
+	/// - Returns: frame rectangle in view's coordinate system
 	public func frameEndForView(view: UIView) -> CGRect {
 		return view.convertRect(screenFrameEnd, fromView: view.window)
 	}

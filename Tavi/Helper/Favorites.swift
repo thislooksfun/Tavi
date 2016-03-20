@@ -8,17 +8,23 @@
 
 import UIKit
 
+/// Manage favorite repos
 class Favorites
 {
+	/// Called when the app is launched
 	static func appStarted() {
 		Settings.Favorites.onSet(favoritesSet)
 		favoritesSet()
 	}
 	
+	/// Gets the current favorites
+	///
+	/// - Returns: A String array (`[String]`) of all the slugs of the favorited repos
 	static func getFavorites() -> [String] {
 		return Settings.Favorites.getWithDefault([])
 	}
 	
+	/// Called when `Settings.Favorites` is changed
 	static func favoritesSet() {
 		if let favorites = Settings.Favorites.get() {
 			var favoriteShortcuts = [UIApplicationShortcutItem]()
@@ -29,6 +35,11 @@ class Favorites
 		}
 	}
 	
+	/// Toggles the favorited state of the given repo
+	///
+	/// - Parameters:
+	///   - slug: The slug of the repo to toggle
+	///   - atIndex: the index to insert the favorite, if it doesn't already exist
 	static func toggleFavorite(slug: String, atIndex: Int? = nil) {
 		if var favorites = Settings.Favorites.get() {
 			let index = favorites.indexOf(slug)
@@ -48,6 +59,11 @@ class Favorites
 		}
 	}
 	
+	/// Checks whether or not a repo is favorited
+	///
+	/// - Parameter slug: The slug to check
+	///
+	/// - Returns: `true` if the repo is favorited, otherwise `false`
 	static func isFavorite(slug: String) -> Bool {
 		return Settings.Favorites.get()?.contains(slug) ?? false
 	}

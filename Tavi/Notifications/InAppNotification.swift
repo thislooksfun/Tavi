@@ -8,23 +8,33 @@
 
 import UIKit
 
+/// A small class to display a notification in-app
 class InAppNotification: UIView
 {
+	/// The slug the notification is for
 	private var slug: String!
 	
+	/// The y constraint for when the view is shown
 	private var shownYConstraint: NSLayoutConstraint!
+	/// The y constraint for when the view is hidden
 	private var hiddenYConstraint: NSLayoutConstraint!
+	/// The label that actually displays the text
 	private var label: UILabel!
 	
+	/// Creates a new instance
+	///
+	/// - Parameter frame: The frame to build from
 	private override init(frame: CGRect) {
 		super.init(frame: frame)
 		buildView()
 	}
 	
+	/// Throws an error (intentionally)
 	required init(coder aDecoder: NSCoder) {
 		fatalError("This class does not support NSCoding")
 	}
 	
+	/// Constructs the view
 	private func buildView()
 	{
 		self.translatesAutoresizingMaskIntoConstraints = false
@@ -40,6 +50,9 @@ class InAppNotification: UIView
 		view.layoutIfNeeded()
 	}
 	
+	/// Initalizes and adds all the constraints for the overall view
+	///
+	/// - Parameter view: The superview to which to add the constraints
 	private func initSelfConstraints(view: UIView)
 	{
 		view.addConstraint(NSLayoutConstraint(item: self, attribute: NSLayoutAttribute.Left, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Left, multiplier: 1, constant: 0))
@@ -50,6 +63,7 @@ class InAppNotification: UIView
 		view.addConstraint(hiddenYConstraint)
 	}
 	
+	/// Creats and adds the labels
 	private func addLabels()
 	{
 		self.label = UILabel()
@@ -63,6 +77,7 @@ class InAppNotification: UIView
 		initLabelConstraints()
 	}
 	
+	/// Initalizes and adds all the constraints for the labels
 	private func initLabelConstraints()
 	{
 		self.addConstraint(NSLayoutConstraint(item: self.label, attribute: NSLayoutAttribute.Top,    relatedBy: NSLayoutRelation.Equal,              toItem: self, attribute: NSLayoutAttribute.Top,            multiplier: 1, constant:  8))
@@ -72,6 +87,7 @@ class InAppNotification: UIView
 		self.addConstraint(NSLayoutConstraint(item: self.label, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.GreaterThanOrEqual, toItem: nil,  attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant:  0))
 	}
 	
+	/// Adds a button to go to the repository for which this notification was sent
 	private func addButton()
 	{
 		let button = UIButton()
@@ -84,6 +100,9 @@ class InAppNotification: UIView
 		initButtonConstraints(button)
 	}
 	
+	/// Initalizes and adds all the constraints for the button
+	///
+	/// - Parameter button: The button for which to add the constraints
 	private func initButtonConstraints(button: UIButton)
 	{
 		self.addConstraint(NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Top,    relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Top,    multiplier: 1, constant: 0))
@@ -92,7 +111,18 @@ class InAppNotification: UIView
 		self.addConstraint(NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Right,  relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.Right,  multiplier: 1, constant: 0))
 	}
 	
-	
+	/// Displays an in-app notification.
+	///
+	/// - Note: If the current `ViewController` is a `DetailViewController` and it is displaying
+	/// a repo where `detailView.slug == info["slug"]` or `detailView.repo.slug == info["slug"]`,
+	/// no notification will be displayed
+	///
+	/// - NOTE: `info` **must** adhere to the following rules:
+	///   - info["slug"] must be a non-nil String
+	///   - info["build"] must be a non-nil Int
+	///   - info["status"] must be a non-nil String
+	///
+	/// - Parameter info: The info dictionary to build the notification from
 	static func display(info: [String: AnyObject])
 	{
 		let slug = info["slug"] as! String
@@ -131,6 +161,8 @@ class InAppNotification: UIView
 		note.display()
 		delay(3, cb: note.remove)
 	}
+	
+	/// Animates the displaying of the notification
 	private func display() {
 		self.superview!.removeConstraints([shownYConstraint, hiddenYConstraint])
 		self.superview!.addConstraint(shownYConstraint)
@@ -139,6 +171,8 @@ class InAppNotification: UIView
 			self.superview!.layoutIfNeeded()
 		}
 	}
+	
+	/// Animates the removing of the notification
 	private func remove() {
 		self.superview!.removeConstraints([shownYConstraint, hiddenYConstraint])
 		self.superview!.addConstraint(hiddenYConstraint)
@@ -150,6 +184,7 @@ class InAppNotification: UIView
 		})
 	}
 	
+	/// Opens the repository when the notification is tapped
 	func goToRepo(sender: AnyObject) {
 		JLRoutes.routeURL(NSURL(string: "tavi://slug/\(self.slug)"))
 	}

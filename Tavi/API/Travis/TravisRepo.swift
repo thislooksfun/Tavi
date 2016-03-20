@@ -8,27 +8,41 @@
 
 import UIKit
 
+/// A single Travis repository
 class TravisRepo: Equatable
 {
-	static let SlugKey = "TravisRepoSlugKey"
-	
 	// MARK: Variables
 	
+	/// The repository slug
 	let slug: String
 	
+	/// An array of the builds for this repo
 	var builds = [TravisBuild]()
+	
+	/// The most recent build, or `nil` if none exist
 	var lastBuild: TravisBuild? {
 		get {
 			return builds.first
 		}
 	}
 	
+	/// The repo ID
 	let repoID: Int
 	
+	/// A binding for all events fired on this repository's channel
 	private var binding: NSObjectProtocol?
+	
+	/// The dictionary of closures to call upon recieving a `PTPusher` event
 	private var onPusherEvents: [NSObject : ((TravisRepo) -> Void)] = [:]
 	
+	
 	// MARK: Static functions
+	
+	/// Creates a `TravisRepo` from an ID
+	///
+	/// - Parameters:
+	///   - id: The ID to create from
+	///   - done: The closure to call once loading has finished
 	static func repoForID(id: Int, done: (TravisRepo?) -> Void)
 	{
 		Logger.info("Loading repo for id \(id)")
@@ -42,6 +56,12 @@ class TravisRepo: Equatable
 			TravisRepo.repoFromJson(json, done: done)
 		}
 	}
+	
+	/// Creates a `TravisRepo` from a slug
+	///
+	/// - Parameters:
+	///   - slug: The slug to create from
+	///   - done: The closure to call once loading has finished
 	static func repoForSlug(slug: String, done: (TravisRepo?) -> Void)
 	{
 		Logger.info("Loading repo for slug \(slug)")
@@ -56,6 +76,11 @@ class TravisRepo: Equatable
 		}
 	}
 	
+	/// Creates a `TravisRepo` from a `JSON` object
+	///
+	/// - Parameters:
+	///   - json: The `JSON` object to create from
+	///   - done: The closure to call once loading has finished
 	static func repoFromJson(json: JSON?, done: (TravisRepo?) -> Void) {
 		let repoJson = json?.getJson("repo") ?? json
 		guard isJsonValid(repoJson) else {
@@ -66,6 +91,7 @@ class TravisRepo: Equatable
 		_ = TravisRepo(slug: repoJson!.getString("slug")!, repoID: repoJson!.getInt("id")!, cb: done)
 	}
 	
+	/// Checks whether or not the `JSON` is generally valid for creating a repo from
 	static func isJsonValid(json: JSON?) -> Bool {
 		guard json != nil else { return false }
 		guard let active = json!.getKey("active") as? Bool else { return false }
@@ -74,7 +100,15 @@ class TravisRepo: Equatable
 		return true
 	}
 	
+	
 	// MARK: Initalizers
+	
+	/// Creates a new instance
+	///
+	/// - Parameters:
+	///   - slug: The repository's slug
+	///   - repoID: The repository's ID
+	///   - cb: The closure to call once loading has finished
 	init(slug: String, repoID: Int, cb: (TravisRepo) -> Void)
 	{
 		Logger.info("Building repo '\(slug)' with id: '\(repoID)'")
@@ -86,13 +120,25 @@ class TravisRepo: Equatable
 		getBuilds(cb)
 	}
 	
+	/// Sets the closure to call for this object
+	///
+	/// - Parameters:
+	///   - cb: The callback to add
+	///   - obj: The object to add the callback for
 	func setPusherEventCallback(cb: (TravisRepo) -> Void, forObject obj: NSObject) {
 		self.onPusherEvents[obj] = cb
 	}
+	
+	/// Removes a closure for a specific object
+	///
+	/// - Parameter obj: The object to remove the callback for
 	func removePusherEventCallbackForObject(obj: NSObject) {
 		self.onPusherEvents.removeValueForKey(obj)
 	}
 	
+	/// Reloads the last build
+	///
+	/// - Parameter cb: The closure to call once the build has reloaded
 	func reloadLastBuild(cb: () -> Void) {
 		guard let build = self.lastBuild else { return }
 		
@@ -109,6 +155,9 @@ class TravisRepo: Equatable
 		}
 	}
 	
+	/// Loads all the builds for this repo
+	///
+	/// - Parameter cb: The closure to call once the builds have been loaded
 	func getBuilds(cb: (TravisRepo) -> Void)
 	{
 		TravisAPI.loadBuildsForRepo(self.slug)
@@ -142,6 +191,9 @@ class TravisRepo: Equatable
 		}
 	}
 	
+	/// Called when a `PTPusher` event is fired for this repository
+	///
+	/// - Parameter event: The event that was fired
 	func pusherEvent(event: PTPusherEvent?)
 	{
 		Logger.trace("Got pusher event in repo \(self.slug)")
@@ -201,6 +253,8 @@ class TravisRepo: Equatable
 		}
 	}
 	
+	/// Unload and unregister from anything.
+	/// Used when this repo object will be deleted
 	func dismiss() {
 		Pusher.unbindChannel("repo-\(self.repoID)", withBinding: self.binding)
 		
@@ -210,8 +264,8 @@ class TravisRepo: Equatable
 	}
 }
 
+/// An override of `==` used to allow equality between two different objects
 func == (left: TravisRepo, right: TravisRepo) -> Bool {
-	Logger.info("Repo ==")
 	return left.repoID == right.repoID
 		&& left.slug   == right.slug
 		&& left.builds == right.builds

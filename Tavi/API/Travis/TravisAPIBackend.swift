@@ -8,8 +8,20 @@
 
 import UIKit
 
+/// The class for interacting directly with the [Travis](https://travis-ci.org) API
 class TravisAPIBackend
 {
+	/// Connects to the API
+	///
+	/// - Note: If the path given does not start with a forward slash (`/`), one will be prepended
+	///
+	/// - Parameters:
+	///   - path: The relative path to connect to. The path will be appended as follows: `"https://api.travis-ci.org"+path`
+	///   - method: The `HTTPMethod` with which to connect
+	///   - headers: Any headers to use (Default: `nil`)
+	///   - json: Any JSON to connect with (Default: `nil`)
+	///   - errorCallback: The callback to use if something goes wrong
+	///   - callback: The callback to use if nothing goes wrong
 	static func apiCall(var path: String, method: HTTPMethod, headers: [NSObject: AnyObject]? = nil, json: [NSObject: AnyObject]? = nil, callback: (String?, JSON?, NSHTTPURLResponse?) -> Void)
 	{
 		let config = NSURLSessionConfiguration.defaultSessionConfiguration()

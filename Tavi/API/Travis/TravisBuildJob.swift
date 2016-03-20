@@ -8,13 +8,18 @@
 
 import UIKit
 
+/// A single Travis build job
 class TravisBuildJob
 {
+	/// Creates an instance from a `JSON` object
+	///
+	/// - Parameter jobJson: The `JSON` to load the job from
 	init?(jobJson: JSON) {
 		Logger.info(jobJson.getJson("job")!)
 	}
 	
-	func getLog(cb: (JSON) -> Void) {
+	// TODO: Implement this
+//	func getLog(cb: (JSON) -> Void) {
 //		TravisAPI.loadLogForJob
-	}
+//	}
 }

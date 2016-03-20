@@ -11,38 +11,61 @@ import UIKit
 class LoginController: PortraitViewController
 {
 	// MARK: IBOutlets
+	/// The gray-out over the background
 	@IBOutlet var grayView: UIView!
+	/// The top position of the inner container
 	@IBOutlet var topConstraint: NSLayoutConstraint!
+	/// The inner container
 	@IBOutlet var container: UIView!
 	
+	/// The width of the 1Password login button
 	@IBOutlet var onePassWidthConstraint: NSLayoutConstraint!
+	/// The gap between the 2fauth text field and the above password field
 	@IBOutlet var twoFAuthGapConstraint: NSLayoutConstraint!
+	/// The height of the 2f auth text field
 	@IBOutlet var twoFAuthHeightConstraint: NSLayoutConstraint!
 	
+	/// The username text field
 	@IBOutlet var username: UITextField!
+	/// The password text field
 	@IBOutlet var password: UITextField!
+	/// The 2f auth text field
 	@IBOutlet var twoFAuth: UITextField!
 	
+	/// The spinner displayed when a request is being processed
 	@IBOutlet var spinner: UIActivityIndicatorView!
+	/// The submit button
 	@IBOutlet var submitButton: UIButton!
 	
+	/// The label displayed when an error occours
 	@IBOutlet var errorLabel: UILabel!
+	/// The view in which errors are displayed
 	@IBOutlet var errorView: UIView!
+	/// The height of the `errorView`
 	@IBOutlet var errorHeight: NSLayoutConstraint!
 	
 	
 	// MARK: Settings
+	/// The top constraint for the inner view when it is shown
 	private static let shownTopConstant: CGFloat = 70
+	/// The alpha value of the `grayView`
 	private static let maxBackgroundAlpha: CGFloat = 0.6
 	
 	// MARK: Variables
+	/// Whether or not the user is currently looking at 1Password
 	private var gettingOnepass = false
 	
+	/// The closure to fire when the login succeeds (or is cancelled)
 	private var callback: ((Bool) -> Void)? = nil
+	
 	
 	// MARK: - Functions -
 	
 	// MARK: Static
+	
+	/// Creates and displays a new instance of this class.
+	///
+	/// - Parameter cb: The closure to excecute upon the login finishing
 	static func openLogin(cb cb: ((Bool) -> Void)? = nil)
 	{
 		Logger.info("Open login...")
@@ -56,7 +79,9 @@ class LoginController: PortraitViewController
 		loginVC.callback = cb
 	}
 	
-	// MARK: Override
+	// MARK: Overrides
+	
+	/// Override of `UIViewController.viewWillAppear`
 	override func viewWillAppear(animated: Bool)
 	{
 		super.viewWillAppear(animated)
@@ -80,6 +105,7 @@ class LoginController: PortraitViewController
 		self.errorHeight.constant = 0
 	}
 	
+	/// Override of `UIViewController.viewDidAppear`
 	override func viewDidAppear(animated: Bool)
 	{
 		super.viewDidAppear(animated)
@@ -105,16 +131,21 @@ class LoginController: PortraitViewController
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
 	}
 	
+	/// Override of `UIViewController.viewWillDisappear`
 	override func viewWillDisappear(animated: Bool) {
 		super.viewWillDisappear(animated)
 		NSNotificationCenter.defaultCenter().removeObserver(self)
 	}
 	
+	/// Override of `UIViewController.touchesBegan`
 	override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
 		self.closeKeyboard()
 	}
 	
+	
 	// MARK: IBAction
+	
+	/// Opens up 1Password to the GitHub accounts page
 	@IBAction func onePasswordLogin(sender: AnyObject)
 	{
 		self.gettingOnepass = true
@@ -147,6 +178,7 @@ class LoginController: PortraitViewController
 		}
 	}
 	
+	/// Submits the form
 	@IBAction func submit(sender: AnyObject?)
 	{
 		self.submitButton.enabled = false
@@ -187,11 +219,15 @@ class LoginController: PortraitViewController
 		}
 	}
 	
+	/// Closes the login window without submitting
 	@IBAction func cancel(sender: AnyObject) {
 		self.closeSlideDown(done: { (_) in self.callback?(false) })
 	}
 	
+	
 	// MARK: Notifications
+	
+	/// Adjusts the view so nothing is covered by the keyboard when it appears
 	func keyboardWillShow(note: NSNotification) {
 		self.view.layoutIfNeeded()
 		
@@ -209,6 +245,8 @@ class LoginController: PortraitViewController
 			}, completion: nil)
 		}
 	}
+	
+	/// Resets the view when the keyboard is dismissed
 	func keyboardWillHide(note: NSNotification) {
 		self.view.layoutIfNeeded()
 		
@@ -221,13 +259,21 @@ class LoginController: PortraitViewController
 		}, completion: nil)
 	}
 	
+	
 	// MARK: Other
+	
+	/// Deselects all text boxes and closes the keyboard, if it is open
 	func closeKeyboard() {
 		self.username.resignFirstResponder()
 		self.password.resignFirstResponder()
 		self.twoFAuth.resignFirstResponder()
 	}
 	
+	/// Shows the 2f auth text box
+	///
+	/// - Parameters:
+	///   - type: The type of 2f auth the user has selected
+	///   - finished: The closure to call when the animation has finished (Default: `nil`)
 	private func show2fAuth(type: GithubAPI.Auth2fType, finished: (() -> Void)? = nil)
 	{
 		twoFAuthGapConstraint.constant = 12
@@ -235,6 +281,12 @@ class LoginController: PortraitViewController
 		UIView.animateWithDuration(0.3, animations: self.view.layoutIfNeeded, completion: { (_) in finished?() })
 	}
 	
+	/// Displays an error
+	///
+	/// - Parameters:
+	///   - msg: The message to show
+	///   - details: Any details to display (Default: `nil`).
+	///              If this is not `nil`, the detauls will be shown in a pop-up alert
 	private func showError(msg: String?, withDetail details: String? = nil)
 	{
 		if details != nil {
@@ -256,6 +308,11 @@ class LoginController: PortraitViewController
 		}
 	}
 	
+	/// Performs the necessary actions when the login is successful.
+	///
+	/// Namely, closing the view and calling the callbacks
+	/// - Note: While this should only be called when the state is `.Success`,
+	///         it will handle other states should it be called incorrectly
 	private func loginSuccess()
 	{
 		TravisAPI.auth(forceMainThread: true) {
@@ -268,6 +325,7 @@ class LoginController: PortraitViewController
 		}
 	}
 	
+	/// Closes the inner view by sliding it upwards. (Used to indicate success).
 	private func closeSlideUp(done done: ((Bool) -> Void)? = nil) {
 		self.topConstraint.constant = -self.view.window!.frame.height
 		UIView.animateWithDuration(0.3, animations: {
@@ -278,6 +336,7 @@ class LoginController: PortraitViewController
 		}
 	}
 	
+	/// Closes the inner view by sliding it downwards. (Used to indicate cancellation)
 	private func closeSlideDown(done done: ((Bool) -> Void)? = nil) {
 		self.topConstraint.constant = self.view.window!.frame.height
 		UIView.animateWithDuration(0.3, animations: {
@@ -288,6 +347,7 @@ class LoginController: PortraitViewController
 		}
 	}
 	
+	/// Fades out the gray out view and dismisses this view controller
 	private func fadeAndDismiss(done done: ((Bool) -> Void)? = nil) {
 		UIView.animateWithDuration(0.2, animations: {
 			self.grayView.alpha = 0

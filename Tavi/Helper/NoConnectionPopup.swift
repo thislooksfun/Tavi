@@ -8,22 +8,35 @@
 
 import UIKit
 
+/// A simple popup to let the user know that there is no internet connection
+///
+/// - TODO: Actually implement this
 class NoConnectionPopup: UIView
 {
+	/// Creates an instance
 	private override init(frame: CGRect) {
 		super.init(frame: frame)
 		buildView()
 	}
 	
+	/// Throws an error (intentionally)
 	required init(coder aDecoder: NSCoder) {
 		fatalError("This class does not support NSCoding")
 	}
 	
-	private var shownYConstraintTop:  NSLayoutConstraint!
+	/// The top constraint for when the view is shown
+	private var shownYConstraintTop: NSLayoutConstraint!
+	
+	/// The top constraint for when the view is hidden
 	private var hiddenYConstraintTop: NSLayoutConstraint!
-	private var heightConstraint:     NSLayoutConstraint!
+	
+	/// The height constraint
+	private var heightConstraint: NSLayoutConstraint!
+	
+	/// The label
 	private var label: UILabel!
 	
+	/// Constructs the view
 	private func buildView()
 	{
 		self.translatesAutoresizingMaskIntoConstraints = false
@@ -33,11 +46,13 @@ class NoConnectionPopup: UIView
 		view.addSubview(self)
 		
 		initSelfConstraints(view)
-		addLabels(view)
 		
 		view.layoutIfNeeded()
 	}
 	
+	/// Sets up the overall constraints
+	///
+	/// - Parameter view: The superview to which to add the constraints
 	private func initSelfConstraints(view: UIView)
 	{
 		let gap: CGFloat = 30;
@@ -53,7 +68,8 @@ class NoConnectionPopup: UIView
 		view.addConstraint(heightConstraint)
 	}
 	
-	private func addLabels(view: UIView)
+	/// Adds the labels
+	private func addLabels()
 	{
 		self.label = UILabel()
 		self.label.translatesAutoresizingMaskIntoConstraints = false
@@ -63,9 +79,10 @@ class NoConnectionPopup: UIView
 		self.addSubview(self.label)
 		self.label.text = "Hello there!"
 		
-//		initLabelConstraints()
+		initLabelConstraints()
 	}
 	
+	/// Sets up the constraints for the label
 	private func initLabelConstraints()
 	{
 		self.addConstraint(NSLayoutConstraint(item: self.label, attribute: NSLayoutAttribute.Top,    relatedBy: NSLayoutRelation.Equal,              toItem: self, attribute: NSLayoutAttribute.Top,            multiplier: 1, constant:  8))
@@ -75,7 +92,7 @@ class NoConnectionPopup: UIView
 		self.addConstraint(NSLayoutConstraint(item: self.label, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.GreaterThanOrEqual, toItem: nil,  attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant:  0))
 	}
 	
-	
+	/// Creates and displays a view
 	static func display()
 	{
 		let note = NoConnectionPopup(frame: CGRect.zero)
@@ -85,6 +102,8 @@ class NoConnectionPopup: UIView
 		note.display()
 		delay(2, cb: note.remove)
 	}
+	
+	/// Animates this view coming into frame
 	private func display() {
 		self.superview!.removeConstraints([shownYConstraintTop, hiddenYConstraintTop])
 		self.superview!.addConstraint(shownYConstraintTop)
@@ -93,6 +112,8 @@ class NoConnectionPopup: UIView
 			self.superview!.layoutIfNeeded()
 		}
 	}
+	
+	/// Animates this view going out of frame, and removes it once it has finished
 	private func remove() {
 		self.superview!.removeConstraints([shownYConstraintTop, hiddenYConstraintTop])
 		self.superview!.addConstraint(hiddenYConstraintTop)

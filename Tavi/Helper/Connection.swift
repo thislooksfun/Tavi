@@ -9,11 +9,17 @@
 import Foundation
 import SystemConfiguration
 
+/// A simple way to check if the device has internet
 class Connection
 {
+	//TODO: Remove this once testing is done
 	static var x = 0
 	
-	//TODO: add this in many places
+	/// Checks if the device is connected to the internet
+	///
+	/// - TODO: Add this in many places
+	///
+	/// - Returns: `true` if there is an internet connection, otherwise `false`
 	static func connectedToNetwork() -> Bool {
 		
 		var zeroAddress = sockaddr_in()

@@ -8,14 +8,18 @@
 
 import UIKit
 
+/// The main view of the app.
 class MasterViewController: PortraitTableViewController
 {
-	private let octicons = UIFont(name: "octicons", size: 20)
+	/// The array of repos currently tracked
 	var repos = [TravisRepo]()
 	
+	/// The view to put in the background when no repos have been found
 	private var noBuildBackground: UIView!
+	/// The view to put in the background when the user isn't authed
 	private var notAuthedBackground: UIView!
 	
+	/// The timer used for ticking all the in-progress builds
 	private var timer: NSTimer!
 	
 	override func viewDidLoad()
@@ -78,8 +82,7 @@ class MasterViewController: PortraitTableViewController
 		// Dispose of any resources that can be recreated.
 	}
 	
-	@IBAction func unwindFromMenu(sender: UIStoryboardSegue) {}
-	
+	/// Reloads and sorts the information when a repo is updated
 	func cellDidLoadFromRepo() {
 		let preSort = self.repos
 		self.repos.sortInPlace(self.repoSort)
@@ -88,6 +91,9 @@ class MasterViewController: PortraitTableViewController
 		}
 	}
 	
+	/// Compares two repositories and determines whether or not they are in the correct order.
+	///
+	/// - Returns: `true` if they are in the correct order, else `false`
 	private func repoSort(repo1: TravisRepo, repo2: TravisRepo) -> Bool
 	{
 		if repo1.lastBuild == nil && repo2.lastBuild == nil {
@@ -112,13 +118,27 @@ class MasterViewController: PortraitTableViewController
 		}
 	}
 	
+	/// Updates and re-orders the repository list
+	///
+	/// Used by `DetailViewController` to tell the main view it
+	/// needs to refresh a certain repo
+	///
+	/// - Parameter newRepo: The repository to update
 	func detailRepoDidChange(newRepo: TravisRepo) {
 		self.onRepoEventForRepo(newRepo)
 	}
 	
+	/// A wrapper for `reload()` to used by the `UIRefreshControl`,
+	/// since its callback needs a `sender` parameter
 	func reloadFromRefresh(sender: AnyObject?) {
 		reload()
 	}
+	
+	/// Reloads all the repositories in the view
+	///
+	/// - Note: This doesn't actually technically reload anything.
+	///         It fetches a complete list from the API, and if it is different,
+	///         it throws away the old list and replaces it with the new one.
 	func reload()
 	{
 		self.refreshControl?.endRefreshing()
@@ -182,6 +202,9 @@ class MasterViewController: PortraitTableViewController
 		}
 	}
 	
+	/// Updates the given repository when its state changes
+	///
+	/// - Parameter newRepo: The newly updated repository
 	func onRepoEventForRepo(newRepo: TravisRepo)
 	{
 		let (index, repo) = self.repos.findWithPos({ (testRepo) -> Bool in return testRepo.slug == newRepo.slug && testRepo.repoID == newRepo.repoID})
@@ -220,7 +243,9 @@ class MasterViewController: PortraitTableViewController
 		}
 	}
 	
-	func constructNoBuilds() {
+	/// Assembles the `noBuildBackground` view
+	func constructNoBuilds()
+	{
 		noBuildBackground = UIView()
 		noBuildBackground.hidden = true
 		noBuildBackground.alpha = 0
@@ -246,6 +271,7 @@ class MasterViewController: PortraitTableViewController
 		noBuildBackground.addConstraint(NSLayoutConstraint(item: pullToRefreshLabel, attribute: .CenterY, relatedBy: .Equal, toItem: noBuildBackground, attribute: .CenterY, multiplier: 1, constant: 0))
 	}
 	
+	/// Assembles the `notAuthedBackground` view
 	func constructNotAuthed() {
 		notAuthedBackground = UIView()
 		notAuthedBackground.hidden = true
@@ -272,6 +298,7 @@ class MasterViewController: PortraitTableViewController
 		notAuthedBackground.addConstraint(NSLayoutConstraint(item: pullToRefreshLabel, attribute: .CenterY, relatedBy: .Equal, toItem: notAuthedBackground, attribute: .CenterY, multiplier: 1, constant: 0))
 	}
 	
+	/// Displays the `noBuildBackground` background
 	func showNoBuilds() {
 		guard self.tableView.backgroundView != self.noBuildBackground else { return }
 		self.hideBackground() {
@@ -279,6 +306,8 @@ class MasterViewController: PortraitTableViewController
 			self.showBackground()
 		}
 	}
+	
+	/// Displays the `notAuthedBackground` background
 	func showNotAuthed() {
 		guard self.tableView.backgroundView != self.notAuthedBackground else { return }
 		self.hideBackground() {
@@ -287,11 +316,15 @@ class MasterViewController: PortraitTableViewController
 		}
 	}
 	
+	/// Displays whatever table background is currently set
 	func showBackground() {
 		guard let background = self.tableView.backgroundView else { return }
 		background.show()
 	}
 	
+	/// Hides whatever table background is currently set
+	///
+	/// - Parameter done: The closure to execute after the animation finishes
 	func hideBackground(done: (() -> Void)? = nil) {
 		guard let background = self.tableView.backgroundView else {
 			done?()
@@ -302,6 +335,7 @@ class MasterViewController: PortraitTableViewController
 		}
 	}
 	
+	/// Responsibly clears all information from the `repos` table
 	func clearTable() {
 		Logger.info("Clearing table...")
 		while self.repos.count > 0 {
@@ -311,6 +345,7 @@ class MasterViewController: PortraitTableViewController
 		Logger.info("Done!")
 	}
 	
+	/// Ticks all the in-progress `RepoCell`s
 	func timerTick() {
 		for i in 0..<repos.count {
 			let repo = repos[i]

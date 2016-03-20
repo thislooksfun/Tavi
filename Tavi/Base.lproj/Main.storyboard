@@ -22,12 +22,10 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <outlet property="delegate" destination="ZBz-3X-eHV" id="y6X-3h-4Dt"/>
                         <segue destination="7bK-jq-Zjz" kind="relationship" relationship="rootViewController" id="gXO-nz-vkP"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8fS-aE-onr" sceneMemberID="firstResponder"/>
-                <customObject id="ZBz-3X-eHV" customClass="MainNavDelegate" customModule="Tavi" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="767" y="-1271"/>
         </scene>
@@ -79,7 +77,7 @@
                                                                 </variation>
                                                             </imageView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Commit message" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e3M-E3-zUh" customClass="GTMFadeTruncatingLabel">
-                                                                <rect key="frame" x="183" y="25" width="324" height="20.5"/>
+                                                                <rect key="frame" x="183" y="25" width="345" height="20.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -119,12 +117,6 @@
                                                                     </mask>
                                                                 </variation>
                                                             </label>
-                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-hash" translatesAutoresizingMaskIntoConstraints="NO" id="PXS-qO-QsK">
-                                                                <rect key="frame" x="515" y="25" width="21" height="21"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" secondItem="PXS-qO-QsK" secondAttribute="height" multiplier="1:1" id="tDX-VA-pzz"/>
-                                                                </constraints>
-                                                            </imageView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Commit branch" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YYy-Aa-r77">
                                                                 <rect key="frame" x="47" y="25" width="126" height="20.5"/>
                                                                 <constraints>
@@ -161,18 +153,15 @@
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <constraints>
                                                             <constraint firstItem="Vk4-qb-Wu8" firstAttribute="centerY" secondItem="YYy-Aa-r77" secondAttribute="centerY" id="0jJ-0B-0ry"/>
-                                                            <constraint firstItem="PXS-qO-QsK" firstAttribute="centerY" secondItem="4Ax-1c-a00" secondAttribute="centerY" id="3R8-NH-YFk"/>
                                                             <constraint firstAttribute="trailing" secondItem="4Ax-1c-a00" secondAttribute="trailing" constant="12" id="B5v-T1-vQt"/>
                                                             <constraint firstAttribute="trailingMargin" secondItem="93L-ln-byU" secondAttribute="trailing" constant="8" id="CMQ-uN-ir3"/>
                                                             <constraint firstItem="ZLk-Ho-Fbl" firstAttribute="bottom" secondItem="93L-ln-byU" secondAttribute="bottom" id="Cfo-NN-CGk"/>
-                                                            <constraint firstItem="4Ax-1c-a00" firstAttribute="leading" secondItem="PXS-qO-QsK" secondAttribute="trailing" id="E5e-eH-HCE"/>
                                                             <constraint firstItem="XRX-c5-NLK" firstAttribute="trailing" secondItem="93L-ln-byU" secondAttribute="trailing" constant="6" id="Edu-ok-pAr"/>
                                                             <constraint firstAttribute="bottom" secondItem="5E9-Xg-Tyn" secondAttribute="bottom" id="EoB-ac-e1X"/>
                                                             <constraint firstAttribute="bottom" secondItem="93L-ln-byU" secondAttribute="bottom" constant="8" id="FCl-jk-Xlw"/>
                                                             <constraint firstAttribute="bottom" secondItem="3pL-Wl-IwF" secondAttribute="bottom" constant="-17" id="Jfv-Pe-dzf"/>
                                                             <constraint firstItem="ZLk-Ho-Fbl" firstAttribute="top" secondItem="93L-ln-byU" secondAttribute="top" id="Mmc-U7-vef"/>
                                                             <constraint firstItem="XRX-c5-NLK" firstAttribute="top" secondItem="93L-ln-byU" secondAttribute="top" constant="-6" id="P1a-jw-e4F"/>
-                                                            <constraint firstItem="PXS-qO-QsK" firstAttribute="leading" secondItem="e3M-E3-zUh" secondAttribute="trailing" constant="8" id="Pu7-ur-DbR"/>
                                                             <constraint firstItem="ZLk-Ho-Fbl" firstAttribute="leading" secondItem="93L-ln-byU" secondAttribute="leading" id="S9O-wr-fzc"/>
                                                             <constraint firstAttribute="height" constant="200" id="WhW-38-KJO"/>
                                                             <constraint firstItem="XRX-c5-NLK" firstAttribute="leading" secondItem="93L-ln-byU" secondAttribute="leading" constant="-6" id="YaF-ou-Buy"/>
@@ -185,6 +174,7 @@
                                                             <constraint firstItem="e3M-E3-zUh" firstAttribute="centerY" secondItem="YYy-Aa-r77" secondAttribute="centerY" id="ndW-l5-ux3"/>
                                                             <constraint firstItem="ZLk-Ho-Fbl" firstAttribute="trailing" secondItem="93L-ln-byU" secondAttribute="trailing" id="pkQ-b5-aaQ"/>
                                                             <constraint firstItem="Vk4-qb-Wu8" firstAttribute="leading" secondItem="5E9-Xg-Tyn" secondAttribute="trailing" constant="10" id="rzn-EV-6ij"/>
+                                                            <constraint firstItem="4Ax-1c-a00" firstAttribute="leading" secondItem="e3M-E3-zUh" secondAttribute="trailing" constant="8" id="sjk-WH-sLd"/>
                                                             <constraint firstItem="4Ax-1c-a00" firstAttribute="centerY" secondItem="e3M-E3-zUh" secondAttribute="centerY" id="ycR-Jg-pEX"/>
                                                         </constraints>
                                                     </view>
@@ -445,7 +435,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="branchLabel" destination="YYy-Aa-r77" id="xJz-nV-qfZ"/>
-                        <outlet property="buildHash" destination="PXS-qO-QsK" id="kHk-A7-yJz"/>
                         <outlet property="buildNumberLabel" destination="4Ax-1c-a00" id="BZf-jj-DkY"/>
                         <outlet property="buildStatus" destination="Vk4-qb-Wu8" id="UFS-9p-B8n"/>
                         <outlet property="colorBar" destination="5E9-Xg-Tyn" id="yaf-0m-t7Y"/>

@@ -8,8 +8,10 @@
 
 import UIKit
 
+/// The manager for the list of favorited items
 class FavoritesListController: PortraitTableViewController
 {
+	/// The favorited states for all the different slugs that were favorited when the view was opened
 	private var data = [State]()
 	
 	override func viewDidLoad() {
@@ -86,16 +88,26 @@ class FavoritesListController: PortraitTableViewController
 		return false
 	}
 	
+	/// Shows a small pop-up that informs the user what the orange bar on the left means
+	/// 
+	/// - Note: Both the orange bar and the info button are only visible when the app is running
+	///         on a device that both supports 3D touch, and has it enabled.
+	///
+	/// - TODO: Actually implement this
 	func showInfo(sender: AnyObject?) {
 		//TODO: Make this button explain that the orange bar on the left of the screen indicates the items that will be in the homescreen quick action window thing
 		Logger.info("Showing info")
 	}
 	
+	/// Toggles the state of a cell when the heart button is pressed
+	///
+	/// - Parameter button: The specfic heart button that was pressed
 	func toggleCellFavorite(button: UIButton) {
 		self.data[button.tag].favorited = !self.data[button.tag].favorited
 		self.saveToFavorites()
 	}
 	
+	/// Inserts the repo into the favorites at the correct index
 	func saveToFavorites() {
 		var favs = [String]()
 		for state in self.data {
@@ -108,8 +120,11 @@ class FavoritesListController: PortraitTableViewController
 		self.tableView.reloadData()
 	}
 	
+	/// A really simple way to keep track of the current favorited state
 	struct State {
+		/// The slug
 		var slug: String
+		/// Whether or not the slug is a favorite
 		var favorited: Bool
 	}
 }

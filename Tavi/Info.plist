@@ -30,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1154</string>
+	<string>1285</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>org-appextension-feature-password-management</string>
@@ -39,7 +39,6 @@
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Octicons.ttf</string>
 		<string>Inconsolata-Regular.ttf</string>
 		<string>Inconsolata-Bold.ttf</string>
 	</array>

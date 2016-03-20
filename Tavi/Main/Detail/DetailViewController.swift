@@ -8,39 +8,58 @@
 
 import UIKit
 
+/// The controller for the individual repository views
 class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerDelegate
 {
+	/// The `ConsoleTableSource` instance
 	@IBOutlet var consoleTableSource: ConsoleTableSource!
+	/// The overall scroll view
 	@IBOutlet var mainScrollView: UIScrollView!
+	/// The sideways capable scroll view
 	@IBOutlet var consoleSidewaysScroll: UIScrollView!
+	/// The console table
 	@IBOutlet var consoleTable: UITableView!
+	/// The image of the outline of the favorite icon
 	@IBOutlet var favoriteIconOutline: UIImageView!
+	/// The image of the filled in favorite icon
 	@IBOutlet var favoriteIconFilled: UIImageView!
+	/// The loading box for the main (top) section
 	@IBOutlet var loadingMain: UIView!
+	/// The loading box for the console section
 	@IBOutlet var loadingConsole: UIView!
+	/// The bottom position of the `loadingMain` view
 	@IBOutlet var loadingBottomConstraint: NSLayoutConstraint!
 	
+	/// The color bar on the left side
 	@IBOutlet var colorBar: UIView!
+	/// The build status image
 	@IBOutlet var buildStatus: UIImageView!
+	/// The branch label
 	@IBOutlet var branchLabel: UILabel!
+	/// The label for the commit message
 	@IBOutlet var commitMsgLabel: UILabel!
-	@IBOutlet var buildHash: UIImageView!
+	/// The build number label
 	@IBOutlet var buildNumberLabel: UILabel!
 	
+	/// The `MasterViewController` instance. Used to tell it when the
+	/// repository has updated so it can refresh accordingly.
 	var master: MasterViewController?
 	
+	/// The ID to load from
 	var id: Int? {
 		didSet {
 			self.idSet()
 		}
 	}
 	
+	/// The slug to load from
 	var slug: String? {
 		didSet {
 			self.slugSet()
 		}
 	}
 	
+	/// The repository this controller represents
 	var repo: TravisRepo? {
 		didSet {
 			if self.repo != nil {
@@ -50,6 +69,7 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		}
 	}
 	
+	/// Whether or not the `buildStatus` image is rotating
 	private var isRotating = false
 	
 	override func viewDidLoad()
@@ -107,12 +127,15 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		return [favToggle]
 	}
 	
-	func idSet() {
+	/// Called when the ID has been set
+	private func idSet() {
 		guard id != nil else { return }
 		
 		TravisRepo.repoForID(self.id!, done: gotRepo)
 	}
-	func slugSet() {
+	
+	/// Called when the slug has been set
+	private func slugSet() {
 		guard slug != nil else { return }
 		
 		self.navigationItem.title = slug!
@@ -120,7 +143,12 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		TravisRepo.repoForSlug(self.slug!, done: gotRepo)
 	}
 	
-	func gotRepo(newRepo: TravisRepo?)
+	/// Called when a repository has been loaded.
+	///
+	/// - Note: If `newRepo` is `nil`, an alert will be displayed and this view will close
+	///
+	/// - Parameter newRepo: The new `TravisRepo` to set
+	private func gotRepo(newRepo: TravisRepo?)
 	{
 		guard newRepo != nil else {
 			let action = Alert.getDefaultActionWithTitle("OK", andHandler: { (_) in self.navigationController!.popViewControllerAnimated(true) })
@@ -131,11 +159,15 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		self.configureView(false)
 	}
 	
+	/// Reloads the repo
 	func reload() {
 		self.jumpToMainLoading()
 		self.slug = self.repo?.slug ?? self.slug
 	}
 	
+	/// Configures the view from the current information
+	///
+	/// - Parameter isInDidLoad: Whether or not this is being called from `viewDidLoad`
 	func configureView(isInDidLoad: Bool)
 	{
 		if self.repo != nil {
@@ -154,6 +186,7 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		self.view.layoutIfNeeded()
 	}
 	
+	/// Jumps the loading view to the 'main' (top) position
 	private func jumpToMainLoading() {
 		self.loadingMain.show()
 		self.loadingConsole.show()
@@ -161,6 +194,9 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		self.view.layoutIfNeeded()
 	}
 	
+	/// Transitions the loading view to the console, or bottom, position
+	///
+	/// - Parameter animate: Whether or not to animate the transition
 	private func moveToConsoleLoading(animate: Bool)
 	{
 		self.loadingBottomConstraint.constant = -60
@@ -171,6 +207,7 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		}
 	}
 	
+	/// Hides all the hidable sections of the screen
 	private func hideAll()
 	{
 		self.colorBar.hidden = true
@@ -180,6 +217,7 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		self.buildNumberLabel.hidden = true
 	}
 	
+	/// Shows all the hidable sections of the screen
 	private func showAll()
 	{
 		self.colorBar.show()
@@ -190,6 +228,9 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		self.buildNumberLabel.show()
 	}
 	
+	/// Loads from a `TravisRepo` object
+	///
+	/// - Parameter repo: The repo object to load from
 	private func loadFromRepo(repo: TravisRepo)
 	{
 		Logger.info(repo.slug)
@@ -209,13 +250,12 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		if repo.lastBuild == nil {
 			//TODO: Special view when there have been no builds.
 			self.buildNumberLabel.hidden = true
-			self.buildHash.hidden = true
 			
 			sideColor = TravisAPI.noBuildColor
 			textColor = TravisAPI.cancelColor
 			self.buildStatus.image = UIImage(named: "icon-no-builds")
 		} else {
-			self.buildNumberLabel.text = "\(repo.lastBuild!.buildNumber)"
+			self.buildNumberLabel.text = "#\(repo.lastBuild!.buildNumber)"
 			switch repo.lastBuild!.status {
 			case .Passing:
 				sideColor = TravisAPI.passingColor
@@ -260,12 +300,18 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		self.showAll()
 	}
 	
+	/// Start rotating the `buildStatus` image
 	private func startRotating() {
 		guard !self.isRotating else { return }
 		self.isRotating = true
 		self.rotate()
 	}
 	
+	/// Rotates the icon halfway around
+	///
+	/// - Note: While this technically does have a parameter, it is
+	///         unused. It is only there to allow this function to be
+	///         passed directly to the `completion:` section of `UIView.animateWithDuration`
 	private func rotate(_: Bool? = nil) {
 		guard self.isRotating else { return }
 		
@@ -282,6 +328,7 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		}
 	}
 	
+	/// Stop rotating the `buildStatus` image
 	private func stopRotating() {
 		guard self.isRotating else { return }
 		self.isRotating = false
@@ -374,6 +421,9 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 //		self.finishDateLabel.text =  "Finished: \(out) ago"
 //	}
 	
+	/// Shows the appropriate state of the favorite icon
+	///
+	/// - Parameter state: Whether or not this repo is favorited
 	private func setFavorite(state: Bool) {
 		if state {
 			self.favoriteIconFilled.show()
@@ -386,6 +436,7 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		return self.consoleSidewaysScroll.gestureRecognizers?.contains(otherGestureRecognizer) ?? false
 	}
 	
+	/// Toggles the favorited state of the repo
 	@IBAction func favorite(sender: AnyObject) {
 		guard self.repo != nil || self.slug != nil else { return }
 		Favorites.toggleFavorite(self.repo?.slug ?? self.slug!)

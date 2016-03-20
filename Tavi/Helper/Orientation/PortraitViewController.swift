@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// A `UIViewController` that can only be in Portrait mode
 class PortraitViewController: UIViewController
 {
 	override func shouldAutorotate() -> Bool {

@@ -39,8 +39,8 @@
 		F43533E01C116DEB00CE3EB7 /* AuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43533DF1C116DEB00CE3EB7 /* AuthHelper.swift */; };
 		F45533BB1C685456004DF145 /* MainNavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45533BA1C685455004DF145 /* MainNavController.swift */; };
 		F45533C11C685927004DF145 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F45533C01C685927004DF145 /* Credits.rtf */; };
-		F472EF471C9CB52E007D05A9 /* buildDocs.sh in Resources */ = {isa = PBXBuildFile; fileRef = F472EF451C9CB52E007D05A9 /* buildDocs.sh */; };
-		F472EF481C9CB52E007D05A9 /* highlightTodo.sh in Resources */ = {isa = PBXBuildFile; fileRef = F472EF461C9CB52E007D05A9 /* highlightTodo.sh */; };
+		F472EF471C9CB52E007D05A9 /* BuildDocs.sh in Resources */ = {isa = PBXBuildFile; fileRef = F472EF451C9CB52E007D05A9 /* BuildDocs.sh */; };
+		F472EF481C9CB52E007D05A9 /* HighlightTodo.sh in Resources */ = {isa = PBXBuildFile; fileRef = F472EF461C9CB52E007D05A9 /* HighlightTodo.sh */; };
 		F474F4781C0F6FB100F1CEDC /* Inconsolata-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F474F4761C0F67C100F1CEDC /* Inconsolata-Bold.ttf */; };
 		F474F4791C0F6FB100F1CEDC /* Inconsolata-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F474F4771C0F67C100F1CEDC /* Inconsolata-Regular.ttf */; };
 		F474F47C1C0F732400F1CEDC /* ConsoleTableSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F474F47B1C0F732400F1CEDC /* ConsoleTableSource.swift */; };
@@ -57,7 +57,6 @@
 		F49728381C98AB8C00D1A738 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49728371C98AB8C00D1A738 /* NotificationController.swift */; };
 		F4B00B4F1C1407E9008DA9EE /* TravisRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B00B4E1C1407E9008DA9EE /* TravisRepo.swift */; };
 		F4B00B511C1409EC008DA9EE /* TravisBuild.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B00B501C1409EC008DA9EE /* TravisBuild.swift */; };
-		F4B00B521C141BFE008DA9EE /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F40144551C13B3B8000AA6DD /* Octicons.ttf */; };
 		F4B00B5A1C14F6E1008DA9EE /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B00B591C14F6E1008DA9EE /* MenuController.swift */; };
 		F4C12B031C13ECA0003DB1D6 /* RepoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C12B021C13ECA0003DB1D6 /* RepoCell.swift */; };
 		F4C306DF1C5BDD3000CB9621 /* NoConnectionPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C306DE1C5BDD3000CB9621 /* NoConnectionPopup.swift */; };
@@ -92,7 +91,6 @@
 		F401444F1C1247D5000AA6DD /* GithubAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubAPI.swift; sourceTree = "<group>"; };
 		F40144501C1247D5000AA6DD /* GithubAPIBackend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GithubAPIBackend.swift; sourceTree = "<group>"; };
 		F40144531C12A3CA000AA6DD /* InAppNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InAppNotification.swift; sourceTree = "<group>"; };
-		F40144551C13B3B8000AA6DD /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		F408EF711C617A2100CFF351 /* Pusher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pusher.swift; sourceTree = "<group>"; };
 		F40977751C62D97E003F7081 /* GTMFadeTruncatingLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMFadeTruncatingLabel.h; sourceTree = "<group>"; };
 		F40977761C62D97E003F7081 /* GTMFadeTruncatingLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMFadeTruncatingLabel.m; sourceTree = "<group>"; };
@@ -121,8 +119,8 @@
 		F43533DF1C116DEB00CE3EB7 /* AuthHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthHelper.swift; sourceTree = "<group>"; };
 		F45533BA1C685455004DF145 /* MainNavController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavController.swift; sourceTree = "<group>"; };
 		F45533C01C685927004DF145 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
-		F472EF451C9CB52E007D05A9 /* buildDocs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = buildDocs.sh; path = scripts/buildDocs.sh; sourceTree = "<group>"; };
-		F472EF461C9CB52E007D05A9 /* highlightTodo.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = highlightTodo.sh; path = scripts/highlightTodo.sh; sourceTree = "<group>"; };
+		F472EF451C9CB52E007D05A9 /* BuildDocs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = BuildDocs.sh; path = scripts/BuildDocs.sh; sourceTree = "<group>"; };
+		F472EF461C9CB52E007D05A9 /* HighlightTodo.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = HighlightTodo.sh; path = scripts/HighlightTodo.sh; sourceTree = "<group>"; };
 		F474F4741C0F615C00F1CEDC /* Tavi-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Tavi-Bridging-Header.h"; sourceTree = "<group>"; };
 		F474F4761C0F67C100F1CEDC /* Inconsolata-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inconsolata-Bold.ttf"; sourceTree = "<group>"; };
 		F474F4771C0F67C100F1CEDC /* Inconsolata-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inconsolata-Regular.ttf"; sourceTree = "<group>"; };
@@ -322,8 +320,8 @@
 		F472EF441C9BC103007D05A9 /* Scripts */ = {
 			isa = PBXGroup;
 			children = (
-				F472EF451C9CB52E007D05A9 /* buildDocs.sh */,
-				F472EF461C9CB52E007D05A9 /* highlightTodo.sh */,
+				F472EF451C9CB52E007D05A9 /* BuildDocs.sh */,
+				F472EF461C9CB52E007D05A9 /* HighlightTodo.sh */,
 			);
 			name = Scripts;
 			sourceTree = "<group>";
@@ -343,7 +341,6 @@
 			children = (
 				F474F4761C0F67C100F1CEDC /* Inconsolata-Bold.ttf */,
 				F474F4771C0F67C100F1CEDC /* Inconsolata-Regular.ttf */,
-				F40144551C13B3B8000AA6DD /* Octicons.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -611,7 +608,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4B00B521C141BFE008DA9EE /* Octicons.ttf in Resources */,
 				F474F4781C0F6FB100F1CEDC /* Inconsolata-Bold.ttf in Resources */,
 				F474F4791C0F6FB100F1CEDC /* Inconsolata-Regular.ttf in Resources */,
 				F4EA57931C5C3087004E92C3 /* Login.storyboard in Resources */,
@@ -621,8 +617,8 @@
 				F474F4861C11297F00F1CEDC /* 1Password.xcassets in Resources */,
 				F496FA141C0F56D400639A26 /* Assets.xcassets in Resources */,
 				F496FA121C0F56D400639A26 /* Main.storyboard in Resources */,
-				F472EF471C9CB52E007D05A9 /* buildDocs.sh in Resources */,
-				F472EF481C9CB52E007D05A9 /* highlightTodo.sh in Resources */,
+				F472EF471C9CB52E007D05A9 /* BuildDocs.sh in Resources */,
+				F472EF481C9CB52E007D05A9 /* HighlightTodo.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -699,7 +695,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "bash \"$PROJECT_DIR/Tavi/scripts/highlightTodo.sh\"\nbash \"$PROJECT_DIR/Tavi/scripts/buildDocs.sh\"";
+			shellScript = "bash \"$PROJECT_DIR/Tavi/scripts/HighlightTodo.sh\"\nbash \"$PROJECT_DIR/Tavi/scripts/BuildDocs.sh\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// A `UIViewController` that is capable of rotation to Landscape
 class LandscapeCapableViewController: PortraitViewController
 {
 	override func shouldAutorotate() -> Bool {

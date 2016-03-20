@@ -8,8 +8,12 @@
 
 import UIKit
 
-class Router {
-	static func initHandlers() {
+/// A simple class used to interact with `JLRoutes`
+class Router
+{
+	/// Adds the routes the app can handle
+	static func initHandlers()
+	{
 		JLRoutes.addRoute("id/:id") {
 			(params) -> Bool in
 			

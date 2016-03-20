@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// The `UITableViewController` in charge of the 'Notifications' section of the menu
 class NotificationController: PortraitTableViewController
 {
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
@@ -15,8 +16,8 @@ class NotificationController: PortraitTableViewController
 		let cell = super.tableView(tableView, cellForRowAtIndexPath: indexPath)
 		
 		if indexPath.section == 0 {
-			let filterStateRaw = Settings.InAppNoteType(rawValue: Settings.InAppNotificationTypes.getWithDefault(Settings.InAppNoteType.All.rawValue))
-			cell.accessoryType = (filterStateRaw.contains(Settings.InAppNoteType.fromPos(indexPath.row))) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
+			let filterStateRaw = Settings.NoteType(rawValue: Settings.NotificationTypes.getWithDefault(Settings.NoteType.All.rawValue))
+			cell.accessoryType = (filterStateRaw.contains(Settings.NoteType.fromPos(indexPath.row))) ? UITableViewCellAccessoryType.Checkmark : UITableViewCellAccessoryType.None
 		}
 		
 		return cell
@@ -26,15 +27,15 @@ class NotificationController: PortraitTableViewController
 	{
 		if indexPath.section == 0
 		{
-			var types = Settings.InAppNoteType(rawValue: Settings.InAppNotificationTypes.getWithDefault(Settings.InAppNoteType.All.rawValue))
-			let typeForRow = Settings.InAppNoteType.fromPos(indexPath.row)
+			var types = Settings.NoteType(rawValue: Settings.NotificationTypes.getWithDefault(Settings.NoteType.All.rawValue))
+			let typeForRow = Settings.NoteType.fromPos(indexPath.row)
 			if types.contains(typeForRow) {
 				types.remove(typeForRow)
 			} else {
 				types.insert(typeForRow)
 			}
 			
-			Settings.InAppNotificationTypes.set(types.rawValue)
+			Settings.NotificationTypes.set(types.rawValue)
 			self.tableView.reloadData()
 		}
 	}

@@ -8,8 +8,11 @@
 
 import UIKit
 
+/// A class for storing and retrieving a [GitHub](https://github.com) authorization token
 class GithubAPIAuthorization
 {
+	// MARK: Variables
+	
 	let id: Int
 	let note:        String
 	let user:        String
@@ -18,11 +21,23 @@ class GithubAPIAuthorization
 	let tokenHash:   String
 	let fingerprint: String
 	
+	// MARK: - Initalizers
+	
+	/// Creates an instance from a `JSON` object
+	///
+	/// - Parameters
+	///   - json: The `JSON` object to load from
 	convenience init?(json: JSON) {
 		let tok = json.getString("token")
 		guard tok != nil && tok != "" else { return nil }
 		self.init(json: json, token: tok!)
 	}
+	
+	/// Creates an instance from a `JSON` object and a token
+	///
+	/// - Parameters
+	///   - json: The `JSON` object to load from
+	///   - token: The authorization token
 	init?(json: JSON, token: String)
 	{
 		Logger.trace("Loading JSON:\n\(json)\nWith token: '\(token)'")
@@ -61,27 +76,15 @@ class GithubAPIAuthorization
 		guard self.user != "" else { return nil }
 	}
 	
-	func save()
-	{
-		Settings.GitHub_Token.set(self.token)
-		Settings.GitHub_User.set(self.user)
-	}
 	
-	func delete()
-	{
-		deleteToken()
-		
-		Settings.GitHub_User.set(nil)
-	}
 	
-	func deleteToken() {
-		GithubAPIBackend.apiCall("/authorizations/\(self.id)", method: .DELETE, errorCallback: nil)
-		{ (json, httpResponse) in
-			Logger.info(httpResponse)
-			Settings.GitHub_Token.set(nil)
-		}
-	}
+	// MARK: - Functions -
 	
+	// MARK: Static
+	
+	/// Attempts to load a `GithubAPIAuthorization` instance from the stored information
+	///
+	/// - Returns: A `GithubAPIAuthorization` instance if the token is valid, otherwise `nil`
 	static func load() -> GithubAPIAuthorization?
 	{
 		let token = Settings.GitHub_Token.get()
@@ -95,19 +98,47 @@ class GithubAPIAuthorization
 		let authString = AuthHelper.generateAuthString(clientID, pass: clientSecret)
 		
 		GithubAPIBackend.apiCall("applications/\(clientID)/tokens/\(token!)", method: .GET, headers: ["Authorization": authString], errorCallback: { (message) in Logger.info(message); finished = true })
-		{ (json, httpResponse) in
-			
-			if let s = json.getString("message") {
-				Logger.error("Message: \(s)")
-			} else {
-				out = GithubAPIAuthorization(json: json, token: token!)
-			}
-			
-			finished = true
+			{ (json, httpResponse) in
+				
+				if let s = json.getString("message") {
+					Logger.error("Message: \(s)")
+				} else {
+					out = GithubAPIAuthorization(json: json, token: token!)
+				}
+				
+				finished = true
 		}
 		
 		while !finished {}
 		
 		return out
+	}
+	
+	
+	// MARK: Internal
+	
+	/// Saves the authorization information
+	func save() {
+		Settings.GitHub_Token.set(self.token)
+		Settings.GitHub_User.set(self.user)
+	}
+	
+	/// Deletes the authorization information
+	///
+	/// - Warning: This is permanent. The only way to undo this is to re-authorize with [GitHub](https://github.com)
+	func delete() {
+		deleteToken()
+		Settings.GitHub_User.set(nil)
+	}
+	
+	/// Deletes the authorization token
+	///
+	/// - Warning: This is permanent. The only way to undo this is to re-authorize with [GitHub](https://github.com)
+	func deleteToken() {
+		GithubAPIBackend.apiCall("/authorizations/\(self.id)", method: .DELETE, errorCallback: nil)
+		{ (json, httpResponse) in
+			Logger.info(httpResponse)
+			Settings.GitHub_Token.set(nil)
+		}
 	}
 }

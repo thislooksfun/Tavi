@@ -8,9 +8,12 @@
 
 import UIKit
 
+/// The `UITableViewController` in charge of the main screen of the menu
 class MenuController: PortraitTableViewController
 {
+	/// The label for the favorites view, in order to gray it out when no favorites are present
 	@IBOutlet var favoritesLabel: UILabel!
+	/// The label with the current count of favorited items
 	@IBOutlet var favoritesCount: UILabel!
 	
 	override func viewWillAppear(animated: Bool) {
@@ -36,6 +39,7 @@ class MenuController: PortraitTableViewController
 		}
 	}
 	
+	/// Logs out of GitHub and Travis
 	func logOut() {
 		GithubAPI.signOut()
 		TravisAPI.deAuth()
@@ -44,10 +48,10 @@ class MenuController: PortraitTableViewController
 		self.navigationController?.popViewControllerAnimated(true)
 	}
 	
+	/// Logs a warning that an unknown table index was selected.
+	/// (This should never be needed in practice)
 	private func warnUnknown(index: NSIndexPath) {
 		Logger.warn("Unspecified menu index selected: [section: \(index.section), row: \(index.row)]")
 		self.tableView.deselectRowAtIndexPath(index, animated: true)
 	}
-	
-	
 }

@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// The main `UINavigationController`
 class MainNavController: OrientationRespectfulNavController
 {
 	override func viewDidLoad() {
@@ -25,6 +26,9 @@ class MainNavController: OrientationRespectfulNavController
 		return .LightContent
 	}
 	
+	/// Gets an gradient image to use in replacement of the default status bar
+	///
+	/// - Returns: The gradient image
 	private func imageLayerForGradientBackground() -> UIImage
 	{
 		var updatedFrame = self.navigationBar.bounds

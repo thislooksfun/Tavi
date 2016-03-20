@@ -8,16 +8,32 @@
 
 import UIKit
 
-//TODO: consolidate duplicate code?
+/// A general API for interacting with [Travis CI](https://travis-ci.org)
+///
+/// - TODO: Consolidate duplicate code?
+/// - TODO: Maybe add method for interacting with https://travis-ci.org (the private one) as well?)
 class TravisAPI
 {
-	static let passingColor =    UIColor(red:  63/255, green: 167/255, blue: 95/255, alpha: 1)
-	static let failingColor =    UIColor(red: 219/255, green:  66/255, blue: 60/255, alpha: 1)
-	static let inProgressColor = UIColor(red: 190/255, green: 171/225, blue:  4/225, alpha: 1)
-	static let noBuildColor =    UIColor.clearColor()
-	static let cancelColor =     UIColor(white: 102/255, alpha: 1)
+	/// The color used when a build is passing
+	static let passingColor = UIColor(red:  63/255, green: 167/255, blue: 95/255, alpha: 1)
 	
-	static func authed() -> Bool {
+	/// The color used when a build is failing
+	static let failingColor = UIColor(red: 219/255, green:  66/255, blue: 60/255, alpha: 1)
+	
+	/// The color used when a build is in progress
+	static let inProgressColor = UIColor(red: 190/255, green: 171/225, blue:  4/225, alpha: 1)
+	
+	/// The color used when no builds are present
+	static let noBuildColor = UIColor.clearColor()
+	
+	/// The color used when a build was cancelled
+	static let cancelColor = UIColor(white: 102/255, alpha: 1)
+	
+	/// Whether or not the Travis auth token both exists and is valid
+	///
+	/// - returns: `true` if the auth token is present && valid, otherwise `false`
+	static func authed() -> Bool
+	{
 		if Settings.Travis_Token.get() == nil || Settings.Travis_Token.get() == "" { return false }
 		
 		var exitState: HTTPState?
@@ -40,6 +56,11 @@ class TravisAPI
 		return exitState == .Success
 	}
 	
+	/// Authenticate with Travis
+	///
+	/// - Parameters:
+	///   - forceMainThread: Whether or not to force the callback to run on the main thread. (Default: `true`)
+	///   - callback: The callback to use upon login completion (or failure)
 	static func auth(forceMainThread forceMainThread: Bool = true, callback: (HTTPState) -> Void)
 	{
 		Logger.info("\n============== TravisAPI.auth")
@@ -95,7 +116,11 @@ class TravisAPI
 		}
 	}
 	
-	
+	/// Loads all the active repositories for the current user
+	///
+	/// - Parameters:
+	///   - forceMainThread: Whether or not to force the callback to run on the main thread. (Default: `true`)
+	///   - callback: The callback to use upon login completion (or failure)
 	static func load(forceMainThread: Bool = true, callback: (HTTPState, [JSON]?) -> Void)
 	{
 		//TODO: rework to use the '/accounts' and '/repos {member, active}' endpoints
@@ -148,68 +173,12 @@ class TravisAPI
 		}
 	}
 	
-	static func loadFavorites(forceMainThread: Bool = true, callback: (HTTPState, [JSON]?) -> Void)
-	{
-		//TODO: rework to use the '/accounts' and '/repos {member, active}' endpoints
-		Logger.info("\n============== TravisAPI.loadFavorites")
-		if !forceMainThread {
-			Logger.warn("The callback will not be running on the main thread!")
-		}
-		
-		var exitState: HTTPState?
-		
-		func exit(state: HTTPState, _ message: String? = nil) -> Void {
-			if message != nil { Logger.info(message!) }
-			
-			guard exitState == nil else {
-				Logger.warn("exitState already set!")
-				return
-			}
-			
-			exitState = state
-		}
-		
-		guard authed() && Settings.GitHub_User.get() != nil else {
-			exit(.NeedsGithub, "Not authenticated with Travis-CI")
-			callback(exitState!, nil)
-			return
-		}
-		
-		
-		let favorites = Favorites.getFavorites()
-		var repos = [JSON]()
-		
-		var remaining = favorites.count
-		func repoLoaded(state: HTTPState, json: JSON?)
-		{
-			guard exitState == nil else { return }
-			
-			if state == .Success && json != nil {
-				repos.append(json!)
-			} else {
-				
-			}
-			
-			if --remaining <= 0 || exitState != nil {
-				if exitState == nil {
-					exit(.Success)
-				}
-				
-				if (forceMainThread) {
-					NSOperationQueue.mainQueue().addOperationWithBlock({
-						callback(exitState!, repos)
-					})
-				} else {
-					callback(exitState!, repos)
-				}
-			}
-		}
-		
-		for slug in favorites {
-			loadRepoFromSlug(slug, forceMainThread: false, callback: repoLoaded)
-		}
-	}
-	
+	/// Loads repository information for a given ID
+	///
+	/// - Parameters:
+	///   - id: The repo ID to load from
+	///   - forceMainThread: Whether or not to force the callback to run on the main thread. (Default: `true`)
+	///   - callback: The callback to use upon login completion (or failure)
 	static func loadRepoFromID(id: Int, forceMainThread: Bool = true, callback: (HTTPState, JSON?) -> Void) {
 		Logger.info("\n============== TravisAPI.loadRepoFromID")
 		if !forceMainThread {
@@ -251,6 +220,12 @@ class TravisAPI
 		}
 	}
 	
+	/// Loads repository information for a given slug
+	///
+	/// - Parameters:
+	///   - slug: The repo slug to load from
+	///   - forceMainThread: Whether or not to force the callback to run on the main thread. (Default: `true`)
+	///   - callback: The callback to use upon login completion (or failure)
 	static func loadRepoFromSlug(slug: String, forceMainThread: Bool = true, callback: (HTTPState, JSON?) -> Void) {
 		Logger.info("\n============== TravisAPI.loadRepoFromSlug")
 		if !forceMainThread {
@@ -292,6 +267,12 @@ class TravisAPI
 		}
 	}
 	
+	/// Loads the builds for a given repository
+	///
+	/// - Parameters:
+	///   - slug: The repo slug to load builds for
+	///   - forceMainThread: Whether or not to force the callback to run on the main thread. (Default: `true`)
+	///   - callback: The callback to use upon login completion (or failure)
 	static func loadBuildsForRepo(slug: String, forceMainThread: Bool = true, callback: (HTTPState, JSON?) -> Void)
 	{
 		Logger.info("\n============== TravisAPI.loadBuildsForRepo")
@@ -334,6 +315,12 @@ class TravisAPI
 		}
 	}
 	
+	/// Loads a specific build from its ID
+	///
+	/// - Parameters:
+	///   - buildID: The build ID to load
+	///   - forceMainThread: Whether or not to force the callback to run on the main thread. (Default: `true`)
+	///   - callback: The callback to use upon login completion (or failure)
 	static func loadBuild(buildID: Int, forceMainThread: Bool = true, callback: (HTTPState, JSON?) -> Void)
 	{
 		Logger.info("\n============== TravisAPI.loadBuild")
@@ -376,6 +363,12 @@ class TravisAPI
 		}
 	}
 	
+	/// Loads a specific job from its ID
+	///
+	/// - Parameters:
+	///   - jobID: The job ID to load
+	///   - forceMainThread: Whether or not to force the callback to run on the main thread. (Default: `true`)
+	///   - callback: The callback to use upon login completion (or failure)
 	static func loadJob(jobID: Int, forceMainThread: Bool = true, callback: (HTTPState, JSON?) -> Void)
 	{
 		Logger.info("\n============== TravisAPI.loadJob")
@@ -418,6 +411,11 @@ class TravisAPI
 		}
 	}
 	
+	/// Gets the global Travis config information
+	///
+	/// - Parameters:
+	///   - forceMainThread: Whether or not to force the callback to run on the main thread. (Default: `true`)
+	///   - callback: The callback to use upon login completion (or failure)
 	static func getConfig(forceMainThread: Bool = true, callback: (HTTPState, JSON?) -> Void)
 	{
 		Logger.info("\n============== TravisAPI.getConfig")
@@ -460,11 +458,14 @@ class TravisAPI
 		}
 	}
 	
+	/// Deauthorizes the app (throws away the token)
 	static func deAuth() {
 		Settings.Travis_Token.set(nil)
 	}
 	
-	
+	/// Gets updates in the background
+	///
+	/// - Parameter completion: the closure to call upon getting updates
 	static func getUpdates(completion: (UIBackgroundFetchResult) -> Void)
 	{
 		//TODO: implement
@@ -473,23 +474,47 @@ class TravisAPI
 		completion(UIBackgroundFetchResult.NoData)
 	}
 	
-	enum BuildStatus {
+	/// The build state
+	enum BuildStatus
+	{
+		/// The build passed
 		case Passing
+		
+		/// The build failed
 		case Failing
+		
+		/// The build was created, but not yet started
 		case Created
+		
+		/// The build has started
 		case Started
+		
+		/// The build was cancelled
 		case Cancelled
+		
+		/// None of the other states apply, for whatever reason.
+		/// (This *should* never be used, but it's here just in case).
 		case Unknown
 		
+		/// Whether or not the build is currently in progress (`.Created` or `.Started`)
 		func isInProgress() -> Bool {
 			return self == .Created || self == .Started
 		}
 	}
 	
-	enum HTTPState {
+	/// The state for the HTTP requests
+	enum HTTPState
+	{
+		/// The request succeeded
 		case Success
-		case Other
+		
+		/// The request did not contain valid JSON
 		case NoJson
+		
+		/// Travis is not authed, and neither is GitHub
 		case NeedsGithub
+		
+		/// None of the other states apply
+		case Other
 	}
 }
