@@ -452,7 +452,7 @@
                         <p>Runs the given callback asyncronously, after the specified delay.</p>
 
 <ul>
-<li>Parameters
+<li>Parameters:
 
 <ul>
 <li>delay: If <code>delay &lt;= 0</code>, it behaves exactly the same as <code>async</code></li>
@@ -470,6 +470,65 @@
                           <pre class="highlight"><code><span class="kd">func</span> <span class="nf">delay</span><span class="p">(</span><span class="nv">delay</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="nv">onNewThread</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="n">withPriority</span> <span class="nv">priority</span><span class="p">:</span> <span class="n">dispatch_queue_priority_t</span> <span class="o">=</span> <span class="kt">DISPATCH_QUEUE_PRIORITY_DEFAULT</span><span class="p">,</span> <span class="nv">cb</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>delay</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>If <code>delay &lt;= 0</code>, it behaves exactly the same as <code>async</code></p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>onNewThread</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>If <code>onNewThread</code> is false, it runs on the main thread, otherwise it runs on a new thread with the given priority. (Default: <code>false</code>)</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>withPriority</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The priority with which to start the new thread. Only used if <code>onNewThread</code> is true. (Default: <code>DISPATCH_QUEUE_PRIORITY_DEFAULT</code>)</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>cb</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The callback to run on the given thread</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>

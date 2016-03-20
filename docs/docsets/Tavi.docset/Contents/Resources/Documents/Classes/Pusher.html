@@ -449,14 +449,17 @@
                       <div class="abstract">
                         <p>Bind to every event fired a specific channel</p>
 
-<ul>
-<li><p>Parameters:</p>
+<p><li><p>Parameters:</p></p>
 
-<ul>
+<p><ul>
 <li>chann: The channel to bind to</li>
 <li>handler: The closure to call when an event fires</li>
 </ul></li>
-</ul>
+<div class="aside aside-returns">
+    <p class="aside-title">Returns</p>
+    <p>The <code>NSObjectProtocol</code> returned by <code>NSNotificationCenter</code></p></p>
+
+<p></div></p>
 
                       </div>
                       <div class="declaration">
@@ -523,15 +526,18 @@
                       <div class="abstract">
                         <p>Binds a channel for a certain list of events</p>
 
-<ul>
-<li><p>Parameters:</p>
+<p><li><p>Parameters:</p></p>
 
-<ul>
+<p><ul>
 <li>chann: The channel to bind to</li>
 <li>events: The list of event names to bind to</li>
 <li>handler: The closure to call when an event fires</li>
 </ul></li>
-</ul>
+<div class="aside aside-returns">
+    <p class="aside-title">Returns</p>
+    <p>An <code><a href="../Extensions/Array.html">Array</a></code> of <code>PTPusherEventBinding</code>s for the bound events</p></p>
+
+<p></div></p>
 
                       </div>
                       <div class="declaration">
@@ -611,15 +617,18 @@
                       <div class="abstract">
                         <p>Binds a channel for a specific event</p>
 
-<ul>
-<li><p>Parameters:</p>
+<p><li><p>Parameters:</p></p>
 
-<ul>
+<p><ul>
 <li>chann: The channel to bind to</li>
 <li>event: The event name to bind to</li>
 <li>handler: The closure to call when the event fires</li>
 </ul></li>
-</ul>
+<div class="aside aside-returns">
+    <p class="aside-title">Returns</p>
+    <p>The <code>PTPusherEventBinding</code> for the bound event</p></p>
+
+<p></div></p>
 
                       </div>
                       <div class="declaration">
@@ -905,6 +914,12 @@
 <div class="aside aside-parameter">
     <p class="aside-title">Parameter</p>
     <p>Parameter handler: the handler to wrap</p>
+
+</div>
+
+<div class="aside aside-returns">
+    <p class="aside-title">Returns</p>
+    <p>A closure wrapping <code>handler</code></p>
 
 </div>
 
