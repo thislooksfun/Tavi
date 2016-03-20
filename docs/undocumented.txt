@@ -1,0 +1,361 @@
+Connection.swift
+	static var x = 0
+Notifications.swift
+	class Notifications
+	static func fireBuildStarted(slug: String, buildNumber: Int, fireDate: NSDate = NSDate())
+	static func fireBuildPassed(slug: String, buildNumber: Int, fireDate: NSDate = NSDate())
+	static func fireBuildFailed(slug: String, buildNumber: Int, fireDate: NSDate = NSDate())
+	static func fireBuildCancelled(slug: String, buildNumber: Int, fireDate: NSDate = NSDate())
+	static func fireBuildStatus(slug: String, buildNumber: Int, status: String, fireDate: NSDate = NSDate())
+	static func handleInApp(note: UILocalNotification)
+InAppNotification.swift
+	class InAppNotification: UIView
+	required init(coder aDecoder: NSCoder)
+	func goToRepo(sender: AnyObject)
+DisclaimerController.swift
+	class DisclaimerController: PortraitViewController
+	@IBOutlet var textView: UITextView!
+	@IBOutlet var titleAreaHeight: NSLayoutConstraint!
+	@IBOutlet var buttonAreaHeight: NSLayoutConstraint!
+	var isLegal = false
+	static func display()
+	static func displayAsLegal(nav: UINavigationController)
+	override func viewDidLoad()
+	override func viewDidLayoutSubviews()
+	@IBAction func close(sender: AnyObject)
+DetailViewController.swift
+	class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerDelegate
+	@IBOutlet var consoleTableSource: ConsoleTableSource!
+	@IBOutlet var mainScrollView: UIScrollView!
+	@IBOutlet var consoleSidewaysScroll: UIScrollView!
+	@IBOutlet var consoleTable: UITableView!
+	@IBOutlet var favoriteIconOutline: UIImageView!
+	@IBOutlet var favoriteIconFilled: UIImageView!
+	@IBOutlet var loadingMain: UIView!
+	@IBOutlet var loadingConsole: UIView!
+	@IBOutlet var loadingBottomConstraint: NSLayoutConstraint!
+	@IBOutlet var colorBar: UIView!
+	@IBOutlet var buildStatus: UIImageView!
+	@IBOutlet var branchLabel: UILabel!
+	@IBOutlet var commitMsgLabel: UILabel!
+	@IBOutlet var buildHash: UIImageView!
+	@IBOutlet var buildNumberLabel: UILabel!
+	var master: MasterViewController?
+	var id: Int?
+	var slug: String?
+	var repo: TravisRepo?
+	override func viewDidLoad()
+	override func viewWillAppear(animated: Bool)
+	override func viewDidAppear(animated: Bool)
+	override func viewWillDisappear(animated: Bool)
+	override func viewDidLayoutSubviews()
+	override func previewActionItems() -> [UIPreviewActionItem]
+	func idSet()
+	func slugSet()
+	func gotRepo(newRepo: TravisRepo?)
+	func reload()
+	func configureView(isInDidLoad: Bool)
+	override func animationDidStart(anim: CAAnimation)
+	func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool
+	@IBAction func favorite(sender: AnyObject)
+	override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator)
+MasterViewController.swift
+	class MasterViewController: PortraitTableViewController
+	var repos = [TravisRepo]()
+	override func viewDidLoad()
+	override func viewWillAppear(animated: Bool)
+	override func viewDidAppear(animated: Bool)
+	override func viewWillDisappear(animated: Bool)
+	override func didReceiveMemoryWarning()
+	@IBAction func unwindFromMenu(sender: UIStoryboardSegue) {}
+	func cellDidLoadFromRepo()
+	func detailRepoDidChange(newRepo: TravisRepo)
+	func reloadFromRefresh(sender: AnyObject?)
+	func reload()
+	func onRepoEventForRepo(newRepo: TravisRepo)
+	func constructNoBuilds()
+	func constructNotAuthed()
+	func showNoBuilds()
+	func showNotAuthed()
+	func showBackground()
+	func hideBackground(done: (() -> Void)? = nil)
+	func clearTable()
+	func timerTick()
+	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+	override func numberOfSectionsInTableView(tableView: UITableView) -> Int
+	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+	override func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath)
+	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+	override func tableView(tableView: UITableView, canFocusRowAtIndexPath indexPath: NSIndexPath) -> Bool
+	override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool
+	override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool
+	override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat
+	override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat
+	override func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int)
+	override func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int)
+LandscapeCapableViewController.swift
+	override func shouldAutorotate() -> Bool
+	override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask
+	override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation
+LoginController.swift
+	class LoginController: PortraitViewController
+	@IBOutlet var grayView: UIView!
+	@IBOutlet var topConstraint: NSLayoutConstraint!
+	@IBOutlet var container: UIView!
+	@IBOutlet var onePassWidthConstraint: NSLayoutConstraint!
+	@IBOutlet var twoFAuthGapConstraint: NSLayoutConstraint!
+	@IBOutlet var twoFAuthHeightConstraint: NSLayoutConstraint!
+	@IBOutlet var username: UITextField!
+	@IBOutlet var password: UITextField!
+	@IBOutlet var twoFAuth: UITextField!
+	@IBOutlet var spinner: UIActivityIndicatorView!
+	@IBOutlet var submitButton: UIButton!
+	@IBOutlet var errorLabel: UILabel!
+	@IBOutlet var errorView: UIView!
+	@IBOutlet var errorHeight: NSLayoutConstraint!
+	static func openLogin(cb cb: ((Bool) -> Void)? = nil)
+	override func viewWillAppear(animated: Bool)
+	override func viewDidAppear(animated: Bool)
+	override func viewWillDisappear(animated: Bool)
+	override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
+	@IBAction func onePasswordLogin(sender: AnyObject)
+	@IBAction func submit(sender: AnyObject?)
+	@IBAction func cancel(sender: AnyObject)
+	func keyboardWillShow(note: NSNotification)
+	func keyboardWillHide(note: NSNotification)
+	func closeKeyboard()
+TravisBuildJob.swift
+	class TravisBuildJob
+	init?(jobJson: JSON)
+	func getLog(cb: (JSON) -> Void)
+TravisBuild.swift
+	class TravisBuild: Equatable
+	let buildNumber: Int
+	private(set) var status: TravisAPI.BuildStatus
+	private(set) var startedAt: NSDate?
+	private(set) var finishedAt: NSDate?
+	private(set) var commit: Commit
+	let buildID: Int
+	var jobs = [TravisBuildJob]()
+	convenience init(buildJSON: JSON, commitJSON: JSON, waitForJobs: Bool = false, buildLoaded: (() -> Void)? = nil)
+	init(buildJSON: JSON, commit: Commit, waitForJobs: Bool = false, buildLoaded: (() -> Void)? = nil)
+	func loadJobs(buildJSON: JSON, done: (() -> Void)?)
+	func dismiss()
+	struct Commit
+	var branch: String
+	var authorEmail: String
+	var id: Int
+	var committedAt: NSDate
+	var message: String
+	var authorName: String
+	var sha: String
+	var committerName: String
+	var committerEmail: String
+	var compareUrl: NSURL
+	var pullRequestNumber: Int?
+	init(fromJSON json: JSON)
+	func == (left: TravisBuild, right: TravisBuild) -> Bool
+GithubAPIAuthorization.swift
+	let id: Int
+	let note:        String
+	let user:        String
+	let token:       String
+	let scopes:     [String]
+	let tokenHash:   String
+	let fingerprint: String
+TravisAPIBackend.swift
+	class TravisAPIBackend
+	static func apiCall(var path: String, method: HTTPMethod, headers: [NSObject: AnyObject]? = nil, json: [NSObject: AnyObject]? = nil, callback: (String?, JSON?, NSHTTPURLResponse?) -> Void)
+PortraitViewController.swift
+	override func shouldAutorotate() -> Bool
+	override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask
+	override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation
+PortraitTableViewController.swift
+	override func shouldAutorotate() -> Bool
+	override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask
+	override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation
+MenuController.swift
+	class MenuController: PortraitTableViewController
+	@IBOutlet var favoritesLabel: UILabel!
+	@IBOutlet var favoritesCount: UILabel!
+	override func viewWillAppear(animated: Bool)
+	override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath)
+	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+	func logOut()
+ConsoleTableSource.swift
+	class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
+	@IBOutlet weak var table: UITableView!
+	@IBOutlet weak var tableHeight: NSLayoutConstraint!
+	@IBOutlet weak var tableWidth: NSLayoutConstraint!
+	func load(job: TravisBuildJob, done: () -> Void)
+	func didLayoutSubviews()
+	func clearRows(reloadAndResize refresh: Bool = true)
+	func addRow(text: String, isGroupStart: Bool = false, isGroupEnd: Bool = false, reloadAndResize refresh: Bool = true)
+	func reloadAndResize()
+	func resizeTable()
+	func toggleExpand(sender: UIButton)
+	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+	func tableView(tableView: UITableView, canFocusRowAtIndexPath indexPath: NSIndexPath) -> Bool
+	func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool
+	func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool
+	func offsetTableRowForGroups(row: Int) -> Int
+	func sumContractedGroups() -> Int
+	func groupForTableRow(row: Int) -> Group?
+	func groupForConsoleRow(row: Int) -> Group?
+	func replaceGroupForConsoleRow(row: Int, withGroup: Group)
+	struct Group: Equatable
+	let startIndex: Int
+	let endIndex: Int
+	var expanded: Bool
+	var length: Int
+	struct RowInfo
+	let row: Int
+	var data: String
+	func ==(left: ConsoleTableSource.Group, right: ConsoleTableSource.Group) -> Bool
+TravisAPI.swift
+	class TravisAPI
+	static let passingColor =    UIColor(red:  63/255, green: 167/255, blue: 95/255, alpha: 1)
+	static let failingColor =    UIColor(red: 219/255, green:  66/255, blue: 60/255, alpha: 1)
+	static let inProgressColor = UIColor(red: 190/255, green: 171/225, blue:  4/225, alpha: 1)
+	static let noBuildColor =    UIColor.clearColor()
+	static let cancelColor =     UIColor(white: 102/255, alpha: 1)
+	static func authed() -> Bool
+	static func auth(forceMainThread forceMainThread: Bool = true, callback: (HTTPState) -> Void)
+	static func load(forceMainThread: Bool = true, callback: (HTTPState, [JSON]?) -> Void)
+	static func loadFavorites(forceMainThread: Bool = true, callback: (HTTPState, [JSON]?) -> Void)
+	static func loadRepoFromID(id: Int, forceMainThread: Bool = true, callback: (HTTPState, JSON?) -> Void)
+	static func loadRepoFromSlug(slug: String, forceMainThread: Bool = true, callback: (HTTPState, JSON?) -> Void)
+	static func loadBuildsForRepo(slug: String, forceMainThread: Bool = true, callback: (HTTPState, JSON?) -> Void)
+	static func loadBuild(buildID: Int, forceMainThread: Bool = true, callback: (HTTPState, JSON?) -> Void)
+	static func loadJob(jobID: Int, forceMainThread: Bool = true, callback: (HTTPState, JSON?) -> Void)
+	static func getConfig(forceMainThread: Bool = true, callback: (HTTPState, JSON?) -> Void)
+	static func deAuth()
+	static func getUpdates(completion: (UIBackgroundFetchResult) -> Void)
+	enum BuildStatus
+	case Passing
+	case Failing
+	case Created
+	case Started
+	case Cancelled
+	case Unknown
+	func isInProgress() -> Bool
+	enum HTTPState
+	case Success
+	case Other
+	case NoJson
+	case NeedsGithub
+AppDelegate.swift
+	class AppDelegate: UIResponder, UIApplicationDelegate
+	var window: UIWindow?
+	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
+	func application(application: UIApplication, supportedInterfaceOrientationsForWindow window: UIWindow?) -> UIInterfaceOrientationMask
+	func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void)
+	func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool
+	func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification)
+	func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void)
+	func applicationWillResignActive(application: UIApplication)
+	func applicationDidEnterBackground(application: UIApplication)
+	func applicationWillEnterForeground(application: UIApplication)
+	func applicationDidBecomeActive(application: UIApplication)
+	func applicationWillTerminate(application: UIApplication)
+KeyboardNotification.swift
+	let notification: NSNotification
+	let userInfo: NSDictionary
+Logger.swift
+	let index: Int
+FavoritesCell.swift
+	class FavoritesCell: UITableViewCell
+	@IBOutlet var repoSlug: UILabel!
+	@IBOutlet var heartIcon: UIImageView!
+	@IBOutlet var favToggleButton: UIButton!
+	func load(slug: String)
+RepoCell.swift
+	class RepoCell: UITableViewCell
+	@IBOutlet var colorBar: UIView!
+	@IBOutlet var buildStatus: UIImageView!
+	@IBOutlet var repoSlugLabel: UILabel!
+	@IBOutlet var buildNumberLabel: UILabel!
+	@IBOutlet var buildHash: UIImageView!
+	@IBOutlet var durationLabel: UILabel!
+	@IBOutlet var finishDateLabel: UILabel!
+	@IBOutlet var heartIcon: UIImageView!
+	var isRotating = false
+	func loadFromRepo(repo: TravisRepo)
+	override func animationDidStart(anim: CAAnimation)
+	func formatDuration(repo: TravisRepo)
+FavoritesListController.swift
+	class FavoritesListController: PortraitTableViewController
+	override func viewDidLoad()
+	override func viewDidLayoutSubviews()
+	override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?)
+	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+	override func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath)
+	override func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle
+	override func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool
+	func showInfo(sender: AnyObject?)
+	func toggleCellFavorite(button: UIButton)
+	func saveToFavorites()
+	struct State
+	var slug: String
+	var favorited: Bool
+Pusher.swift
+	class Pusher: NSObject, PTPusherDelegate
+	var client: PTPusher!
+	static func start()
+	static func bindToAllEventsForChannel(chann: String, withHandler handler: (PTPusherEvent?) -> Void) -> NSObjectProtocol
+	static func bindToChannel(chann: String, forEvents events: [String], withHandler handler: (PTPusherEvent!) -> Void) -> [PTPusherEventBinding]
+	static func bindToChannel(chann: String, forEvent event: String, withHandler handler: (PTPusherEvent!) -> Void) -> PTPusherEventBinding
+	static func unbindChannel(chann: String, withBinding binding: NSObjectProtocol? = nil)
+	static func unbindEvent(bind: PTPusherEventBinding?)
+	static func unbindAll()
+	static func connect()
+	static func disconnect()
+MainNavController.swift
+	class MainNavController: OrientationRespectfulNavController
+	override func viewDidLoad()
+	override func preferredStatusBarStyle() -> UIStatusBarStyle
+TravisRepo.swift
+	class TravisRepo: Equatable
+	static let SlugKey = "TravisRepoSlugKey"
+	let slug: String
+	var builds = [TravisBuild]()
+	var lastBuild: TravisBuild?
+	let repoID: Int
+	static func repoForID(id: Int, done: (TravisRepo?) -> Void)
+	static func repoForSlug(slug: String, done: (TravisRepo?) -> Void)
+	static func repoFromJson(json: JSON?, done: (TravisRepo?) -> Void)
+	static func isJsonValid(json: JSON?) -> Bool
+	init(slug: String, repoID: Int, cb: (TravisRepo) -> Void)
+	func setPusherEventCallback(cb: (TravisRepo) -> Void, forObject obj: NSObject)
+	func removePusherEventCallbackForObject(obj: NSObject)
+	func reloadLastBuild(cb: () -> Void)
+	func getBuilds(cb: (TravisRepo) -> Void)
+	func pusherEvent(event: PTPusherEvent?)
+	func dismiss()
+	func == (left: TravisRepo, right: TravisRepo) -> Bool
+OverloadsAndConvenience.swift
+	func + <ValueType> (left: ValueType, right: [ValueType]) -> [ValueType]
+	func + <ValueType> (left: [ValueType], right: ValueType) -> [ValueType]
+	func += <ValueType> (inout left: [ValueType], right: ValueType)
+NotificationController.swift
+	class NotificationController: PortraitTableViewController
+	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+Settings.swift
+	let rawValue: Int
+	init(rawValue: Int) { self.rawValue = rawValue }
+OrientationRespectfulNavController.swift
+	override func shouldAutorotate() -> Bool
+	override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask
+ConsoleLineCell.swift
+	class ConsoleLineCell: UITableViewCell
+	@IBOutlet var disclosureArrow: UIImageView!
+	@IBOutlet var lineNumberLabel: UILabel!
+	@IBOutlet var lineTextLabel: UILabel!
+	@IBOutlet var expandButton: UIButton!
+	var lineNumber: Int
+	var lineText: String

@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>DetailViewController Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/DetailViewController" class="dashAnchor"></a>
+    <a title="DetailViewController Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Tavi Docs</a> (35% documented)</p>
+        <p class="header-right"><a href="https://github.com/thislooksfun/Tavi"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Tavi Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        DetailViewController Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/Alert.html">Alert</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/AppDelegate.html">AppDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/AuthHelper.html">AuthHelper</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Connection.html">Connection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ConsoleLineCell.html">ConsoleLineCell</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ConsoleTableSource.html">ConsoleTableSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DetailViewController.html">DetailViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DisclaimerController.html">DisclaimerController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Favorites.html">Favorites</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FavoritesCell.html">FavoritesCell</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FavoritesListController.html">FavoritesListController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GithubAPI.html">GithubAPI</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GithubAPIAuthorization.html">GithubAPIAuthorization</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GithubAPIBackend.html">GithubAPIBackend</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/InAppNotification.html">InAppNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/JSON.html">JSON</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/LandscapeCapableViewController.html">LandscapeCapableViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Logger.html">Logger</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/LoginController.html">LoginController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MainNavController.html">MainNavController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MasterViewController.html">MasterViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MenuController.html">MenuController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NoConnectionPopup.html">NoConnectionPopup</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NotificationController.html">NotificationController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Notifications.html">Notifications</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/OrientationRespectfulNavController.html">OrientationRespectfulNavController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/PortraitTableViewController.html">PortraitTableViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/PortraitViewController.html">PortraitViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Pusher.html">Pusher</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RepoCell.html">RepoCell</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Router.html">Router</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Settings.html">Settings</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SettingsItem.html">SettingsItem</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TravisAPI.html">TravisAPI</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TravisAPIBackend.html">TravisAPIBackend</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TravisBuild.html">TravisBuild</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TravisBuildJob.html">TravisBuildJob</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TravisRepo.html">TravisRepo</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Global Variables.html">Global Variables</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/s:v4Tavi8clientIDSS">clientID</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/s:v4Tavi12clientSecretSS">clientSecret</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/ViewOrientation.html">ViewOrientation</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Array.html">Array</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Bool.html">Bool</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/CAGradientLayer.html">CAGradientLayer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSDate.html">NSDate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/SequenceType.html">SequenceType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UIDevice.html">UIDevice</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UIView.html">UIView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UIViewController.html">UIViewController</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF4Tavioi3aaeFTRSbSb_T_">&amp;&amp;=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF4Tavioi1pFTSiV12CoreGraphics7CGFloat_S1_">+(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions/+(_:_:).html">+(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF4Tavioi1pFTV12CoreGraphics7CGFloatSi_S1_">+(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions/+(_:_:).html">+(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions/+=(_:_:).html">+=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF4Tavioi2peFTCSo25NSMutableAttributedStringSS_T_">+=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF4Tavioi2peFTCSo25NSMutableAttributedStringCSo18NSAttributedString_T_">+=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF4Tavioi1sFTV12CoreGraphics7CGFloatSi_S1_">-(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF4Tavioi1sFTSiV12CoreGraphics7CGFloat_S1_">-(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF4Tavioi2eeFTCS_11TravisBuildS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF4Tavioi2eeFTVCS_18ConsoleTableSource5GroupS1__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF4Tavioi2eeFTCS_10TravisRepoS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:F4Tavi5asyncFT11onNewThreadSb12withPrioritySi2cbFT_T__T_">async(onNewThread:withPriority:cb:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:F4Tavi5delayFTSd11onNewThreadSb12withPrioritySi2cbFT_T__T_">delay(_:onNewThread:withPriority:cb:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:F4Tavi9parseDateFSSGSqCSo6NSDate_">parseDate(_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/Hidable.html">Hidable</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/HTTPMethod.html">HTTPMethod</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/KeyboardNotification.html">KeyboardNotification</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>DetailViewController</h1>
+            <p>Undocumented</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC4Tavi20DetailViewController18consoleTableSourceGSQCS_18ConsoleTableSource_"></a>
+                    <a name="//apple_ref/swift/Property/consoleTableSource" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC4Tavi20DetailViewController18consoleTableSourceGSQCS_18ConsoleTableSource_">consoleTableSource</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC4Tavi20DetailViewController14mainScrollViewGSQCSo12UIScrollView_"></a>
+                    <a name="//apple_ref/swift/Property/mainScrollView" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC4Tavi20DetailViewController14mainScrollViewGSQCSo12UIScrollView_">mainScrollView</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC4Tavi20DetailViewController21consoleSidewaysScrollGSQCSo12UIScrollView_"></a>
+                    <a name="//apple_ref/swift/Property/consoleSidewaysScroll" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC4Tavi20DetailViewController21consoleSidewaysScrollGSQCSo12UIScrollView_">consoleSidewaysScroll</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC4Tavi20DetailViewController12consoleTableGSQCSo11UITableView_"></a>
+                    <a name="//apple_ref/swift/Property/consoleTable" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC4Tavi20DetailViewController12consoleTableGSQCSo11UITableView_">consoleTable</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC4Tavi20DetailViewController19favoriteIconOutlineGSQCSo11UIImageView_"></a>
+                    <a name="//apple_ref/swift/Property/favoriteIconOutline" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC4Tavi20DetailViewController19favoriteIconOutlineGSQCSo11UIImageView_">favoriteIconOutline</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC4Tavi20DetailViewController18favoriteIconFilledGSQCSo11UIImageView_"></a>
+                    <a name="//apple_ref/swift/Property/favoriteIconFilled" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC4Tavi20DetailViewController18favoriteIconFilledGSQCSo11UIImageView_">favoriteIconFilled</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC4Tavi20DetailViewController11loadingMainGSQCSo6UIView_"></a>
+                    <a name="//apple_ref/swift/Property/loadingMain" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC4Tavi20DetailViewController11loadingMainGSQCSo6UIView_">loadingMain</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC4Tavi20DetailViewController14loadingConsoleGSQCSo6UIView_"></a>
+                    <a name="//apple_ref/swift/Property/loadingConsole" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC4Tavi20DetailViewController14loadingConsoleGSQCSo6UIView_">loadingConsole</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC4Tavi20DetailViewController23loadingBottomConstraintGSQCSo18NSLayoutConstraint_"></a>
+                    <a name="//apple_ref/swift/Property/loadingBottomConstraint" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC4Tavi20DetailViewController23loadingBottomConstraintGSQCSo18NSLayoutConstraint_">loadingBottomConstraint</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC4Tavi20DetailViewController8colorBarGSQCSo6UIView_"></a>
+                    <a name="//apple_ref/swift/Property/colorBar" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC4Tavi20DetailViewController8colorBarGSQCSo6UIView_">colorBar</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC4Tavi20DetailViewController11buildStatusGSQCSo11UIImageView_"></a>
+                    <a name="//apple_ref/swift/Property/buildStatus" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC4Tavi20DetailViewController11buildStatusGSQCSo11UIImageView_">buildStatus</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC4Tavi20DetailViewController11branchLabelGSQCSo7UILabel_"></a>
+                    <a name="//apple_ref/swift/Property/branchLabel" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC4Tavi20DetailViewController11branchLabelGSQCSo7UILabel_">branchLabel</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC4Tavi20DetailViewController14commitMsgLabelGSQCSo7UILabel_"></a>
+                    <a name="//apple_ref/swift/Property/commitMsgLabel" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC4Tavi20DetailViewController14commitMsgLabelGSQCSo7UILabel_">commitMsgLabel</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC4Tavi20DetailViewController9buildHashGSQCSo11UIImageView_"></a>
+                    <a name="//apple_ref/swift/Property/buildHash" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC4Tavi20DetailViewController9buildHashGSQCSo11UIImageView_">buildHash</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC4Tavi20DetailViewController16buildNumberLabelGSQCSo7UILabel_"></a>
+                    <a name="//apple_ref/swift/Property/buildNumberLabel" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC4Tavi20DetailViewController16buildNumberLabelGSQCSo7UILabel_">buildNumberLabel</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC4Tavi20DetailViewController6masterGSqCS_20MasterViewController_"></a>
+                    <a name="//apple_ref/swift/Property/master" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC4Tavi20DetailViewController6masterGSqCS_20MasterViewController_">master</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC4Tavi20DetailViewController2idGSqSi_"></a>
+                    <a name="//apple_ref/swift/Property/id" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC4Tavi20DetailViewController2idGSqSi_">id</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC4Tavi20DetailViewController4slugGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/slug" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC4Tavi20DetailViewController4slugGSqSS_">slug</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC4Tavi20DetailViewController4repoGSqCS_10TravisRepo_"></a>
+                    <a name="//apple_ref/swift/Property/repo" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC4Tavi20DetailViewController4repoGSqCS_10TravisRepo_">repo</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi20DetailViewController11viewDidLoadFS0_FT_T_"></a>
+                    <a name="//apple_ref/swift/Method/viewDidLoad()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi20DetailViewController11viewDidLoadFS0_FT_T_">viewDidLoad()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi20DetailViewController14viewWillAppearFS0_FSbT_"></a>
+                    <a name="//apple_ref/swift/Method/viewWillAppear(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi20DetailViewController14viewWillAppearFS0_FSbT_">viewWillAppear(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi20DetailViewController13viewDidAppearFS0_FSbT_"></a>
+                    <a name="//apple_ref/swift/Method/viewDidAppear(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi20DetailViewController13viewDidAppearFS0_FSbT_">viewDidAppear(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi20DetailViewController17viewWillDisappearFS0_FSbT_"></a>
+                    <a name="//apple_ref/swift/Method/viewWillDisappear(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi20DetailViewController17viewWillDisappearFS0_FSbT_">viewWillDisappear(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi20DetailViewController21viewDidLayoutSubviewsFS0_FT_T_"></a>
+                    <a name="//apple_ref/swift/Method/viewDidLayoutSubviews()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi20DetailViewController21viewDidLayoutSubviewsFS0_FT_T_">viewDidLayoutSubviews()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi20DetailViewController18previewActionItemsFS0_FT_GSaPSo19UIPreviewActionItem__"></a>
+                    <a name="//apple_ref/swift/Method/previewActionItems()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi20DetailViewController18previewActionItemsFS0_FT_GSaPSo19UIPreviewActionItem__">previewActionItems()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi20DetailViewController5idSetFS0_FT_T_"></a>
+                    <a name="//apple_ref/swift/Method/idSet()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi20DetailViewController5idSetFS0_FT_T_">idSet()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi20DetailViewController7slugSetFS0_FT_T_"></a>
+                    <a name="//apple_ref/swift/Method/slugSet()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi20DetailViewController7slugSetFS0_FT_T_">slugSet()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi20DetailViewController7gotRepoFS0_FGSqCS_10TravisRepo_T_"></a>
+                    <a name="//apple_ref/swift/Method/gotRepo(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi20DetailViewController7gotRepoFS0_FGSqCS_10TravisRepo_T_">gotRepo(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi20DetailViewController6reloadFS0_FT_T_"></a>
+                    <a name="//apple_ref/swift/Method/reload()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi20DetailViewController6reloadFS0_FT_T_">reload()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi20DetailViewController13configureViewFS0_FSbT_"></a>
+                    <a name="//apple_ref/swift/Method/configureView(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi20DetailViewController13configureViewFS0_FSbT_">configureView(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi20DetailViewController17animationDidStartFS0_FCSo11CAAnimationT_"></a>
+                    <a name="//apple_ref/swift/Method/animationDidStart(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi20DetailViewController17animationDidStartFS0_FCSo11CAAnimationT_">animationDidStart(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi20DetailViewController17gestureRecognizerFS0_FTCSo19UIGestureRecognizer50shouldRecognizeSimultaneouslyWithGestureRecognizerS1__Sb"></a>
+                    <a name="//apple_ref/swift/Method/gestureRecognizer(_:shouldRecognizeSimultaneouslyWithGestureRecognizer:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi20DetailViewController17gestureRecognizerFS0_FTCSo19UIGestureRecognizer50shouldRecognizeSimultaneouslyWithGestureRecognizerS1__Sb">gestureRecognizer(_:shouldRecognizeSimultaneouslyWithGestureRecognizer:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi20DetailViewController8favoriteFS0_FPSs9AnyObject_T_"></a>
+                    <a name="//apple_ref/swift/Method/favorite(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi20DetailViewController8favoriteFS0_FPSs9AnyObject_T_">favorite(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi20DetailViewController24viewWillTransitionToSizeFS0_FTVSC6CGSize25withTransitionCoordinatorPSo37UIViewControllerTransitionCoordinator__T_"></a>
+                    <a name="//apple_ref/swift/Method/viewWillTransitionToSize(_:withTransitionCoordinator:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi20DetailViewController24viewWillTransitionToSizeFS0_FTVSC6CGSize25withTransitionCoordinatorPSo37UIViewControllerTransitionCoordinator__T_">viewWillTransitionToSize(_:withTransitionCoordinator:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external">thislooksfun</a>. All rights reserved. (Last updated: 2016-03-18)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.5.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

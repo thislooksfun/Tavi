@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>JSON Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/JSON" class="dashAnchor"></a>
+    <a title="JSON Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Tavi Docs</a> (35% documented)</p>
+        <p class="header-right"><a href="https://github.com/thislooksfun/Tavi"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Tavi Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        JSON Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/Alert.html">Alert</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/AppDelegate.html">AppDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/AuthHelper.html">AuthHelper</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Connection.html">Connection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ConsoleLineCell.html">ConsoleLineCell</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ConsoleTableSource.html">ConsoleTableSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DetailViewController.html">DetailViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DisclaimerController.html">DisclaimerController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Favorites.html">Favorites</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FavoritesCell.html">FavoritesCell</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FavoritesListController.html">FavoritesListController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GithubAPI.html">GithubAPI</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GithubAPIAuthorization.html">GithubAPIAuthorization</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GithubAPIBackend.html">GithubAPIBackend</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/InAppNotification.html">InAppNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/JSON.html">JSON</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/LandscapeCapableViewController.html">LandscapeCapableViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Logger.html">Logger</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/LoginController.html">LoginController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MainNavController.html">MainNavController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MasterViewController.html">MasterViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MenuController.html">MenuController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NoConnectionPopup.html">NoConnectionPopup</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NotificationController.html">NotificationController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Notifications.html">Notifications</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/OrientationRespectfulNavController.html">OrientationRespectfulNavController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/PortraitTableViewController.html">PortraitTableViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/PortraitViewController.html">PortraitViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Pusher.html">Pusher</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RepoCell.html">RepoCell</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Router.html">Router</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Settings.html">Settings</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SettingsItem.html">SettingsItem</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TravisAPI.html">TravisAPI</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TravisAPIBackend.html">TravisAPIBackend</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TravisBuild.html">TravisBuild</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TravisBuildJob.html">TravisBuildJob</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TravisRepo.html">TravisRepo</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Global Variables.html">Global Variables</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/s:v4Tavi8clientIDSS">clientID</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/s:v4Tavi12clientSecretSS">clientSecret</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/ViewOrientation.html">ViewOrientation</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Array.html">Array</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Bool.html">Bool</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/CAGradientLayer.html">CAGradientLayer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSDate.html">NSDate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/SequenceType.html">SequenceType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UIDevice.html">UIDevice</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UIView.html">UIView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UIViewController.html">UIViewController</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF4Tavioi3aaeFTRSbSb_T_">&amp;&amp;=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF4Tavioi1pFTSiV12CoreGraphics7CGFloat_S1_">+(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions/+(_:_:).html">+(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF4Tavioi1pFTV12CoreGraphics7CGFloatSi_S1_">+(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions/+(_:_:).html">+(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions/+=(_:_:).html">+=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF4Tavioi2peFTCSo25NSMutableAttributedStringSS_T_">+=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF4Tavioi2peFTCSo25NSMutableAttributedStringCSo18NSAttributedString_T_">+=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF4Tavioi1sFTV12CoreGraphics7CGFloatSi_S1_">-(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF4Tavioi1sFTSiV12CoreGraphics7CGFloat_S1_">-(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF4Tavioi2eeFTCS_11TravisBuildS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF4Tavioi2eeFTVCS_18ConsoleTableSource5GroupS1__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF4Tavioi2eeFTCS_10TravisRepoS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:F4Tavi5asyncFT11onNewThreadSb12withPrioritySi2cbFT_T__T_">async(onNewThread:withPriority:cb:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:F4Tavi5delayFTSd11onNewThreadSb12withPrioritySi2cbFT_T__T_">delay(_:onNewThread:withPriority:cb:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:F4Tavi9parseDateFSSGSqCSo6NSDate_">parseDate(_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/Hidable.html">Hidable</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/HTTPMethod.html">HTTPMethod</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/KeyboardNotification.html">KeyboardNotification</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>JSON</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">JSON</span><span class="p">:</span> <span class="kt">CustomStringConvertible</span></code></pre>
+
+                </div>
+              </div>
+            <p>A basic <a href="http://www.json.org">JSON</a> implemention</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi4JSONcFMS0_FT3objGSqPSs9AnyObject___GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(obj:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi4JSONcFMS0_FT3objGSqPSs9AnyObject___GSqS0__">init(obj:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initalizes the JSON instance from a generic object</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    Can return nil if given invalid data
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="nf">init</span><span class="p">?(</span><span class="nv">obj</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi4JSONcFMS0_FzT4dataCSo6NSData_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(data:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi4JSONcFMS0_FzT4dataCSo6NSData_S0_">init(data:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initalizes the JSON instance from an <code>NSData</code> object</p>
+
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    Can throw an NSError if given invalid data
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">NSData</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi4JSONcFMS0_FT4dictGSqCSo12NSDictionary__GSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/init(dict:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi4JSONcFMS0_FT4dictGSqCSo12NSDictionary__GSqS0__">init(dict:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initalizes the JSON instance from an NSDictionary object</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    Can return nil if given invalid data
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="nf">init</span><span class="p">?(</span><span class="nv">dict</span><span class="p">:</span> <span class="kt">NSDictionary</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC4Tavi4JSON11descriptionSS"></a>
+                    <a name="//apple_ref/swift/Property/description" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC4Tavi4JSON11descriptionSS">description</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns a string version of this JSON object</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi4JSON6getKeyFS0_FSSGSqPSs9AnyObject__"></a>
+                    <a name="//apple_ref/swift/Method/getKey(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi4JSON6getKeyFS0_FSSGSqPSs9AnyObject__">getKey(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Gets the specified key, or nil if it doesn&rsquo;t exist</p>
+
+<ul>
+<li>Parameters
+
+<ul>
+<li>key: The key to find</li>
+</ul></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">getKey</span><span class="p">(</span><span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi4JSON9getStringFS0_FSSGSqSS_"></a>
+                    <a name="//apple_ref/swift/Method/getString(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi4JSON9getStringFS0_FSSGSqSS_">getString(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Gets the specified key as a String, or nil if it can&rsquo;t be cast or doesn&rsquo;t exist</p>
+
+<ul>
+<li>Parameters
+
+<ul>
+<li>key: The key to find</li>
+</ul></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">getString</span><span class="p">(</span><span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi4JSON6getIntFS0_FSSGSqSi_"></a>
+                    <a name="//apple_ref/swift/Method/getInt(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi4JSON6getIntFS0_FSSGSqSi_">getInt(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Gets the specified key as an Int, or nil if it can&rsquo;t be cast or doesn&rsquo;t exist</p>
+
+<ul>
+<li>Parameters
+
+<ul>
+<li>key: The key to find</li>
+</ul></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">getInt</span><span class="p">(</span><span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi4JSON8getArrayFS0_FSSGSqGSaPSs9AnyObject___"></a>
+                    <a name="//apple_ref/swift/Method/getArray(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi4JSON8getArrayFS0_FSSGSqGSaPSs9AnyObject___">getArray(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Gets the specified key as an array, or nil if it can&rsquo;t be cast or doesn&rsquo;t exist</p>
+
+<ul>
+<li>Parameters
+
+<ul>
+<li>key: The key to find</li>
+</ul></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">getArray</span><span class="p">(</span><span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">AnyObject</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi4JSON7getJsonFS0_FSSGSqS0__"></a>
+                    <a name="//apple_ref/swift/Method/getJson(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi4JSON7getJsonFS0_FSSGSqS0__">getJson(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Gets the specified key as new JSON object, or nil if it can&rsquo;t be cast or doesn&rsquo;t exist</p>
+
+<ul>
+<li>Parameters
+
+<ul>
+<li>key: The key to find</li>
+</ul></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">getJson</span><span class="p">(</span><span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">JSON</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Tavi4JSON12getJsonArrayFS0_FSSGSqGSaS0___"></a>
+                    <a name="//apple_ref/swift/Method/getJsonArray(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Tavi4JSON12getJsonArrayFS0_FSSGSqGSaS0___">getJsonArray(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Gets the specified key as an array of new JSON objects, or nil if it can&rsquo;t be cast or doesn&rsquo;t exist</p>
+
+<ul>
+<li>Parameters
+
+<ul>
+<li>key: The key to find</li>
+</ul></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">getJsonArray</span><span class="p">(</span><span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">JSON</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external">thislooksfun</a>. All rights reserved. (Last updated: 2016-03-18)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.5.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
