@@ -20,6 +20,5 @@ echo
 echo "Updating pages"
 git add -A
 git commit -m "Automatically updated docs"
-exit 1
 git push origin gh-pages
 echo "Documentation update complete! Updates are live at https://thislooksfun.github.io/Tavi/docs"
