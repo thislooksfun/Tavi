@@ -15,5 +15,5 @@ jazzy \
   --github_url https://github.com/thislooksfun/Tavi \
   --module Tavi \
   --output docs/swift \
-  --min-acl internal
-# --skip-undocumented   TODO: Add this once code is sufficiently documented (Don't forget to put a backslash on the previous line!)
+  --min-acl private \
+  --skip-undocumented

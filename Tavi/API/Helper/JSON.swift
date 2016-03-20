@@ -75,16 +75,14 @@ class JSON: CustomStringConvertible
 	
 	/// Gets the specified key, or nil if it doesn't exist
 	///
-	/// - Parameters
-	///   - key: The key to find
+	/// - Parameter key: The key to find
 	func getKey(key: String) -> AnyObject? {
 		return dict[key]
 	}
 	
 	/// Gets the specified key as a String, or nil if it can't be cast or doesn't exist
 	///
-	/// - Parameters
-	///   - key: The key to find
+	/// - Parameter key: The key to find
 	func getString(key: String) -> String? {
 		let k = getKey(key) as? NSString
 		return k as? String
@@ -92,32 +90,28 @@ class JSON: CustomStringConvertible
 	
 	/// Gets the specified key as an Int, or nil if it can't be cast or doesn't exist
 	///
-	/// - Parameters
-	///   - key: The key to find
+	/// - Parameter key: The key to find
 	func getInt(key: String) -> Int? {
 		return getKey(key) as? Int
 	}
 	
 	/// Gets the specified key as an array, or nil if it can't be cast or doesn't exist
 	///
-	/// - Parameters
-	///   - key: The key to find
+	/// - Parameter key: The key to find
 	func getArray(key: String) -> [AnyObject]? {
 		return getKey(key) as? [AnyObject]
 	}
 	
 	/// Gets the specified key as new JSON object, or nil if it can't be cast or doesn't exist
 	///
-	/// - Parameters
-	///   - key: The key to find
+	/// - Parameter key: The key to find
 	func getJson(key: String) -> JSON? {
 		return JSON(dict: getKey(key) as? NSDictionary)
 	}
 	
 	/// Gets the specified key as an array of new JSON objects, or nil if it can't be cast or doesn't exist
 	///
-	/// - Parameters
-	///   - key: The key to find
+	/// - Parameter key: The key to find
 	func getJsonArray(key: String) -> [JSON]? {
 		guard dict[key] is [NSDictionary] else { return nil }
 		

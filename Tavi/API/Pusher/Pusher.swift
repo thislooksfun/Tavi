@@ -57,7 +57,7 @@ class Pusher: NSObject, PTPusherDelegate
 	///   - chann: The channel to bind to
 	///   - handler: The closure to call when an event fires
 	///
-	/// - returns: The `NSObjectProtocol` returned by `NSNotificationCenter`
+	/// - Returns: The `NSObjectProtocol` returned by `NSNotificationCenter`
 	static func bindToAllEventsForChannel(chann: String, withHandler handler: (PTPusherEvent?) -> Void) -> NSObjectProtocol {
 		let channel = instance.client.subscribeToChannelNamed(chann)
 		
@@ -71,7 +71,7 @@ class Pusher: NSObject, PTPusherDelegate
 	///   - events: The list of event names to bind to
 	///   - handler: The closure to call when an event fires
 	///
-	/// - returns: An `Array` of `PTPusherEventBinding`s for the bound events
+	/// - Returns: An `Array` of `PTPusherEventBinding`s for the bound events
 	static func bindToChannel(chann: String, forEvents events: [String], withHandler handler: (PTPusherEvent!) -> Void) -> [PTPusherEventBinding] {
 		guard events.count > 0 else { return [] }
 		
@@ -92,7 +92,7 @@ class Pusher: NSObject, PTPusherDelegate
 	///   - event: The event name to bind to
 	///   - handler: The closure to call when the event fires
 	///
-	/// - returns: The `PTPusherEventBinding` for the bound event
+	/// - Returns: The `PTPusherEventBinding` for the bound event
 	static func bindToChannel(chann: String, forEvent event: String, withHandler handler: (PTPusherEvent!) -> Void) -> PTPusherEventBinding {
 		let channel = instance.client.subscribeToChannelNamed(chann)
 		return channel.bindToEventNamed(event, handleWithBlock: handler)
@@ -138,7 +138,7 @@ class Pusher: NSObject, PTPusherDelegate
 	///
 	/// - Parameter handler: the handler to wrap
 	///
-	/// - returns: A closure wrapping `handler`
+	/// - Returns: A closure wrapping `handler`
 	private static func blockForHandler(handler: (PTPusherEvent?) -> Void) -> (NSNotification?) -> Void {
 		return { (note: NSNotification?) in
 			handler(note?.userInfo?[PTPusherEventUserInfoKey] as? PTPusherEvent)

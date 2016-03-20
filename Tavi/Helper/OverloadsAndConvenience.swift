@@ -196,8 +196,7 @@ extension UIDevice
 	/// - Warning: This often causes problems with animations and various other visual glitches.
 	///            Use carefully.
 	///
-	/// - Parameters
-	///   - orientation: The orientation to force
+	/// - Parameter orientation: The orientation to force
 	func forceOrientation(orientation: UIInterfaceOrientation) {
 		self.setValue(orientation.rawValue, forKey: "orientation")
 	}
@@ -371,7 +370,7 @@ func parseDate(date: String) -> NSDate?
 
 /// Runs the given callback asyncronously, after the specified delay.
 ///
-/// - Parameters
+/// - Parameters:
 ///   - delay: If `delay <= 0`, it behaves exactly the same as `async`
 ///   - onNewThread: If `onNewThread` is false, it runs on the main thread, otherwise it runs on a new thread with the given priority. (Default: `false`)
 ///   - withPriority: The priority with which to start the new thread. Only used if `onNewThread` is true. (Default: `DISPATCH_QUEUE_PRIORITY_DEFAULT`)

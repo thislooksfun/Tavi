@@ -25,8 +25,7 @@ class GithubAPIAuthorization
 	
 	/// Creates an instance from a `JSON` object
 	///
-	/// - Parameters
-	///   - json: The `JSON` object to load from
+	/// - Parameter json: The `JSON` object to load from
 	convenience init?(json: JSON) {
 		let tok = json.getString("token")
 		guard tok != nil && tok != "" else { return nil }
@@ -35,7 +34,7 @@ class GithubAPIAuthorization
 	
 	/// Creates an instance from a `JSON` object and a token
 	///
-	/// - Parameters
+	/// - Parameters:
 	///   - json: The `JSON` object to load from
 	///   - token: The authorization token
 	init?(json: JSON, token: String)
