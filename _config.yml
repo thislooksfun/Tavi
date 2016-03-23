@@ -26,6 +26,3 @@ contact:
 # Gems
 gems:
   - jekyll-paginate
-
-#Others
-markdown: redcarpet
