@@ -1,5 +1,6 @@
 //
 // Taken from https://gist.github.com/kristopherjohnson/13d5f18b0d56b0ea9242
+//
 
 import UIKit
 
