@@ -94,7 +94,7 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "reload", name: UIApplicationDidBecomeActiveNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DetailViewController.reload), name: UIApplicationDidBecomeActiveNotification, object: nil)
 	}
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)

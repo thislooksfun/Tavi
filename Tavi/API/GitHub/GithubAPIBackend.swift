@@ -22,17 +22,18 @@ class GithubAPIBackend
 	///   - json: Any JSON to connect with (Default: `nil`)
 	///   - errorCallback: The callback to use if something goes wrong
 	///   - callback: The callback to use if nothing goes wrong
-	static func apiCall(var path: String, method: HTTPMethod, headers: [NSObject: AnyObject]? = nil, json: [NSObject: AnyObject]? = nil, errorCallback: ((String?) -> Void)?, callback: (JSON, NSHTTPURLResponse) -> Void)
+	static func apiCall(path: String, method: HTTPMethod, headers: [NSObject: AnyObject]? = nil, json: [NSObject: AnyObject]? = nil, errorCallback: ((String?) -> Void)?, callback: (JSON, NSHTTPURLResponse) -> Void)
 	{
 		let config = NSURLSessionConfiguration.defaultSessionConfiguration()
 		config.HTTPAdditionalHeaders = headers
 		let session = NSURLSession(configuration: config)
 		
-		if path.characters.first != "/" {
-			path = "/"+path
+		var relPath = path
+		if relPath.characters.first != "/" {
+			relPath = "/"+relPath
 		}
 		
-		let url = NSURL(string: "https://api.github.com"+path)
+		let url = NSURL(string: "https://api.github.com"+relPath)
 		
 		guard url != nil else {
 			errorCallback?("url can't be found!")

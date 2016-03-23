@@ -20,7 +20,7 @@ class FavoritesListController: PortraitTableViewController
 		
 		if self.traitCollection.forceTouchCapability == UIForceTouchCapability.Available {
 			let infoButton = UIButton(type: .InfoLight)
-			infoButton.addTarget(self, action: "showInfo:", forControlEvents: .TouchUpInside)
+			infoButton.addTarget(self, action: #selector(FavoritesListController.showInfo(_:)), forControlEvents: .TouchUpInside)
 			self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: infoButton)
 		}
 		
@@ -54,7 +54,7 @@ class FavoritesListController: PortraitTableViewController
 	override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
 		if self.traitCollection.forceTouchCapability == UIForceTouchCapability.Available {
 			let infoButton = UIButton(type: .InfoLight)
-			infoButton.addTarget(self, action: "showInfo:", forControlEvents: .TouchUpInside)
+			infoButton.addTarget(self, action: #selector(FavoritesListController.showInfo(_:)), forControlEvents: .TouchUpInside)
 			self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: infoButton)
 		} else {
 			self.navigationItem.rightBarButtonItem = nil
@@ -70,7 +70,7 @@ class FavoritesListController: PortraitTableViewController
 		let cell = tableView.dequeueReusableCellWithIdentifier("FavoritesCell", forIndexPath: indexPath) as! FavoritesCell
 		cell.load(self.data[indexPath.row].slug)
 		cell.favToggleButton.tag = indexPath.row
-		cell.favToggleButton.addTarget(self, action: "toggleCellFavorite:", forControlEvents: .TouchUpInside)
+		cell.favToggleButton.addTarget(self, action: #selector(FavoritesListController.toggleCellFavorite(_:)), forControlEvents: .TouchUpInside)
 		return cell
 	}
 	

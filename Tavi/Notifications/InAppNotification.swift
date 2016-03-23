@@ -93,7 +93,7 @@ class InAppNotification: UIView
 		let button = UIButton()
 		button.translatesAutoresizingMaskIntoConstraints = false
 		
-		button.addTarget(self, action: "goToRepo:", forControlEvents: .TouchUpInside)
+		button.addTarget(self, action: #selector(InAppNotification.goToRepo(_:)), forControlEvents: .TouchUpInside)
 		
 		self.addSubview(button)
 		

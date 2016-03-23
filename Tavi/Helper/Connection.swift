@@ -40,7 +40,7 @@ class Connection
 		let isReachable = flags.contains(.Reachable)
 		let needsConnection = flags.contains(.ConnectionRequired)
 		
-		x++
+		x += 1
 		return (isReachable && !needsConnection) && (x % 3 != 0)
 	}
 }

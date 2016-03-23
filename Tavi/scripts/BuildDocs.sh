@@ -16,4 +16,5 @@ jazzy \
   --module Tavi \
   --output docs/swift \
   --min-acl private \
+  --swift-version 2.2 \
   --skip-undocumented

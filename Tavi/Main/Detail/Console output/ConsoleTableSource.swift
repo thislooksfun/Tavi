@@ -26,7 +26,7 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 	private var longestWidth: CGFloat = -1
 	
 	/// The font the table uses
-	private var font = UIFont(name: "Inconsolata", size: 14)!
+	private let font = UIFont(descriptor: UIFontDescriptor(name: "Inconsolata", size: 14), size: 14)
 	/// The color for a cell that is the start of a group
 	private var groupStartColor = UIColor(white: 43/255, alpha: 1)
 	/// The color for all cells that aren't part of a group
@@ -181,13 +181,13 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 			cell.disclosureArrow.highlighted = group!.expanded
 			
 			cell.expandButton.tag = offsetRow
-			cell.expandButton.addTarget(self, action: "toggleExpand:", forControlEvents: .TouchUpInside)
+			cell.expandButton.addTarget(self, action: #selector(ConsoleTableSource.toggleExpand(_:)), forControlEvents: .TouchUpInside)
 		} else {
 			cell.backgroundColor = defaultColor
 			
 			cell.disclosureArrow.hidden = true
 			
-			cell.expandButton.removeTarget(self, action: "toggleExpand:", forControlEvents: .TouchUpInside)
+			cell.expandButton.removeTarget(self, action: #selector(ConsoleTableSource.toggleExpand(_:)), forControlEvents: .TouchUpInside)
 		}
 		
 		cell.lineNumber = info.row

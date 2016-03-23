@@ -22,17 +22,18 @@ class TravisAPIBackend
 	///   - json: Any JSON to connect with (Default: `nil`)
 	///   - errorCallback: The callback to use if something goes wrong
 	///   - callback: The callback to use if nothing goes wrong
-	static func apiCall(var path: String, method: HTTPMethod, headers: [NSObject: AnyObject]? = nil, json: [NSObject: AnyObject]? = nil, callback: (String?, JSON?, NSHTTPURLResponse?) -> Void)
+	static func apiCall(path: String, method: HTTPMethod, headers: [NSObject: AnyObject]? = nil, json: [NSObject: AnyObject]? = nil, callback: (String?, JSON?, NSHTTPURLResponse?) -> Void)
 	{
 		let config = NSURLSessionConfiguration.defaultSessionConfiguration()
 		config.HTTPAdditionalHeaders = headers
 		let session = NSURLSession(configuration: config)
 		
-		if path.characters.first != "/" {
-			path = "/"+path
+		var relpath = path
+		if relpath.characters.first != "/" {
+			relpath = "/"+relpath
 		}
 		
-		let url = NSURL(string: "https://api.travis-ci.org"+path)
+		let url = NSURL(string: "https://api.travis-ci.org"+relpath)
 		
 		guard url != nil else {
 			callback("url can't be found!", nil, nil)

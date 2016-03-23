@@ -99,7 +99,8 @@ class TravisBuild: Equatable
 		let jobIDs = buildJSON.getArray("job_ids")! as! [Int]
 		var remaining = jobIDs.count
 		func jobDone() {
-			if --remaining <= 0 {
+			remaining -= 1
+			if remaining <= 0 {
 				done?()
 			}
 		}

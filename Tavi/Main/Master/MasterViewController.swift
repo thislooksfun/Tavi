@@ -27,7 +27,7 @@ class MasterViewController: PortraitTableViewController
 		super.viewDidLoad()
 		
 		if let refresh = self.refreshControl {
-			refresh.addTarget(self, action: "reloadFromRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+			refresh.addTarget(self, action: #selector(MasterViewController.reloadFromRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
 			refresh.superview!.sendSubviewToBack(refresh)
 			async() {
 				refresh.beginRefreshing()
@@ -40,7 +40,7 @@ class MasterViewController: PortraitTableViewController
 		self.constructNoBuilds()
 		self.constructNotAuthed()
 		
-		self.timer = NSTimer(timeInterval: 0.25, target: self, selector: "timerTick", userInfo: nil, repeats: true)
+		self.timer = NSTimer(timeInterval: 0.25, target: self, selector: #selector(MasterViewController.timerTick), userInfo: nil, repeats: true)
 		NSRunLoop.currentRunLoop().addTimer(self.timer, forMode: NSRunLoopCommonModes)
 	}
 	
@@ -52,7 +52,7 @@ class MasterViewController: PortraitTableViewController
 			repo.setPusherEventCallback(self.onRepoEventForRepo, forObject: self)
 		}
 		
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "reload", name: UIApplicationDidBecomeActiveNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MasterViewController.reload), name: UIApplicationDidBecomeActiveNotification, object: nil)
 	}
 	
 	override func viewDidAppear(animated: Bool)
@@ -165,7 +165,8 @@ class MasterViewController: PortraitTableViewController
 						newRepos.append(rp!)
 					}
 					
-					if --count <= 0 {
+					count -= 1
+					if count <= 0 {
 						newRepos.sortInPlace(self.repoSort)
 						if newRepos != self.repos {
 							self.repos.forEach({ (repo) in repo.dismiss() })
