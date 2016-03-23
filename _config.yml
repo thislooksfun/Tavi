@@ -4,6 +4,7 @@ tagline:      A simple iOS app for Travis-CI
 baseurl:      "/Tavi"
 projecturl:   https://github.com/thislooksfun/Tavi
 producturl:   "" #TODO: Make this link to the App Store once it is uploaded, and add button on main page and in menu
+timezone:     "America/Chicago"
 
 # Pagenation
 paginate:      5
