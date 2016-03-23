@@ -17,4 +17,4 @@ That being said, please _don't_ send me messages saying "your app sucks, and I h
 
 <br>
 
-For those of you who enjoy looking at other people's code,
+For those of you who enjoy looking at other people's code, like I do, I have (mostly) [fully documented]({{ site.docsurl | prepend: site.baseurl }}) everything I have written.

@@ -1,14 +1,18 @@
 # Setup
-title:        Tavi
-tagline:      A simple iOS app for Travis-CI
-baseurl:      "/Tavi"
-projecturl:   https://github.com/thislooksfun/Tavi
-producturl:   "" #TODO: Make this link to the App Store once it is uploaded, and add button on main page and in menu
-timezone:     "America/Chicago"
+title:    Tavi
+tagline:  A simple iOS app for Travis-CI
+timezone: America/Chicago
+
+# URLs
+baseurl:    /Tavi
+projecturl: https://github.com/thislooksfun/Tavi
+producturl: "" #TODO: Make this link to the App Store once it is uploaded, and add button on main page and in menu
+blogurl:    /blog/
+docsurl:    /docs/
 
 # Pagenation
 paginate:      5
-paginate_path: "/blog/page/:num/"
+paginate_path: /blog/page/:num/
 
 # Author
 author:
@@ -19,10 +23,10 @@ author:
 contact:
   twitter:
     username: "@thislooksfun1"
-    url: https://twitter.com/thislooksfun1
+    url:      https://twitter.com/thislooksfun1
   github:
     username: thislooksfun
-    url: https://github.com/thislooksfun
+    url:      https://github.com/thislooksfun
 
 # Gems
 gems:

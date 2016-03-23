@@ -14,8 +14,8 @@
         <nav>
           <ul class="button-list">
             <li><a href="{{ site.baseurl }}/">Home</a></li>
-            <li><a href="{{ site.baseurl }}/blog/">Blog</a></li>
-            <li><a href="{{ site.baseurl }}/docs/">Docs</a></li>
+            <li><a href="{{ site.blogurl | prepend: site.baseurl }}">Blog</a></li>
+            <li><a href="{{ site.docsurl | prepend: site.baseurl }}">Docs</a></li>
           </ul>
         </nav>
       </div>
@@ -34,8 +34,8 @@
     <nav>
       <ul class="button-list">
         <li><a href="{{ site.baseurl }}/">Home</a></li>
-        <li><a href="{{ site.baseurl }}/blog/">Blog</a></li>
-        <li><a href="{{ site.baseurl }}/docs/">Docs</a></li>
+        <li><a href="{{ site.blogurl | prepend: site.baseurl }}">Blog</a></li>
+        <li><a href="{{ site.docsurl | prepend: site.baseurl }}">Docs</a></li>
       </ul>
     </nav>
   </div>
