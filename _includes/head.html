@@ -1,0 +1,16 @@
+<head>
+  <meta charset="UTF-8">
+  <title>{{ site.title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#FF6D00">
+  <link rel="stylesheet" href="{{ site.baseurl }}/css/normalize.css">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="{{ site.baseurl }}/css/cayman.css">
+  <link rel="stylesheet" href="{{ site.baseurl }}/css/header.css">
+  <script src="{{ site.baseurl }}/js/jquery-2.2.2.min.js" charset="utf-8"></script>
+  {% if page.use_custom_css %}
+  <style media="screen">
+    {{ page.custom_css }}
+  </style>
+  {% endif %}
+</head>

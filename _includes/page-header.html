@@ -1,0 +1,50 @@
+<section class="page-header">
+  <div class="spacer">
+  </div>
+  
+  <section class="header-bar">
+    <section class="header-left">
+      <!-- TODO: Make this whole section a link -->
+      <img src="{{ site.baseurl }}/assets/glyph-white.png" alt="Tavi logo" class="tavi-icon" />
+      <a href="{{ site.baseurl }}/"><h2 class="header-title">{{ site.title }}</h2></a>
+    </section>
+    
+    <section class="header-right">
+      <div class="desktop">
+        <nav>
+          <ul class="button-list">
+            <li><a href="{{ site.baseurl }}/">Home</a></li>
+            <li><a href="{{ site.baseurl }}/blog">Blog</a></li>
+            <li><a href="{{ site.baseurl }}/docs">Docs</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="mobile">
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </section>
+  </section>
+  
+  <div class="mobile-menu">
+    <nav>
+      <ul class="button-list">
+        <li><a href="{{ site.baseurl }}/">Home</a></li>
+        <li><a href="{{ site.baseurl }}/blog">Blog</a></li>
+        <li><a href="{{ site.baseurl }}/docs">Docs</a></li>
+      </ul>
+    </nav>
+  </div>
+  
+  <script type="text/javascript">
+    $(".hamburger").click(function() {
+      $(this).toggleClass("open")
+      $(this).parents(".page-header").children(".mobile-menu").children("nav").toggleClass("open")
+    })
+  </script>
+  
+</section>

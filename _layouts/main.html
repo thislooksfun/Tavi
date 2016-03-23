@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  
+  {% include head.html %}
+
+  <body>
+    
+    <section class="page-head">
+      <h1 class="project-name">{{ site.title }}</h1>
+      <h2 class="project-tagline">{{ site.tagline }}</h2>
+      <a href="{{ site.projecturl }}" class="btn">View on GitHub</a>
+      <a href="{{ site.baseurl }}/blog/" class="btn">Blog posts</a>
+      <a href="{{ site.baseurl }}/docs" class="btn">Documentation</a>
+    </section>
+
+    <section class="main-content">
+      
+      {{ content }}
+
+      {% include page-footer.html %}
+
+    </section>
+
+  </body>
+</html>
