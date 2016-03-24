@@ -35,6 +35,10 @@ class Pusher: NSObject, PTPusherDelegate
 	static private var internal_instance: Pusher?
 	
 	/// The `PTPusher` client
+	///
+	/// This is a forced optional `!` only because
+	/// the compiler really doesn't like the way I've
+	/// set the initalizer up.
 	var client: PTPusher!
 	
 	/// The internal create method
@@ -42,6 +46,7 @@ class Pusher: NSObject, PTPusherDelegate
 	/// - Parameter key: The key to initalize `PTPusher` with
 	private init(key: String) {
 		super.init()
+		
 		self.client = PTPusher(key: key, delegate: self, encrypted: true)
 		self.client.connect()
 	}
@@ -121,7 +126,7 @@ class Pusher: NSObject, PTPusherDelegate
 		}
 		
 		let channel = instance.client.channelNamed(chann)
-		channel.unsubscribe()
+		channel?.unsubscribe()
 	}
 	
 	/// Unbinds an event
