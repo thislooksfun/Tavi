@@ -74,8 +74,9 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	/// The repository this controller represents
 	var repo: TravisRepo? {
 		didSet {
-			if self.repo != nil {
+			if oldValue != nil && self.repo != nil && self.repo != oldValue {
 				master?.detailRepoDidChange(self.repo!)
+				self.consoleTableSource.clearRows()
 			}
 			self.repo?.setPusherEventCallback({ (_) in self.configureView(false) }, forObject: self)
 		}
@@ -167,13 +168,14 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 			Alert.showAlertWithTitle("Error", andMessage: "There was an error loading this repository. Check the slug or try again later", andActions: [action])
 			return
 		}
+		self.repo?.dismiss()
 		self.repo = newRepo
 		self.configureView(false)
 	}
 	
 	/// Reloads the repo
 	func reload() {
-		self.jumpToMainLoading()
+		self.moveToMainLoading(false)
 		self.slug = self.repo?.slug ?? self.slug
 	}
 	
@@ -188,10 +190,10 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		} else {
 			self.hideAll()
 			if self.slug != nil {
-				self.jumpToMainLoading()
+				self.moveToMainLoading(!isInDidLoad)
 				setFavorite(Favorites.isFavorite(self.slug!))
 			} else if self.id != nil {
-				self.jumpToMainLoading()
+				self.moveToMainLoading(!isInDidLoad)
 			}
 		}
 		
@@ -199,11 +201,19 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	}
 	
 	/// Jumps the loading view to the 'main' (top) position
-	private func jumpToMainLoading() {
-		self.loadingMain.show()
-		self.loadingConsole.show()
-		self.loadingBottomConstraint.constant = 40
-		self.view.layoutIfNeeded()
+	///
+	/// - Parameter animate: Whether or not to animate the transition
+	private func moveToMainLoading(animate: Bool)
+	{
+		self.loadingMain.show(duration: 0)
+		self.loadingConsole.show(duration: 0)
+		
+		self.loadingBottomConstraint.constant = 60
+		if animate {
+			UIView.animateWithDuration(0.4, animations: self.view.layoutIfNeeded)
+		} else {
+			self.view.layoutIfNeeded()
+		}
 	}
 	
 	/// Transitions the loading view to the console, or bottom, position
@@ -211,9 +221,12 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	/// - Parameter animate: Whether or not to animate the transition
 	private func moveToConsoleLoading(animate: Bool)
 	{
+		self.loadingMain.show(duration: 0)
+		self.loadingConsole.show(duration: 0)
+		
 		self.loadingBottomConstraint.constant = -60
 		if animate {
-			UIView.animateWithDuration(0.4, animations: self.view.layoutIfNeeded, completion: { (_) in self.loadingMain.hide() })
+			UIView.animateWithDuration(0.4, animations: self.view.layoutIfNeeded)
 		} else {
 			self.view.layoutIfNeeded()
 		}
@@ -249,10 +262,10 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		
 		self.navigationItem.title = repo.slug
 		
-//		if let first = repo.lastBuild?.jobs.first {
+		if let first = repo.lastBuild?.jobs.first {
 			//TODO: add callback for when jobs are done
-//			self.consoleTableSource.load(first, done: { self.loadingBottom.hide() })
-//		}
+			self.consoleTableSource.load(first, done: { self.loadingConsole.hide() })
+		}
 		
 		setFavorite(Favorites.isFavorite(repo.slug))
 		
