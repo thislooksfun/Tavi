@@ -380,9 +380,9 @@ class MasterViewController: PortraitTableViewController
 		if segue.identifier == "showDetail" {
 			if let indexPath = self.tableView.indexPathForSelectedRow {
 				let detail = segue.destinationViewController as! DetailViewController
-				detail.repo = repos[indexPath.section]
-				// Set master after repo to prevent `detailRepoDidChange` from being called here
+				
 				detail.master = self
+				detail.repo = repos[indexPath.section]
 			} else if sender is RepoCell {
 				let detail = segue.destinationViewController as! DetailViewController
 				self.navigationController?.interactivePopGestureRecognizer?.delegate = detail
@@ -390,9 +390,9 @@ class MasterViewController: PortraitTableViewController
 		} else if segue.identifier == "showDetailPeek" {
 			if let cell = sender as? RepoCell {
 				let detail = segue.destinationViewController as! DetailViewController
-				detail.repo = repos[self.tableView.indexPathForCell(cell)!.section]
-				// Set master after repo to prevent `detailRepoDidChange` from being called here
+				
 				detail.master = self
+				detail.repo = repos[self.tableView.indexPathForCell(cell)!.section]
 			}
 		}
 	}
