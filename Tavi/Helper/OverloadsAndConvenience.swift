@@ -162,7 +162,8 @@ extension UIView
 	///   - delay: The animation delay (Default: `0`)
 	///   - options: The animation options (Default: `[]`)
 	///   - completion: What to do when the animation finishes (Default: `nil`)
-	func show(maxAlpha maxAlpha: CGFloat = 1, duration: Double = 0.3, delay: Double = 0, options: UIViewAnimationOptions = [], completion: ((finished: Bool) -> Void)? = nil) {
+	func show(maxAlpha maxAlpha: CGFloat = 1, duration: Double = 0.3, delay: Double = 0, options: UIViewAnimationOptions = [], completion: ((finished: Bool) -> Void)? = nil)
+	{
 		self.hidden = false
 		
 		guard duration > 0 else {
@@ -183,10 +184,10 @@ extension UIView
 	///   - delay: The animation delay (Default: `0`)
 	///   - options: The animation options (Default: `[]`)
 	///   - completion: What to do when the animation finishes (Default: `nil`)
-	func hide(minAlpha minAlpha: CGFloat = 0, duration: Double = 0.3, delay: Double = 0, options: UIViewAnimationOptions = [], completion: ((finished: Bool) -> Void)? = nil) {
-		
+	func hide(minAlpha minAlpha: CGFloat = 0, duration: Double = 0.3, delay: Double = 0, options: UIViewAnimationOptions = [], completion: ((finished: Bool) -> Void)? = nil)
+	{
 		guard duration > 0 else {
-			self.alpha = 0
+			self.alpha = minAlpha
 			self.hidden = true
 			return
 		}
