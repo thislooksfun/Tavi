@@ -56,25 +56,25 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 		// TODO:
 //		job.getLog(loadFromJson)
 		
-		self.addRow("Hi", reloadAndResize: false)
-		self.addRow("How are you?", reloadAndResize: false)
-		self.addRow("I'm doing pretty well", reloadAndResize: false)
-		self.addRow("Thanks for asking", reloadAndResize: false)
-		self.addRow("How's Sally?", reloadAndResize: false)
-		self.addRow("I heard she got a dog", reloadAndResize: false)
+		self.addRow("Hi")
+		self.addRow("How are you?")
+		self.addRow("I'm doing pretty well")
+		self.addRow("Thanks for asking")
+		self.addRow("How's Sally?")
+		self.addRow("I heard she got a dog")
 
-		self.addRow("This is the start of a group", isGroupStart: true, reloadAndResize: false)
-		self.addRow("This is part 1/3 of a group", reloadAndResize: false)
-		self.addRow("This is part 2/3 of a group", reloadAndResize: false)
-		self.addRow("This is part 3/3 of a group", reloadAndResize: false)
-		self.addRow("This is the end of the group", isGroupEnd: true, reloadAndResize: false)
+		self.addRow("This is the start of a group", isGroupStart: true)
+		self.addRow("This is part 1/3 of a group")
+		self.addRow("This is part 2/3 of a group")
+		self.addRow("This is part 3/3 of a group")
+		self.addRow("This is the end of the group", isGroupEnd: true)
 		
-		self.addRow("Here is some more stuff", reloadAndResize: false)
-		self.addRow("This should be visible", reloadAndResize: false)
-		self.addRow("This is a really long line of text to make sure that horizontal (sideways) scrolling is working properly when it encounters a long line of console input.", reloadAndResize: false)
+		self.addRow("Here is some more stuff")
+		self.addRow("This should be visible")
+		self.addRow("This is a really long line of text to make sure that horizontal (sideways) scrolling is working properly when it encounters a long line of console input.")
 		
 		for _ in 1...9 {
-			self.addRow("Filler text...", reloadAndResize: false)
+			self.addRow("Filler text...")
 		}
 		
 		//TODO: Load console from remote
@@ -119,8 +119,8 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 	///   - text: The body of the row
 	///   - isGroupStart: Whether or not this row is the start of a group (Default: `false`)
 	///   - isGroupEnd: Whether or not this row in the end of a group (Default: `false`)
-	///   - refresh: Whether or not to update and resize the table (Default: `true`)
-	func addRow(text: String, isGroupStart: Bool = false, isGroupEnd: Bool = false, reloadAndResize refresh: Bool = true)
+	///   - refresh: Whether or not to update and resize the table (Default: `false`)
+	func addRow(text: String, isGroupStart: Bool = false, isGroupEnd: Bool = false, reloadAndResize refresh: Bool = false)
 	{
 		if isGroupStart {
 			groupStart = data.count
