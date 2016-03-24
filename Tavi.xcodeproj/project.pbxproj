@@ -695,7 +695,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "bash \"$PROJECT_DIR/Tavi/scripts/HighlightTodo.sh\"\nbash \"$PROJECT_DIR/Tavi/scripts/BuildDocs.sh\"";
+			shellScript = "bash \"$PROJECT_DIR/Tavi/scripts/HighlightTodo.sh\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
