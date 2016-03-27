@@ -27,7 +27,7 @@
       .header-left .header-title {
         font-size: 33px;
         vertical-align: middle;
-        margin: 0 inherit;
+        margin: 0;
         color: #fff;
         display: inline-block; }
     .header-right {
