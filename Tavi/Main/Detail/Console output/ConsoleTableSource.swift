@@ -53,31 +53,28 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 	{
 		self.clearRows(reloadAndResize: false)
 		
-		// TODO:
-//		job.getLog(loadFromJson)
+		job.getLog(loadFromJson)
 		
-		self.addRow("Hi")
-		self.addRow("How are you?")
-		self.addRow("I'm doing pretty well")
-		self.addRow("Thanks for asking")
-		self.addRow("How's Sally?")
-		self.addRow("I heard she got a dog")
-
-		self.addRow("This is the start of a group", isGroupStart: true)
-		self.addRow("This is part 1/3 of a group")
-		self.addRow("This is part 2/3 of a group")
-		self.addRow("This is part 3/3 of a group")
-		self.addRow("This is the end of the group", isGroupEnd: true)
-		
-		self.addRow("Here is some more stuff")
-		self.addRow("This should be visible")
-		self.addRow("This is a really long line of text to make sure that horizontal (sideways) scrolling is working properly when it encounters a long line of console input.")
-		
-		for _ in 1...9 {
-			self.addRow("Filler text...")
-		}
-		
-		//TODO: Load console from remote
+//		self.addRow("Hi")
+//		self.addRow("How are you?")
+//		self.addRow("I'm doing pretty well")
+//		self.addRow("Thanks for asking")
+//		self.addRow("How's Sally?")
+//		self.addRow("I heard she got a dog")
+//
+//		self.addRow("This is the start of a group", isGroupStart: true)
+//		self.addRow("This is part 1/3 of a group")
+//		self.addRow("This is part 2/3 of a group")
+//		self.addRow("This is part 3/3 of a group")
+//		self.addRow("This is the end of the group", isGroupEnd: true)
+//		
+//		self.addRow("Here is some more stuff")
+//		self.addRow("This should be visible")
+//		self.addRow("This is a really long line of text to make sure that horizontal (sideways) scrolling is working properly when it encounters a long line of console input.")
+//		
+//		for _ in 1...9 {
+//			self.addRow("Filler text...")
+//		}
 		
 		self.reloadAndResize()
 		
@@ -88,7 +85,7 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 	///
 	/// - Parameter json: The `JSON` object to load from
 	private func loadFromJson(json: JSON) {
-		Logger.info(json)
+		Logger.info(json.getJson("log")!)
 	}
 	
 	/// Called by `DetailViewController` to tell this class that

@@ -262,9 +262,12 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		
 		self.navigationItem.title = repo.slug
 		
-		if let first = repo.lastBuild?.jobs.first {
-			//TODO: add callback for when jobs are done
-			self.consoleTableSource.load(first, done: { self.loadingConsole.hide() })
+		repo.lastBuild?.loadJobs() { (jobs) in
+			if let first = jobs.first {
+				self.consoleTableSource.load(first) { self.loadingConsole.hide() }
+			} else {
+				self.loadingConsole.hide()
+			}
 		}
 		
 		setFavorite(Favorites.isFavorite(repo.slug))

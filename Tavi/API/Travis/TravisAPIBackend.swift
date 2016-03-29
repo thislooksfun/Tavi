@@ -31,10 +31,11 @@ class TravisAPIBackend
 	///   - path: The relative path to connect to. The path will be appended as follows: `"https://api.travis-ci.org"+path`
 	///   - method: The `HTTPMethod` with which to connect
 	///   - headers: Any headers to use (Default: `nil`)
+	///   - accept: Any parameters to append to the Accept header (Default: `"application/vnd.travis-ci.2+json"`)
 	///   - json: Any JSON to connect with (Default: `nil`)
 	///   - errorCallback: The callback to use if something goes wrong
 	///   - callback: The callback to use if nothing goes wrong
-	static func apiCall(path: String, method: HTTPMethod, headers: [NSObject: AnyObject]? = nil, json: [NSObject: AnyObject]? = nil, callback: (String?, JSON?, NSHTTPURLResponse?) -> Void)
+	static func apiCall(path: String, method: HTTPMethod, headers: [NSObject: AnyObject]? = nil, accept: String = "application/vnd.travis-ci.2+json", json: [NSObject: AnyObject]? = nil, callback: (String?, JSON?, NSHTTPURLResponse?) -> Void)
 	{
 		let config = NSURLSessionConfiguration.defaultSessionConfiguration()
 		config.HTTPAdditionalHeaders = headers
@@ -57,7 +58,7 @@ class TravisAPIBackend
 		let version = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"]! ?? ""
 		request.HTTPMethod = method.name
 		request.setValue("Travis/1.6.x Tavi/\(version!)", forHTTPHeaderField: "User-Agent")
-		request.setValue("application/vnd.travis-ci.2+json", forHTTPHeaderField: "Accept")
+		request.setValue(accept, forHTTPHeaderField: "Accept")
 		if let authToken = Settings.Travis_Token.get() {
 			request.setValue("token \(authToken)", forHTTPHeaderField: "Authorization")
 		}
@@ -82,6 +83,7 @@ class TravisAPIBackend
 			
 			var parseJSON: JSON?
 			do {
+				Logger.debug("Parsing json: \(NSString(data: data!, encoding: NSUTF8StringEncoding)! as String)")
 				parseJSON = try JSON(data: data!)
 			} catch _ {
 				parseJSON = nil

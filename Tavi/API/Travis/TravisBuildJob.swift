@@ -23,15 +23,55 @@ import UIKit
 /// A single Travis build job
 class TravisBuildJob
 {
+	private let jobID: Int
+	private let logID: Int
+	
 	/// Creates an instance from a `JSON` object
 	///
 	/// - Parameter jobJson: The `JSON` to load the job from
 	init?(jobJson: JSON) {
-		Logger.info(jobJson.getJson("job")!)
+		let job = jobJson.getJson("job")!
+		Logger.info(job)
+		
+		jobID = job.getInt("id")!
+		logID = job.getInt("log_id")!
+		
+		/* Other keys:
+		
+		state: String
+		repository_slug: String
+		annotation_ids: [Int]
+		commit_id: Int
+		tags: ???
+		finished_at: String (date)
+		build_id: Int
+		allow_failure: Bool
+		config : {
+		  script: [String]
+		  os: String
+		  dist: String
+		  language: String
+		  node_js: String (I think the key for this is the value of config.language, but I'm not sure
+		  .result: String
+		  group: String
+		}
+		number: String
+		started_at: String (date)
+		queue: String
+		repository_id: String
+		
+		*/
 	}
 	
-	// TODO: Implement this
-//	func getLog(cb: (JSON) -> Void) {
-//		TravisAPI.loadLogForJob
-//	}
+	func getLog(cb: (JSON) -> Void) {
+//		TravisAPI.loadLogForJob(self.jobID) {
+		TravisAPI.loadLog(self.logID) {
+			(state, json) in
+			
+			guard state == .Success else { return }
+			guard json != nil else { return }
+			
+			cb(json!)
+		}
+	}
 }

@@ -18,10 +18,12 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import Foundation
+//#if
 import UIKit
 
 /// A (decently) simple logging system
-class Logger
+public class Logger
 {
 	/// tThe minimum level required for a message to be displayed
 	private static var minLogLevel: LogLevel?
@@ -29,13 +31,13 @@ class Logger
 	private static var indentPrefix = ""
 	
 	/// Increases the indent by two spaces
-	static func indent() {
+	public static func indent() {
 		indentPrefix += "  "
 	}
 	
 	/// If the current indent is greater than two spaces, decrease the index by two spaces
 	/// Otherwise, set the indent to an empty string
-	static func outdent() {
+	public static func outdent() {
 		if indentPrefix.characters.count >= 2 {
 			indentPrefix = indentPrefix.substringToIndex(indentPrefix.endIndex.advancedBy(-2))
 		} else {
@@ -46,16 +48,31 @@ class Logger
 	/// Sets the minimum log level
 	///
 	/// - Parameter level: The new minimum log level
-	static func setLogLevel(level: LogLevel) {
+	public static func setLogLevel(level: LogLevel) {
 		minLogLevel = level
 	}
 	
+	//TODO: Add more settings here
+	
+	public static var xcodeColorsEnabled: Bool = {
+		let colors = NSProcessInfo.processInfo().environment["XcodeColors"]
+		return colors == "YES"
+	}()
+	
+	
 	/// Logs a message at the specified level
 	///
 	/// - Parameters:
 	///   - level: The level to log at
 	///   - vals: The values to log
-	static func log<T>(level: LogLevel, vals: T...) { log(level, seperator: " ", arr: vals) }
+	public static func log<T>(level: LogLevel, vals: T..., functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { log(level, seperator: " ", arr: vals, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
+	
+	/// Logs a message at the specified level
+	///
+	/// - Parameters:
+	///   - level: The level to log at
+	///   - vals: The values to log
+	public static func log<T>(level: LogLevel, vals: T?..., functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { log(level, seperator: " ", arr: vals, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
 	
 	/// Logs a message at the specified level
 	///
@@ -63,7 +80,7 @@ class Logger
 	///   - level: The level to log at
 	///   - seperator: The string to insert between the vals
 	///   - vals: The values to log
-	static func log<T>(level: LogLevel, seperator: String, vals: T...) { log(level, seperator: seperator, arr: vals) }
+	public static func log<T>(level: LogLevel, seperator: String, vals: T..., functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { log(level, seperator: seperator, arr: vals, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
 	
 	/// Logs a message at the specified level
 	///
@@ -71,7 +88,15 @@ class Logger
 	///   - level: The level to log at
 	///   - seperator: The string to insert between the vals
 	///   - vals: The values to log
-	private static func log<T>(level: LogLevel, seperator: String, arr: [T?]) {
+	public static func log<T>(level: LogLevel, seperator: String, vals: T?..., functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { log(level, seperator: seperator, arr: vals, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
+	
+	/// Logs a message at the specified level
+	///
+	/// - Parameters:
+	///   - level: The level to log at
+	///   - seperator: The string to insert between the vals
+	///   - vals: The values to log
+	private static func log<T>(level: LogLevel, seperator: String, arr: [T?], functionName: String, fileName: String, lineNumber: Int) {
 		var out = [String]()
 		for v in arr {
 			if v == nil {
@@ -80,7 +105,7 @@ class Logger
 				out.append("Optional(\(v!))")
 			}
 		}
-		log(level, seperator: seperator, arr: out)
+		log(level, seperator: seperator, arr: out, functionName: functionName, fileName: fileName, lineNumber: lineNumber)
 	}
 	
 	/// Logs a message at the specified level
@@ -89,7 +114,7 @@ class Logger
 	///   - level: The level to log at
 	///   - seperator: The string to insert between the vals
 	///   - vals: The values to log
-	private static func log<T>(level: LogLevel, seperator: String, arr: [T]) {
+	private static func log<T>(level: LogLevel, seperator: String, arr: [T], functionName: String, fileName: String, lineNumber: Int) {
 		if minLogLevel == nil {
 			minLogLevel = LogLevel.Info
 		}
@@ -101,7 +126,17 @@ class Logger
 			s += (s == "" ? "" : seperator)+stringified
 		}
 		s = s.stringByReplacingOccurrencesOfString("\n", withString: "\n\(level.prefix)\(indentPrefix)")
-		print("\(level.prefix)\(indentPrefix)\(s)")
+		
+		// (fileName as NSString).lastPathComponent
+		
+		let prefix = "\(level.prefix)\(indentPrefix)"
+		
+		if xcodeColorsEnabled {
+//			s = "\(level.color.format())\(s)\(XcodeColor.reset)"
+//			prefix = "\(level.color.format())\(level.prefix)\(XcodeColor.reset)\(indentPrefix)"
+		}
+		
+		print("\(prefix)\(s)")
 	}
 	
 	/// Logs a message at the plain level
@@ -109,133 +144,133 @@ class Logger
 	/// - Parameters:
 	///   - vals: The values to log
 	///   - seperator: The seperator to use (Default: `" "`)
-	static func plain<T>(vals: T...,  seperator: String = " ") { plain(seperator: seperator, arr: vals) }
+	public static func plain<T>(vals: T...,  seperator: String = " ", functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { plain(seperator: seperator, arr: vals, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
 	/// Logs a message at the plain level
 	///
 	/// - Parameters:
 	///   - vals: The values to log
 	///   - seperator: The seperator to use (Default: `" "`)
-	static func plain<T>(vals: T?..., seperator: String = " ") { plain(seperator: seperator, arr: vals) }
-	private static func plain<T>(seperator seperator: String, arr: [T])  { log(LogLevel.Plain, seperator: seperator, arr: arr) }
-	private static func plain<T>(seperator seperator: String, arr: [T?]) { log(LogLevel.Plain, seperator: seperator, arr: arr) }
+	public static func plain<T>(vals: T?..., seperator: String = " ", functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { plain(seperator: seperator, arr: vals, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
+	private static func plain<T>(seperator seperator: String, arr: [T],  functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { log(.Plain, seperator: seperator, arr: arr, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
+	private static func plain<T>(seperator seperator: String, arr: [T?], functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { log(.Plain, seperator: seperator, arr: arr, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
 	
 	/// Logs a message at the debug level
 	///
 	/// - Parameters:
 	///   - vals: The values to log
 	///   - seperator: The seperator to use (Default: `" "`)
-	static func debug<T>(vals: T...,  seperator: String = " ") { debug(seperator: seperator, arr: vals) }
+	public static func debug<T>(vals: T...,  seperator: String = " ", functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { debug(seperator: seperator, arr: vals, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
 	/// Logs a message at the debug level
 	///
 	/// - Parameters:
 	///   - vals: The values to log
 	///   - seperator: The seperator to use (Default: `" "`)
-	static func debug<T>(vals: T?..., seperator: String = " ") { debug(seperator: seperator, arr: vals) }
-	private static func debug<T>(seperator seperator: String, arr: [T])  { log(LogLevel.Debug, seperator: seperator, arr: arr) }
-	private static func debug<T>(seperator seperator: String, arr: [T?]) { log(LogLevel.Debug, seperator: seperator, arr: arr) }
+	public static func debug<T>(vals: T?..., seperator: String = " ", functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { debug(seperator: seperator, arr: vals, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
+	private static func debug<T>(seperator seperator: String, arr: [T],  functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { log(.Debug, seperator: seperator, arr: arr, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
+	private static func debug<T>(seperator seperator: String, arr: [T?], functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { log(.Debug, seperator: seperator, arr: arr, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
 	
 	/// Logs a message at the trace level
 	///
 	/// - Parameters:
 	///   - vals: The values to log
 	///   - seperator: The seperator to use (Default: `" "`)
-	static func trace<T>(vals: T...,  seperator: String = " ") { trace(seperator: seperator, arr: vals) }
+	public static func trace<T>(vals: T...,  seperator: String = " ", functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { trace(seperator: seperator, arr: vals, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
 	/// Logs a message at the trace	level
 	///
 	/// - Parameters:
 	///   - vals: The values to log
 	///   - seperator: The seperator to use (Default: `" "`)
-	static func trace<T>(vals: T?..., seperator: String = " ") { trace(seperator: seperator, arr: vals) }
-	private static func trace<T>(seperator seperator: String, arr: [T])  { log(LogLevel.Trace, seperator: seperator, arr: arr) }
-	private static func trace<T>(seperator seperator: String, arr: [T?]) { log(LogLevel.Trace, seperator: seperator, arr: arr) }
+	public static func trace<T>(vals: T?..., seperator: String = " ", functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { trace(seperator: seperator, arr: vals, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
+	private static func trace<T>(seperator seperator: String, arr: [T],  functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { log(.Trace, seperator: seperator, arr: arr, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
+	private static func trace<T>(seperator seperator: String, arr: [T?], functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { log(.Trace, seperator: seperator, arr: arr, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
 	
 	/// Logs a message at the info level
 	///
 	/// - Parameters:
 	///   - vals: The values to log
 	///   - seperator: The seperator to use (Default: `" "`)
-	static func info<T>(vals: T...,  seperator: String = " ") { info(seperator: seperator, arr: vals) }
+	public static func info<T>(vals: T...,  seperator: String = " ", functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { info(seperator: seperator, arr: vals, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
 	/// Logs a message at the info level
 	///
 	/// - Parameters:
 	///   - vals: The values to log
 	///   - seperator: The seperator to use (Default: `" "`)
-	static func info<T>(vals: T?..., seperator: String = " ") { info(seperator: seperator, arr: vals) }
-	private static func info<T>(seperator seperator: String, arr: [T])  { log(LogLevel.Info, seperator: seperator, arr: arr) }
-	private static func info<T>(seperator seperator: String, arr: [T?]) { log(LogLevel.Info, seperator: seperator, arr: arr) }
+	public static func info<T>(vals: T?..., seperator: String = " ", functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { info(seperator: seperator, arr: vals, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
+	private static func info<T>(seperator seperator: String, arr: [T],  functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { log(.Info, seperator: seperator, arr: arr, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
+	private static func info<T>(seperator seperator: String, arr: [T?], functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { log(.Info, seperator: seperator, arr: arr, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
 	
 	/// Logs a message at the warn level
 	///
 	/// - Parameters:
 	///   - vals: The values to log
 	///   - seperator: The seperator to use (Default: `" "`)
-	static func warn<T>(vals: T...,  seperator: String = " ") { warn(seperator: seperator, arr: vals) }
+	public static func warn<T>(vals: T...,  seperator: String = " ", functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { warn(seperator: seperator, arr: vals, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
 	/// Logs a message at the warn level
 	///
 	/// - Parameters:
 	///   - vals: The values to log
 	///   - seperator: The seperator to use (Default: `" "`)
-	static func warn<T>(vals: T?..., seperator: String = " ") { warn(seperator: seperator, arr: vals) }
-	private static func warn<T>(seperator seperator: String, arr: [T])  { log(LogLevel.Warn, seperator: seperator, arr: arr) }
-	private static func warn<T>(seperator seperator: String, arr: [T?]) { log(LogLevel.Warn, seperator: seperator, arr: arr) }
+	public static func warn<T>(vals: T?..., seperator: String = " ", functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { warn(seperator: seperator, arr: vals, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
+	private static func warn<T>(seperator seperator: String, arr: [T],  functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { log(.Warn, seperator: seperator, arr: arr, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
+	private static func warn<T>(seperator seperator: String, arr: [T?], functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { log(.Warn, seperator: seperator, arr: arr, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
 	
 	/// Logs a message at the error level
 	///
 	/// - Parameters:
 	///   - vals: The values to log
 	///   - seperator: The seperator to use (Default: `" "`)
-	static func error<T>(vals: T...,  seperator: String = " ") { error(seperator: seperator, arr: vals) }
+	public static func error<T>(vals: T...,  seperator: String = " ", functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { error(seperator: seperator, arr: vals) }
 	/// Logs a message at the error level
 	///
 	/// - Parameters:
 	///   - vals: The values to log
 	///   - seperator: The seperator to use (Default: `" "`)
-	static func error<T>(vals: T?..., seperator: String = " ") { error(seperator: seperator, arr: vals) }
-	private static func error<T>(seperator seperator: String, arr: [T])  { log(LogLevel.Error, seperator: seperator, arr: arr) }
-	private static func error<T>(seperator seperator: String, arr: [T?]) { log(LogLevel.Error, seperator: seperator, arr: arr) }
+	public static func error<T>(vals: T?..., seperator: String = " ", functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { error(seperator: seperator, arr: vals) }
+	private static func error<T>(seperator seperator: String, arr: [T],  functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { log(.Error, seperator: seperator, arr: arr, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
+	private static func error<T>(seperator seperator: String, arr: [T?], functionName: String = #function, fileName: String = #file, lineNumber: Int = #line) { log(.Error, seperator: seperator, arr: arr, functionName: functionName, fileName: fileName, lineNumber: lineNumber) }
 	
 	//TODO: Get colors working. Maybe use https://github.com/robbiehanson/XcodeColors ? (Wow that link looks crap on this background)
 	/// The level to log at
-	struct LogLevel
+	public struct LogLevel
 	{
 		/// The Debug level
 		///
 		/// This is the lowest level, used primarily for internal testing and, well, debugging
-		static let Debug = LogLevel(index: 0, prefix: "DEBUG: ", color: UIColor.whiteColor())
+		public static let Debug = LogLevel(index: 0, prefix: "DEBUG: ", color: "")
 		
 		/// The Plain level
 		///
 		/// This is the 2nd lowest level, used for displaying plain-text messages with no prefix
-		static let Plain = LogLevel(index: 1, prefix: "",        color: UIColor.whiteColor())
+		public static let Plain = LogLevel(index: 1, prefix: "", color: "")
 		
 		/// The Trace level
 		///
 		/// This is the 3rd level, used for verbose logging, such as incoming HTTP messages and loop outputs
-		static let Trace = LogLevel(index: 2, prefix: "TRACE: ", color: UIColor.whiteColor())
+		public static let Trace = LogLevel(index: 2, prefix: "TRACE: ", color: "")
 		
 		/// The Info level
 		///
 		/// This is the 4th level, and is used for general information logging
-		static let Info =  LogLevel(index: 3, prefix: " INFO: ", color: UIColor.whiteColor())
+		public static let Info = LogLevel(index: 3, prefix: " INFO: ", color: "")
 		
 		/// The Warn level
 		///
 		/// This is the 2nd highest level, used for items that could cause strange behaviour, but are not app-breaking
-		static let Warn =  LogLevel(index: 4, prefix: " WARN: ", color: UIColor.yellowColor())
+		public static let Warn = LogLevel(index: 4, prefix: " WARN: ", color: "")
 		
 		/// The Error level
 		///
 		/// This is the highest level. These messages will always be displayed, and thus
 		/// are used for errors that must be addressed ASAP
-		static let Error = LogLevel(index: 5, prefix: "ERROR: ", color: UIColor.redColor())
+		public static let Error = LogLevel(index: 5, prefix: "ERROR: ", color: "")
 		
 		
 		/// The prefix for this log level
-		let prefix: String
+		private let prefix: String
 		/// The color to print (this isn't working yet)
-		let color: UIColor
-		let index: Int
-		private init(index: Int, prefix: String, color: UIColor) {
+		private let color: String
+		private let index: Int
+		private init(index: Int, prefix: String, color: String) {
 			self.prefix = prefix
 			self.color = color
 			self.index = index

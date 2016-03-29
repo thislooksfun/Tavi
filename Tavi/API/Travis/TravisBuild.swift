@@ -41,6 +41,8 @@ class TravisBuild: Equatable
 	/// The buildID
 	let buildID: Int
 	
+	var jobIDs: [Int]
+	
 	/// An `Array` of jobs for this build
 	var jobs = [TravisBuildJob]()
 	
@@ -49,11 +51,11 @@ class TravisBuild: Equatable
 	/// - Parameters:
 	///   - buildJSON: The `JSON` to construct this build from
 	///   - commitJSON: The `JSON` to construct this build's commit from
-	///   - waitForJobs: Whether or not to wait for the jobs to load before calling the callback (Default: `false`)
+	///   - loadJobs: Whether or not to load the jobs now (Default: `false`)
 	///   - buildLoaded: The closure to call once the loading is complete (Default: `nil`)
-	convenience init(buildJSON: JSON, commitJSON: JSON, waitForJobs: Bool = false, buildLoaded: (() -> Void)? = nil)
+	convenience init(buildJSON: JSON, commitJSON: JSON, loadJobs: Bool = false, buildLoaded: (() -> Void)? = nil)
 	{
-		self.init(buildJSON: buildJSON, commit: Commit(fromJSON: commitJSON), waitForJobs: waitForJobs, buildLoaded: buildLoaded)
+		self.init(buildJSON: buildJSON, commit: Commit(fromJSON: commitJSON), loadJobs: loadJobs, buildLoaded: buildLoaded)
 	}
 	
 	/// Creates an instance
@@ -61,9 +63,9 @@ class TravisBuild: Equatable
 	/// - Parameters:
 	///   - buildJSON: The `JSON` to construct this build from
 	///   - commit: The `Commit` associated with this build
-	///   - waitForJobs: Whether or not to wait for the jobs to load before calling the callback (Default: `false`)
+	///   - loadJobs: Whether or not to load the jobs now (Default: `false`)
 	///   - buildLoaded: The closure to call once the loading is complete (Default: `nil`)
-	init(buildJSON: JSON, commit: Commit, waitForJobs: Bool = false, buildLoaded: (() -> Void)? = nil)
+	init(buildJSON: JSON, commit: Commit, loadJobs: Bool = false, buildLoaded: (() -> Void)? = nil)
 	{
 		self.buildID = buildJSON.getInt("id")!
 		
@@ -82,11 +84,12 @@ class TravisBuild: Equatable
 		
 		self.commit = commit
 		
-		if waitForJobs {
-			self.loadJobs(buildJSON, done: buildLoaded)
+		self.jobIDs = buildJSON.getArray("job_ids")! as! [Int]
+		
+		if loadJobs {
+			self.loadJobs(done: { (_) in buildLoaded?() })
 		} else {
 			buildLoaded?()
-			self.loadJobs(buildJSON, done: nil)
 		}
 		
 		/*
@@ -106,14 +109,13 @@ class TravisBuild: Equatable
 	/// - Parameters:
 	///   - buildJSON: The json for this build
 	///   - done: The closure to call when the jobs are loaded
-	func loadJobs(buildJSON: JSON, done: (() -> Void)?)
+	func loadJobs(done done: (([TravisBuildJob]) -> Void)?)
 	{
-		let jobIDs = buildJSON.getArray("job_ids")! as! [Int]
 		var remaining = jobIDs.count
 		func jobDone() {
 			remaining -= 1
 			if remaining <= 0 {
-				done?()
+				done?(self.jobs)
 			}
 		}
 		

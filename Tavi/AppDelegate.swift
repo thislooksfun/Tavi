@@ -45,7 +45,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 		
 		//Various debug testing things
 		
-//		Logger.setLogLevel(.Debug)
+		#if DEBUG
+			Logger.setLogLevel(.Debug)
+		#endif
 //		GithubAPI.signOut()
 //		TravisAPI.deAuth()
 //		Settings.HasReadDisclaimer.set(nil)

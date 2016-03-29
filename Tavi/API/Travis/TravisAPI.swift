@@ -423,6 +423,102 @@ class TravisAPI
 		}
 	}
 	
+	/// Loads the logs for a specific job
+	///
+	/// - Parameters:
+	///   - jobID: The job ID to load from
+	///   - forceMainThread: Whether or not to force the callback to run on the main thread. (Default: `true`)
+	///   - callback: The callback to use upon login completion (or failure)
+	static func loadLogForJob(jobID: Int, forceMainThread: Bool = true, callback: (HTTPState, JSON?) -> Void)
+	{
+		Logger.info("\n============== TravisAPI.loadJob")
+		if !forceMainThread {
+			Logger.warn("The callback will not be running on the main thread!")
+		}
+		
+		var exitState: HTTPState?
+		
+		func exit(state: HTTPState, _ message: String? = nil) -> Void {
+			if message != nil { Logger.info(message!) }
+			
+			guard exitState == nil else {
+				Logger.warn("exitState already set!")
+				return
+			}
+			
+			exitState = state
+		}
+		
+		TravisAPIBackend.apiCall("jobs/\(jobID)/log", method: .GET, accept: "application/json; chunked=true; version=2, text/plain; version=2")
+		{ (let errMsg, let json, let httpResponse) in
+			
+			if errMsg != nil {
+				Logger.warn(errMsg!)
+				exit(.Other)
+			} else if json == nil {
+				exit(.NoJson)
+			} else {
+				exit(.Success)
+			}
+			
+			if (forceMainThread) {
+				NSOperationQueue.mainQueue().addOperationWithBlock({
+					callback(exitState!, json)
+				})
+			} else {
+				callback(exitState!, json)
+			}
+		}
+	}
+	
+	/// Loads a specific log from its ID
+	///
+	/// - Parameters:
+	///   - logID: The log ID to load
+	///   - forceMainThread: Whether or not to force the callback to run on the main thread. (Default: `true`)
+	///   - callback: The callback to use upon login completion (or failure)
+	static func loadLog(logID: Int, forceMainThread: Bool = true, callback: (HTTPState, JSON?) -> Void)
+	{
+		Logger.info("\n============== TravisAPI.loadLog")
+		if !forceMainThread {
+			Logger.warn("The callback will not be running on the main thread!")
+		}
+		
+		var exitState: HTTPState?
+		
+		func exit(state: HTTPState, _ message: String? = nil) -> Void {
+			if message != nil { Logger.info(message!) }
+			
+			guard exitState == nil else {
+				Logger.warn("exitState already set!")
+				return
+			}
+			
+			exitState = state
+		}
+		
+		TravisAPIBackend.apiCall("logs/\(logID)", method: .GET)
+		{ (let errMsg, let json, let httpResponse) in
+			
+			if errMsg != nil {
+				Logger.warn(errMsg!)
+				exit(.Other)
+			} else if json == nil {
+				exit(.NoJson)
+			} else {
+				exit(.Success)
+			}
+			
+			if (forceMainThread) {
+				NSOperationQueue.mainQueue().addOperationWithBlock({
+					callback(exitState!, json)
+				})
+			} else {
+				callback(exitState!, json)
+			}
+		}
+	}
+	
 	/// Gets the global Travis config information
 	///
 	/// - Parameters:
