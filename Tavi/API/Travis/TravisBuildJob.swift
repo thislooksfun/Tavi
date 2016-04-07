@@ -63,15 +63,15 @@ class TravisBuildJob
 		*/
 	}
 	
-	func getLog(cb: (JSON) -> Void) {
-//		TravisAPI.loadLogForJob(self.jobID) {
-		TravisAPI.loadLog(self.logID) {
+	func getLog(cb: (TravisBuildLog) -> Void) {
+		TravisAPI.loadLogForJob(self.jobID) {
 			(state, json) in
 			
 			guard state == .Success else { return }
 			guard json != nil else { return }
+			guard let log = TravisBuildLog(json: json!) else { return }
 			
-			cb(json!)
+			cb(log)
 		}
 	}
 }

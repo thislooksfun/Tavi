@@ -116,7 +116,7 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	
 	override func viewWillDisappear(animated: Bool) {
 		super.viewWillDisappear(animated)
-		self.consoleSidewaysScroll.scrollEnabled = false
+		self.consoleSidewaysScroll.scrollEnabled = false //Keep the scroll view from scrolling while the the user is dragging to go back from the left edge
 		self.repo?.removePusherEventCallbackForObject(self)
 		NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidBecomeActiveNotification, object: nil)
 	}
@@ -484,6 +484,9 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 				self.navigationController?.setNavigationBarHidden(false, animated: true)
 				self.navigationController?.interactivePopGestureRecognizer?.enabled = true
 			}
-		}, completion: nil)
+		}, completion: { (_) in
+			// Update the console table info labels
+			self.consoleTableSource.scrollViewDidScroll(self.consoleSidewaysScroll)
+		})
 	}
 }

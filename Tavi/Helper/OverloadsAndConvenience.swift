@@ -22,6 +22,29 @@ import UIKit
 
 //MARK: Extensions
 
+/// Adds easier ways to get the length of and split the string
+extension String {
+	var length: Int {
+		get {
+			return self.characters.count
+		}
+	}
+	
+	public func split(str: String, ignoreEmpty: Bool = false) -> [String] {
+		if ignoreEmpty {
+			var parts = [String]()
+			for part in self.componentsSeparatedByString(str) {
+				if !part.isEmpty {
+					parts.append(part)
+				}
+			}
+			return parts
+		} else {
+			return self.componentsSeparatedByString(str)
+		}
+	}
+}
+
 /// Adds date -> time calculations
 extension NSDate
 {

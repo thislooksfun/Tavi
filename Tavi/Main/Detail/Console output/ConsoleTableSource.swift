@@ -29,16 +29,22 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 	@IBOutlet weak var tableHeight: NSLayoutConstraint!
 	/// The width of the table
 	@IBOutlet weak var tableWidth: NSLayoutConstraint!
+	/// The sideways scroll view used by the console
+	@IBOutlet weak var sidewaysScrollView: UIScrollView!
 	
 	/// The information for the rows
 	private var data = [RowInfo]()
 	/// The information about groups
 	private var groups = [Group]()
-	/// The longest line width - used to adjust `tableWidth` for proper scrolling
+	/// The width of the longest line - used to adjust `tableWidth` for proper scrolling
 	private var longestWidth: CGFloat = -1
 	
 	/// The font the table uses
-	private let font = UIFont(descriptor: UIFontDescriptor(name: "Inconsolata", size: 14), size: 14)
+	private let lineFont = UIFont(descriptor: UIFontDescriptor(name: "Inconsolata", size: 14), size: 14)
+	/// The bolded version of the font the table uses
+	private let lineFontBold = UIFont(descriptor: UIFontDescriptor(name: "Inconsolata-Bold", size: 14), size: 14)
+	/// The font the table uses
+	private let sectionInfoFont = UIFont(descriptor: UIFontDescriptor(name: "Inconsolata", size: 12), size: 12)
 	/// The color for a cell that is the start of a group
 	private var groupStartColor = UIColor(white: 43/255, alpha: 1)
 	/// The color for all cells that aren't part of a group
@@ -53,39 +59,45 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 	{
 		self.clearRows(reloadAndResize: false)
 		
-		job.getLog(loadFromJson)
-		
-//		self.addRow("Hi")
-//		self.addRow("How are you?")
-//		self.addRow("I'm doing pretty well")
-//		self.addRow("Thanks for asking")
-//		self.addRow("How's Sally?")
-//		self.addRow("I heard she got a dog")
-//
-//		self.addRow("This is the start of a group", isGroupStart: true)
-//		self.addRow("This is part 1/3 of a group")
-//		self.addRow("This is part 2/3 of a group")
-//		self.addRow("This is part 3/3 of a group")
-//		self.addRow("This is the end of the group", isGroupEnd: true)
-//		
-//		self.addRow("Here is some more stuff")
-//		self.addRow("This should be visible")
-//		self.addRow("This is a really long line of text to make sure that horizontal (sideways) scrolling is working properly when it encounters a long line of console input.")
-//		
-//		for _ in 1...9 {
-//			self.addRow("Filler text...")
-//		}
-		
-		self.reloadAndResize()
-		
-		async(cb: done)
+		async(onNewThread: true) {
+			Logger.info("Loading log")
+			job.getLog() { (log) in
+				self.loadFromLog(log)
+				async(cb: done)
+			}
+		}
 	}
 	
 	/// Loads the row information from a `JSON` object
 	///
 	/// - Parameter json: The `JSON` object to load from
-	private func loadFromJson(json: JSON) {
-		Logger.info(json.getJson("log")!)
+	private func loadFromLog(log: TravisBuildLog) {
+		let lines = log.lines
+		
+		// Don't bother loading if there's nothing to load
+		guard lines.count > 0 else { return }
+		
+		let maxLines = 1000 //TODO: Populate this ?
+		guard lines.count < maxLines else {
+			Logger.warn("Log too large")
+			self.addRow(NSAttributedString(string: "The log is too large to be displayed"))
+			self.addRow(NSAttributedString(string: "\(lines.count - maxLines) lines longer than the \(maxLines) line limit"))
+			async(cb: self.reloadAndResize)
+			//TODO: Add raw log link when log is too large?
+			return
+		}
+		
+		for line in lines
+		{
+			let lineStr = NSMutableAttributedString()
+			for segment in line.segments {
+				let fg = UIColor.whiteColor() //TODO: replace with proper color
+				lineStr += segment.toAttributedStringWithFont(lineFont, andBoldFont: lineFontBold, andForegroundColor: fg, andBackgroundColor: line.isGroupStart ? groupStartColor : defaultColor)
+			}
+			self.addRow(lineStr, withSectionTitle: line.groupName, andSectionTime: line.time, isGroupStart: line.isGroupStart, isGroupEnd: line.isGroupEnd)
+		}
+		
+		async(cb: self.reloadAndResize)
 	}
 	
 	/// Called by `DetailViewController` to tell this class that
@@ -114,10 +126,12 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 	///
 	/// - Parameters:
 	///   - text: The body of the row
+	///   - sectionTitle: The title of the fold section (Default: `"")
+	///   - sectionTime: The time this line or group took to execute (Default: `nil`)
 	///   - isGroupStart: Whether or not this row is the start of a group (Default: `false`)
 	///   - isGroupEnd: Whether or not this row in the end of a group (Default: `false`)
 	///   - refresh: Whether or not to update and resize the table (Default: `false`)
-	func addRow(text: String, isGroupStart: Bool = false, isGroupEnd: Bool = false, reloadAndResize refresh: Bool = false)
+	func addRow(text: NSAttributedString, withSectionTitle sectionTitle: String = "", andSectionTime sectionTime: Int? = nil, isGroupStart: Bool = false, isGroupEnd: Bool = false, reloadAndResize refresh: Bool = false)
 	{
 		if isGroupStart {
 			groupStart = data.count
@@ -129,18 +143,39 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 			groupStart = -1
 		}
 		
+		Logger.trace("Adding row \(text)")
+		
 		let row = RowInfo(
 			row: data.count+1,
-			data: text
+			data: text,
+			sectionTitle: sectionTitle,
+			sectionTime: sectionTime
 		)
 		data.append(row)
 		
-		let str = text as NSString
-		let size = str.sizeWithAttributes([NSFontAttributeName: font])
 		
-		if size.width > longestWidth {
-			longestWidth = size.width
+		// Find the longest line width
+		let width = text.size().width
+		
+		
+		// Find the longest info section
+		
+		let titleStr = (sectionTitle ?? "") as NSString
+		let timeStr = (sectionTime == nil ? "" : String(format: "%.3f", sectionTime!)) as NSString
+		
+		let titleWidth = titleStr.sizeWithAttributes([NSFontAttributeName: sectionInfoFont]).width
+		let timeWidth =  timeStr.sizeWithAttributes( [NSFontAttributeName: sectionInfoFont]).width
+		
+		// Calculate the total width.
+		// Formula: [title width] + [time width] + [an 8 px gap between them, if they are both >0] + [an 8 px gap with the right edge, if either of them are >0]
+		let totalWidth = width + titleWidth + timeWidth + (titleWidth > 0 && timeWidth > 0 ? 8 : 0) + (titleWidth + timeWidth > 0 ? 8 : 0)
+
+		if totalWidth > longestWidth {
+			longestWidth = totalWidth
 		}
+		
+		
+		// Update the table's bounds
 		
 		guard refresh else { return }
 		self.reloadAndResize()
@@ -153,6 +188,12 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 		})
 		self.table.reloadData()
 		self.resizeTable()
+		
+		delay(0.05) {
+			// Make this wait a bit for it to actually take effect.
+			// No idea why the delay is required though. :/
+			self.scrollViewDidScroll(self.sidewaysScrollView)
+		}
 	}
 	
 	/// Resizes the table to allow for correct scrolling behavior
@@ -202,7 +243,9 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 		cell.lineNumber = info.row
 		cell.lineText = info.data
 		
-		//TODO: Support command line colors
+		cell.sectionTitle = info.sectionTitle
+		cell.sectionTime = info.sectionTime
+		
 		return cell
 	}
 	
@@ -318,7 +361,30 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 		/// The console-indexed row number
 		let row: Int
 		/// The text content of the row
-		var data: String
+		var data: NSAttributedString
+		
+		/// The section title
+		var sectionTitle: String
+		/// The time the section took to execute
+		var sectionTime: Int?
+	}
+	
+	
+	func scrollViewDidScroll(scrollView: UIScrollView)
+	{
+		var distance: CGFloat = 0
+		
+		if scrollView.contentOffset.x > (scrollView.contentSize.width - scrollView.frame.width) {
+			distance = 8;
+		} else if scrollView.contentOffset.x < 0 {
+			distance = tableWidth.constant - (UIScreen.mainScreen().bounds.width - 8);
+		} else {
+			distance = tableWidth.constant - scrollView.contentOffset.x - (UIScreen.mainScreen().bounds.width - 8);
+		}
+		
+		for cell in table.visibleCells as! [ConsoleLineCell] where !cell.sectionTitleLabel.hidden || !cell.sectionTimeLabel.hidden {
+			cell.sectionInfoDistanceToRight.constant = distance
+		}
 	}
 }
 

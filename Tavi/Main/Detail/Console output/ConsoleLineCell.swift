@@ -33,10 +33,18 @@ class ConsoleLineCell: UITableViewCell
 	/// when the user taps to expand the group
 	@IBOutlet var expandButton: UIButton!
 	
+	/// The title of the console section
+	@IBOutlet var sectionTitleLabel: UILabel!
+	/// The time the section took to execute
+	@IBOutlet var sectionTimeLabel: UILabel!
+	/// The distance from the section information to the
+	/// right edge of the screen
+	@IBOutlet var sectionInfoDistanceToRight: NSLayoutConstraint!
+	
 	/// The line number this cell represents
 	var lineNumber: Int {
 		get {
-			return Int(lineNumberLabel.text!) ?? -1
+			return Int(lineNumberLabel.text ?? "") ?? -1
 		}
 		set {
 			lineNumberLabel.text = "\(newValue)"
@@ -44,12 +52,40 @@ class ConsoleLineCell: UITableViewCell
 	}
 	
 	/// The text content of the line
-	var lineText: String {
+	var lineText: NSAttributedString {
 		get {
-			return self.lineTextLabel.text ?? ""
+			return lineTextLabel.attributedText ?? NSAttributedString()
 		}
 		set {
-			self.lineTextLabel.text = newValue
+			lineTextLabel.attributedText = newValue
+		}
+	}
+	
+	var sectionTitle: String {
+		get {
+			return sectionTitleLabel.text ?? ""
+		}
+		set {
+			if !newValue.isEmpty {
+				sectionTitleLabel.text = newValue
+				sectionTitleLabel.hidden = false
+			} else {
+				sectionTitleLabel.hidden = true
+			}
+		}
+	}
+	
+	var sectionTime: Int? {
+		get {
+			return Int((Double(sectionTimeLabel.text ?? "") ?? 0) * 1000)
+		}
+		set {
+			if let val = newValue {
+				sectionTimeLabel.text = String(format: "%.2fs", Double(val) / 1000)
+				sectionTimeLabel.hidden = false
+			} else {
+				sectionTimeLabel.hidden = true
+			}
 		}
 	}
 }
