@@ -23,7 +23,7 @@ import UIKit
 /// A general API for interacting with [Travis CI](https://travis-ci.org)
 ///
 /// - TODO: Consolidate duplicate code?
-/// - TODO: Maybe add method for interacting with https://travis-ci.org (the private one) as well?)
+/// - TODO: Maybe add method for interacting with https://travis-ci.com (the private one) as well?)
 class TravisAPI
 {
 	/// The color used when a build is passing
