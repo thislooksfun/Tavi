@@ -67,13 +67,13 @@ class Settings
 		init(rawValue: Int) { self.rawValue = rawValue }
 		
 		/// A notification sent when a build was started (not created)
-		static let Start =  NoteType(rawValue: 1 << 0)
+		static let Start = NoteType(rawValue: 1 << 0)
 		
 		/// A notification sent when a build passed
-		static let Pass =   NoteType(rawValue: 1 << 1)
+		static let Pass = NoteType(rawValue: 1 << 1)
 		
 		/// A notification sent when a build failed
-		static let Fail =   NoteType(rawValue: 1 << 2)
+		static let Fail = NoteType(rawValue: 1 << 2)
 		
 		/// A notification sent when a build was cancelled
 		static let Cancel = NoteType(rawValue: 1 << 3)
