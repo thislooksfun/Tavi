@@ -69,7 +69,7 @@ class TravisBuild: Equatable
 	{
 		self.buildID = buildJSON.getInt("id")!
 		
-		self.buildNumber = Int(buildJSON.getString("number")!)!
+		self.buildNumber = buildJSON.getInt("number") ?? Int(buildJSON.getString("number")!)!
 		switch buildJSON.getString("state")! {
 		case "passed": self.status = .Passing
 		case "failed": self.status = .Failing
