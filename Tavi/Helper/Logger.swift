@@ -125,6 +125,8 @@ public class Logger
 			let stringified = "\(v)"
 			s += (s == "" ? "" : seperator)+stringified
 		}
+		s = s.stringByReplacingOccurrencesOfString("\r\n", withString: "\n")
+		s = s.stringByReplacingOccurrencesOfString("\r", withString: "\\r\n")
 		s = s.stringByReplacingOccurrencesOfString("\n", withString: "\n\(level.prefix)\(indentPrefix)")
 		
 		// (fileName as NSString).lastPathComponent
