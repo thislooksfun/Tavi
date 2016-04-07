@@ -33,9 +33,9 @@ class TravisAPIBackend
 	///   - headers: Any headers to use (Default: `nil`)
 	///   - accept: Any parameters to append to the Accept header (Default: `"application/vnd.travis-ci.2+json"`)
 	///   - json: Any JSON to connect with (Default: `nil`)
-	///   - errorCallback: The callback to use if something goes wrong
-	///   - callback: The callback to use if nothing goes wrong
-	static func apiCall(path: String, method: HTTPMethod, headers: [NSObject: AnyObject]? = nil, accept: String = "application/vnd.travis-ci.2+json", json: [NSObject: AnyObject]? = nil, callback: (String?, JSON?, NSHTTPURLResponse?) -> Void)
+	///   - customHandler: A custom handler to give to the `NSURLSession`
+	///   - callback: The callback to use
+	static func apiCall(path: String, method: HTTPMethod, headers: [NSObject: AnyObject]? = nil, accept: String = "application/vnd.travis-ci.2+json", json: [NSObject: AnyObject]? = nil, customHandler: ((NSData?, NSURLResponse?, NSError?) -> Void)? = nil, callback: (String?, JSON?, NSHTTPURLResponse?) -> Void)
 	{
 		let config = NSURLSessionConfiguration.defaultSessionConfiguration()
 		config.HTTPAdditionalHeaders = headers
@@ -74,7 +74,7 @@ class TravisAPIBackend
 			}
 		}
 		
-		let cb = { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+		let cb = customHandler != nil ? customHandler! : { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
 			
 			guard error == nil else {
 				callback("Error: "+error!.localizedDescription, nil, nil)
