@@ -18,6 +18,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import Pusher
+
 /// A simple class for interacting with [libPusher](https://github.com/lukeredpath/libPusher)
 class Pusher: NSObject, PTPusherDelegate
 {

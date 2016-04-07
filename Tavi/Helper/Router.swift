@@ -19,6 +19,7 @@
 //
 
 import UIKit
+import JLRoutes
 
 /// A simple class used to interact with `JLRoutes`
 class Router

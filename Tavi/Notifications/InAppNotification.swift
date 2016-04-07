@@ -19,6 +19,7 @@
 //
 
 import UIKit
+import JLRoutes
 
 /// A small class to display a notification in-app
 class InAppNotification: UIView

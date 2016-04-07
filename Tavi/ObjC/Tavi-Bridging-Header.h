@@ -3,10 +3,12 @@
 //
 
 //MARK: Pods
+/* Using frameworks instead
 #import <Pusher/Pusher.h>
 #import <GBVersionTracking/GBVersionTracking.h>
 #import <JLRoutes/JLRoutes.h>
 #import "MBProgressHUD.h"
+*/
 
 //MARK: Other
 #import "OnePasswordExtension.h"

@@ -19,6 +19,7 @@
 //
 
 import UIKit
+import Pusher
 
 /// A single Travis repository
 class TravisRepo: Equatable

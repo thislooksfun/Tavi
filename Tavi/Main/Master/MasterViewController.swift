@@ -19,6 +19,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 /// The main view of the app.
 class MasterViewController: PortraitTableViewController
