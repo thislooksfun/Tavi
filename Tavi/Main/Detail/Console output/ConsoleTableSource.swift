@@ -114,8 +114,7 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 		longestWidth = -1
 		
 		guard refresh else { return }
-		self.table.reloadData()
-		self.resizeTable()
+		self.reloadAndResize()
 	}
 	
 	/// The start index of the most recent group.
@@ -182,16 +181,22 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 	}
 	
 	/// Sorts the data, and refreshes and resizes the table
-	func reloadAndResize() {
+	func reloadAndResize()
+	{
+		// This will likely never be used, but just in case...
+		guard self.table != nil else { return }
+		
 		self.groups.sortInPlace({ (group1, group2) -> Bool in
 			return group1.startIndex < group2.startIndex
 		})
 		self.table.reloadData()
 		self.resizeTable()
 		
+		// Make this wait a bit for it to actually take effect.
+		// No idea why the delay is required though. :/
 		delay(0.05) {
-			// Make this wait a bit for it to actually take effect.
-			// No idea why the delay is required though. :/
+			// Prevent crash when going in and out quickly
+			guard self.sidewaysScrollView != nil else { return }
 			self.scrollViewDidScroll(self.sidewaysScrollView)
 		}
 	}
