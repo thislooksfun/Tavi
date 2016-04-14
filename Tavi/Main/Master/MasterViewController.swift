@@ -178,8 +178,7 @@ class MasterViewController: PortraitTableViewController
 						newRepos.append(rp!)
 					}
 					
-					count -= 1
-					if count <= 0 {
+					if --count <= 0 {
 						newRepos.sortInPlace(self.repoSort)
 						if newRepos != self.repos {
 							self.repos.forEach({ (repo) in repo.dismiss() })

@@ -517,3 +517,38 @@ func -(left: CGFloat, right: Int) -> CGFloat {
 func -(left: Int, right: CGFloat) -> CGFloat {
 	return CGFloat(left) - right
 }
+
+
+// MARK: Re-add ++
+/// Prefix declaration of ++
+prefix operator ++ {}
+/// Prefix definition of ++
+prefix func ++(inout oper: Int) -> Int {
+	oper += 1
+	return oper
+}
+/// Postfix declaration of ++
+postfix operator ++ {}
+/// Postfix definition of ++
+postfix func ++(inout oper: Int) -> Int {
+	let old = oper
+	oper += 1
+	return old
+}
+
+// MARK: Re-add --
+/// Prefix declaration of --
+prefix operator -- {}
+/// Prefix definition of --
+prefix func --(inout oper: Int) -> Int {
+	oper -= 1
+	return oper
+}
+/// Postfix declaration of --
+postfix operator -- {}
+/// Postfix definition of --
+postfix func --(inout oper: Int) -> Int {
+	let old = oper
+	oper -= 1
+	return old
+}

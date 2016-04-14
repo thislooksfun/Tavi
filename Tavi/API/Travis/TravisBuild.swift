@@ -113,8 +113,7 @@ class TravisBuild: Equatable
 	{
 		var remaining = jobIDs.count
 		func jobDone() {
-			remaining -= 1
-			if remaining <= 0 {
+			if --remaining <= 0 {
 				done?(self.jobs)
 			}
 		}
