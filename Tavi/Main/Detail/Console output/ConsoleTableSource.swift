@@ -212,7 +212,7 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 	/// - Parameter sender: The button that was pressed
 	func toggleExpand(sender: UIButton) {
 		guard var group = groupForConsoleRow(sender.tag) else { return }
-		group.expanded.flip()
+		group.expanded.invert()
 		replaceGroupForConsoleRow(sender.tag, withGroup: group)
 	}
 	

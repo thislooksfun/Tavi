@@ -77,30 +77,39 @@ class GithubAPI
 		
 		let authString = AuthHelper.generateAuthString(user, pass: pass)
 		
-		GithubAPIBackend.apiCall("/authorizations/clients/\(clientID)/AppAuth", method: .PUT, headers: ["Authorization" : authString], json: authJson, errorCallback: { (message) in exit(AuthState.Other, message) })
-		{ (let json, let httpResponse) in
-			let s = json.getString("message")
-			if (s == nil) {
-				let t = json.getString("token")
-				if t == nil {
-					exit (AuthState.Other, "Token not found")
-				} else if t == "" {
-					exit(AuthState.TokenExists, nil)
-				} else if !self.createAuthToken(json) {
-					exit(AuthState.Other, "Error creating auth token")
-				} else {
-					exit(AuthState.Success, nil)
-				}
+		GithubAPIBackend.apiCall("/authorizations/clients/\(clientID)/AppAuth", method: .PUT, headers: ["Authorization" : authString], json: authJson)
+		{ (errMsg: String?, json: JSON?, httpResponse: NSHTTPURLResponse?) in
+			
+			if errMsg != nil {
+				exit(AuthState.Other, errMsg!)
+			} else if json == nil {
+				exit(AuthState.Other, "No JSON")
 			} else {
-				switch (s!) {
-				case "Must specify two-factor authentication OTP code.":
-					let authType = httpResponse.allHeaderFields["X-GitHub-OTP"] as! NSString
-					type = authType == "required; app" ? .App : .SMS
-					exit(AuthState.Needs2fAuth, "2fauth! Type: \(authType)")
-				case "Bad credentials":
-					exit(AuthState.BadLogin, nil)
-				default:
-					exit(AuthState.Other, "Message: "+s!)
+				let s = json!.getString("message")
+				if (s == nil) {
+					let t = json!.getString("token")
+					if t == nil {
+						exit (AuthState.Other, "Token not found")
+					} else if t == "" {
+						exit(AuthState.TokenExists, nil)
+					} else if !self.createAuthToken(json!) {
+						exit(AuthState.Other, "Error creating auth token")
+					} else {
+						exit(AuthState.Success, nil)
+					}
+				} else {
+					switch (s!) {
+					case "Must specify two-factor authentication OTP code.":
+						guard httpResponse != nil else {
+							exit(AuthState.Other, "The HTTP response is nil!")
+							break
+						}
+						let authType = httpResponse!.allHeaderFields["X-GitHub-OTP"] as! NSString
+						type = authType == "required; app" ? .App : .SMS
+						exit(AuthState.Needs2fAuth, "2fauth! Type: \(authType)")
+					case "Bad credentials": exit(AuthState.BadLogin, nil)
+					default: exit(AuthState.Other, "Message: "+s!)
+					}
 				}
 			}
 			
@@ -109,11 +118,8 @@ class GithubAPI
 			}
 			
 			if exitState == AuthState.Other {
+				Logger.trace("GithubAPI.Auth exited with state .Other. NSHTTPURLResponse is below:")
 				Logger.trace(httpResponse)
-			}
-			
-			if exitState == AuthState.Success {
-				self.createAuthToken(json)
 			}
 			
 			if (forceMainThread) {
@@ -155,30 +161,37 @@ class GithubAPI
 		
 		let authString = AuthHelper.generateAuthString(user, pass: pass)
 		
-		GithubAPIBackend.apiCall("/authorizations/clients/\(clientID)/AppAuth", method: .PUT, headers: ["Authorization": authString, "X-GitHub-OTP": code], json: authJson, errorCallback: { (message) in exit(Auth2fState.Other, nil) })
-		{ (let json, let httpResponse) in
+		GithubAPIBackend.apiCall("/authorizations/clients/\(clientID)/AppAuth", method: .PUT, headers: ["Authorization": authString, "X-GitHub-OTP": code], json: authJson)
+		{ (errMsg: String?, json: JSON?, httpResponse: NSHTTPURLResponse?) in
 			
-			let s = json.getString("message")
-			if (s == nil) {
-				let t = json.getString("token")
-				if t == nil {
-					exit (Auth2fState.Other, "Token not found")
-				} else if t == "" {
-					exit(Auth2fState.TokenExists, nil)
-				} else if !self.createAuthToken(json) {
-					exit(Auth2fState.Other, "Error creating auth token")
-				} else {
-					exit(Auth2fState.Success, nil)
-				}
+			if errMsg != nil {
+				exit(Auth2fState.Other, errMsg!)
+			} else if json == nil {
+				exit(Auth2fState.Other, "No JSON")
 			} else {
-				if (s! == "Must specify two-factor authentication OTP code.") { exit(Auth2fState.BadCode, nil) }
-				else if (s! == "Bad credentials") { exit(Auth2fState.BadLogin, nil) }
-				else { exit(Auth2fState.Other, "Message: "+s!) }
+				let s = json!.getString("message")
+				if (s == nil) {
+					let t = json!.getString("token")
+					if t == nil {
+						exit (Auth2fState.Other, "Token not found")
+					} else if t == "" {
+						exit(Auth2fState.TokenExists, nil)
+					} else if !self.createAuthToken(json!) {
+						exit(Auth2fState.Other, "Error creating auth token")
+					} else {
+						exit(Auth2fState.Success, nil)
+					}
+				} else {
+					if (s! == "Must specify two-factor authentication OTP code.") { exit(Auth2fState.BadCode, nil) }
+					else if (s! == "Bad credentials") { exit(Auth2fState.BadLogin, nil) }
+					else { exit(Auth2fState.Other, "Message: "+s!) }
+				}
 			}
 			
 			if exitState == nil { exit(Auth2fState.Other, "Error: exitState not set!") }
 			
 			if exitState == Auth2fState.Other {
+				Logger.trace("GithubAPI.Auth2f exited with state .Other. NSHTTPURLResponse is below:")
 				Logger.trace(httpResponse)
 			}
 			
@@ -206,9 +219,13 @@ class GithubAPI
 		let authString = AuthHelper.generateAuthString(clientID, pass: clientSecret)
 		
 		Logger.info(self.authorization?.token)
-		GithubAPIBackend.apiCall("/applications/\(clientID)/tokens/\(self.authorization!.token)", method: .DELETE, headers: ["Authorization": authString], json: authJson, errorCallback: { (message) in Logger.trace(message) })
-		{ (let json, let httpResponse) in
-			Logger.info("Deleted token")
+		GithubAPIBackend.apiCall("/applications/\(clientID)/tokens/\(self.authorization!.token)", method: .DELETE, headers: ["Authorization": authString], json: authJson)
+		{ (errMsg: String?, _, _) in
+			if errMsg != nil {
+				Logger.trace(errMsg!)
+			} else {
+				Logger.info("Deleted token")
+			}
 		}
 		
 		if ku {

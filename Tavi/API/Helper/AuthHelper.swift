@@ -36,6 +36,9 @@ class AuthHelper
 	/// - Parameter finished: The callback to call when the auth flow is finished. Signature: `(success: Bool) -> Void` (Default: `nil`)
 	static func auth(finished finished: ((Bool) -> Void)? = nil)
 	{
+		/// Don't try to auth if there is no connection
+		guard Connection.checkConnection() else { return }
+		
 		if TravisAPI.authed() {
 			return
 		} else if GithubAPI.signedIn() {

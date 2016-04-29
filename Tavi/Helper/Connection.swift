@@ -27,9 +27,9 @@ class Connection
 	//TODO: Remove this once testing is done
 	static var x = 0
 	
-	/// Checks if the device is connected to the internet
+	/// Please use `checkConnection` instead
 	///
-	/// - TODO: Add this in many places
+	/// Checks whether or not there is an internet connection
 	///
 	/// - Returns: `true` if there is an internet connection, otherwise `false`
 	static func connectedToNetwork() -> Bool {
@@ -52,7 +52,27 @@ class Connection
 		let isReachable = flags.contains(.Reachable)
 		let needsConnection = flags.contains(.ConnectionRequired)
 		
-		x += 1
-		return (isReachable && !needsConnection) && (x % 3 != 0)
+		return (isReachable && !needsConnection) && (++x % 9 != 0)
+	}
+	
+	/// Whether or not the no connection view is being displayed
+	private static var isDisplayingNoConnection = false
+	
+	/// Checks whether or not there is an internet connection\
+	/// and displays the no connection popup if it can't connect
+	static func checkConnection() -> Bool {
+		// We already know there's no connection, don't try again
+		guard !isDisplayingNoConnection else { return false }
+		
+		// There is a network connection, look no farther!
+		if connectedToNetwork() { return true }
+		
+		// We are not connected
+		self.isDisplayingNoConnection = true
+		
+		NoConnectionController.display(cb: { (_) -> Void in
+			self.isDisplayingNoConnection = false
+		})
+		return false
 	}
 }

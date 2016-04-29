@@ -21,7 +21,7 @@
 import UIKit
 
 /// The class for interacting directly with the [Travis](https://travis-ci.org) API
-class TravisAPIBackend
+class TravisAPIBackend: TLFAPIBackend
 {
 	/// Connects to the API
 	///
@@ -37,71 +37,14 @@ class TravisAPIBackend
 	///   - callback: The callback to use
 	static func apiCall(path: String, method: HTTPMethod, headers: [NSObject: AnyObject]? = nil, accept: String = "application/vnd.travis-ci.2+json", json: [NSObject: AnyObject]? = nil, customHandler: ((NSData?, NSURLResponse?, NSError?) -> Void)? = nil, callback: (String?, JSON?, NSHTTPURLResponse?) -> Void)
 	{
-		let config = NSURLSessionConfiguration.defaultSessionConfiguration()
-		config.HTTPAdditionalHeaders = headers
-		let session = NSURLSession(configuration: config)
-		
-		var relpath = path
-		if relpath.characters.first != "/" {
-			relpath = "/"+relpath
-		}
-		
-		let url = NSURL(string: "https://api.travis-ci.org"+relpath)
-		
-		guard url != nil else {
-			callback("url can't be found!", nil, nil)
-			return
-		}
-		
-		let request = NSMutableURLRequest(URL: url!)
+		var useHeaders: [NSObject: AnyObject] = headers ?? [:]
 		
 		let version = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"]! ?? ""
-		request.HTTPMethod = method.name
-		request.setValue("Travis/1.6.x Tavi/\(version!)", forHTTPHeaderField: "User-Agent")
-		request.setValue(accept, forHTTPHeaderField: "Accept")
+		useHeaders["User-Agent"] = "Travis/1.6.x Tavi/\(version!)"
 		if let authToken = Settings.Travis_Token.get() {
-			request.setValue("token \(authToken)", forHTTPHeaderField: "Authorization")
+			useHeaders["Authorization"] = "token \(authToken)"
 		}
 		
-		
-		if json != nil {
-			do {
-				request.HTTPBody = try NSJSONSerialization.dataWithJSONObject(json!, options: NSJSONWritingOptions.PrettyPrinted)
-				request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-			} catch _ {
-				callback("Serializing json failed\njson: \(json!)", nil, nil)
-				return
-			}
-		}
-		
-		let cb = customHandler != nil ? customHandler! : { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-			
-			guard error == nil else {
-				callback("Error: "+error!.localizedDescription, nil, nil)
-				return
-			}
-			
-			var parseJSON: JSON?
-			do {
-				Logger.debug("Parsing json: \(NSString(data: data!, encoding: NSUTF8StringEncoding)! as String)")
-				parseJSON = try JSON(data: data!)
-			} catch _ {
-				parseJSON = nil
-			}
-			
-			guard let httpResponse = response as? NSHTTPURLResponse  else {
-				callback("Error: reponse is nil or not an instance of NSHTTPURLResponse", nil, nil)
-				return
-			}
-			
-			if parseJSON == nil {
-				callback("Error reading JSON:\n\(NSString(data: data!, encoding: NSUTF8StringEncoding)! as String)", nil, nil)
-			} else {
-				callback(nil, parseJSON!, httpResponse)
-			}
-		}
-		
-		let task = session.dataTaskWithRequest(request, completionHandler: cb)
-		task.resume()
+		apiCall_internal("https://api.travis-ci.org", path: path, method: method, headers: useHeaders, accept: accept, json: json, customHandler: customHandler, callback: callback)
 	}
 }

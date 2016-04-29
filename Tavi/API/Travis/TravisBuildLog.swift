@@ -137,7 +137,7 @@ class TravisBuildLog
 		/// Remove newlines from the end of the string
 		//ERROR: Fix this not working properly (still keeping in blank lines it shouldn't, but only when reading chunked JSON)
 		if intermediate.hasSuffix("\n") {
-			intermediate = intermediate.substringToIndex(intermediate.endIndex.advancedBy(-1))
+			intermediate = intermediate.substringToIndex(intermediate.endIndex.predecessor())
 		} else if intermediate.length > 2 {
 			Logger.trace("Last char = \(intermediate.substringFromIndex(intermediate.endIndex.advancedBy(-2)))")
 		} else {

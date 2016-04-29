@@ -241,9 +241,9 @@ extension UIDevice
 /// Adds a way to invert the boolean value
 extension Bool
 {
-	/// Flips this Bool\
+	/// Inverts this Bool\
 	/// `true` becomes `false` and `false` becomes `true`
-	mutating func flip() {
+	mutating func invert() {
 		self = !self
 	}
 }

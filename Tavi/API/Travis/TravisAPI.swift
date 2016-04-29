@@ -43,7 +43,7 @@ class TravisAPI
 	
 	/// Whether or not the Travis auth token both exists and is valid
 	///
-	/// - Returns: `true` if the auth token is present && valid, otherwise `false`
+	/// - Returns: `true` if the auth token is present and valid, otherwise `false`
 	static func authed() -> Bool
 	{
 		if Settings.Travis_Token.get() == nil || Settings.Travis_Token.get() == "" { return false }

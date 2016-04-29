@@ -72,9 +72,15 @@ class GithubAPIAuthorization
 		let authString = AuthHelper.generateAuthString(clientID, pass: clientSecret)
 		
 		if user == nil {
-			GithubAPIBackend.apiCall("applications/\(clientID)/tokens/\(token)", method: .GET, headers: ["Authorization": authString], errorCallback: { (message) in Logger.info(message); user = nil })
-				{ (json, httpResponse) in
-					user = json.getJson("user")?.getString("login") ?? ""
+			GithubAPIBackend.apiCall("applications/\(clientID)/tokens/\(token)", method: .GET, headers: ["Authorization": authString])
+			{ (errMsg: String?, json: JSON?, _) in
+				
+				if errMsg != nil {
+					Logger.info(errMsg!)
+					user = nil
+				} else {
+					user = json?.getJson("user")?.getString("login")
+				}
 			}
 			
 			while user == nil {}
@@ -108,16 +114,22 @@ class GithubAPIAuthorization
 		
 		let authString = AuthHelper.generateAuthString(clientID, pass: clientSecret)
 		
-		GithubAPIBackend.apiCall("applications/\(clientID)/tokens/\(token!)", method: .GET, headers: ["Authorization": authString], errorCallback: { (message) in Logger.info(message); finished = true })
-			{ (json, httpResponse) in
-				
-				if let s = json.getString("message") {
+		GithubAPIBackend.apiCall("applications/\(clientID)/tokens/\(token!)", method: .GET, headers: ["Authorization": authString])
+		{ (errMsg: String?, json: JSON?, _) in
+			
+			if errMsg != nil {
+				Logger.info(errMsg!)
+			} else if json == nil {
+				Logger.info("JSON is nil!")
+			} else {
+				if let s = json!.getString("message") {
 					Logger.error("Message: \(s)")
 				} else {
-					out = GithubAPIAuthorization(json: json, token: token!)
+					out = GithubAPIAuthorization(json: json!, token: token!)
 				}
-				
-				finished = true
+			}
+			
+			finished = true
 		}
 		
 		while !finished {}
@@ -146,9 +158,8 @@ class GithubAPIAuthorization
 	///
 	/// - Warning: This is permanent. The only way to undo this is to re-authorize with [GitHub](https://github.com)
 	func deleteToken() {
-		GithubAPIBackend.apiCall("/authorizations/\(self.id)", method: .DELETE, errorCallback: nil)
-		{ (json, httpResponse) in
-			Logger.info(httpResponse)
+		GithubAPIBackend.apiCall("/authorizations/\(self.id)", method: .DELETE)
+		{ (errMsg: String?, _, httpResponse: NSHTTPURLResponse?) in
 			Settings.GitHub_Token.set(nil)
 		}
 	}
