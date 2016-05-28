@@ -94,6 +94,8 @@ class TravisBuildLog
 				
 				if let lastLine = lines.last {
 					//TODO: Overwrite, don't just blanket replace
+					// Currently, inputting "123456789\rabc" will result in a line that says "321"
+					// But "123456789\r321" should turn into "abc456789"
 					if lastLine.segments.last?.text.hasSuffix("\r") ?? false {
 						lines.removeLast()
 					}

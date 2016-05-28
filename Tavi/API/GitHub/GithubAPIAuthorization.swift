@@ -35,13 +35,38 @@ class GithubAPIAuthorization
 	
 	// MARK: - Initalizers
 	
+	/// Creates an instance from a `JSON` object and a token
+	///
+	/// - Parameters:
+	///   - json: The `JSON` object to load from
+	///   - token: The authorization token
+	private init(id: Int, note: String, user: String, token: String, scopes: [String], tokenHash: String, fingerprint: String)
+	{
+		self.id =          id
+		self.note =        note
+		self.user =        user
+		self.token =       token
+		self.scopes =      scopes
+		self.tokenHash =   tokenHash
+		self.fingerprint = fingerprint
+	}
+	
+	
+	
+	// MARK: - Functions -
+	
+	// MARK: Static
+	
 	/// Creates an instance from a `JSON` object
 	///
 	/// - Parameter json: The `JSON` object to load from
-	convenience init?(json: JSON) {
+	static func makeInstanceFromJson(json: JSON, cb: (GithubAPIAuthorization?) -> Void) {
 		let tok = json.getString("token")
-		guard tok != nil && tok != "" else { return nil }
-		self.init(json: json, token: tok!)
+		guard tok != nil && tok != "" else {
+			cb(nil)
+			return
+		}
+		makeInstanceFromJson(json, andToken: tok!, cb: cb)
 	}
 	
 	/// Creates an instance from a `JSON` object and a token
@@ -49,7 +74,7 @@ class GithubAPIAuthorization
 	/// - Parameters:
 	///   - json: The `JSON` object to load from
 	///   - token: The authorization token
-	init?(json: JSON, token: String)
+	static func makeInstanceFromJson(json: JSON, andToken token: String, cb: (GithubAPIAuthorization?) -> Void)
 	{
 		Logger.trace("Loading JSON:\n\(json)\nWith token: '\(token)'")
 		var user: String?
@@ -61,13 +86,12 @@ class GithubAPIAuthorization
 		user = json.getJson("user")?.getString("login")
 		
 		Logger.info(user)
-		self.id =          json.getInt("id")!
-		self.note =        json.getString("note") ?? ""
-		self.token =       token
-		self.scopes =      json.getKey("scopes") as! [String]
-		self.tokenHash =   json.getString("hashed_token")!
-		self.fingerprint = json.getString("fingerprint") ?? ""
-		
+		let id =          json.getInt("id")!
+		let note =        json.getString("note") ?? ""
+		let token =       token
+		let scopes =      json.getKey("scopes") as! [String]
+		let tokenHash =   json.getString("hashed_token")!
+		let fingerprint = json.getString("fingerprint") ?? ""
 		
 		let authString = AuthHelper.generateAuthString(clientID, pass: clientSecret)
 		
@@ -77,40 +101,29 @@ class GithubAPIAuthorization
 				
 				if errMsg != nil {
 					Logger.info(errMsg!)
-					user = nil
+					cb(nil)
 				} else {
-					user = json?.getJson("user")?.getString("login")
+					user = json?.getJson("user")?.getString("login") ?? ""
+					
+					if user != "" {
+						cb(GithubAPIAuthorization(id: id, note: note, user: user!, token: token, scopes: scopes, tokenHash: tokenHash, fingerprint: fingerprint))
+					}
 				}
 			}
-			
-			while user == nil {}
-			
-			self.user = user ?? ""
 		} else {
-			self.user = user!
+			cb(GithubAPIAuthorization(id: id, note: note, user: user!, token: token, scopes: scopes, tokenHash: tokenHash, fingerprint: fingerprint))
 		}
-		
-		guard self.user != "" else { return nil }
 	}
-	
-	
-	
-	// MARK: - Functions -
-	
-	// MARK: Static
 	
 	/// Attempts to load a `GithubAPIAuthorization` instance from the stored information
 	///
 	/// - Returns: A `GithubAPIAuthorization` instance if the token is valid, otherwise `nil`
-	static func load() -> GithubAPIAuthorization?
+	static func load(cb: (GithubAPIAuthorization?) -> Void)
 	{
 		let token = Settings.GitHub_Token.get()
 		Logger.trace("Token = \(token)")
 		
-		guard token != nil && token != "" else { return nil }
-		
-		var finished = false
-		var out: GithubAPIAuthorization?
+		guard token != nil && token != "" else { return cb(nil) }
 		
 		let authString = AuthHelper.generateAuthString(clientID, pass: clientSecret)
 		
@@ -119,22 +132,19 @@ class GithubAPIAuthorization
 			
 			if errMsg != nil {
 				Logger.info(errMsg!)
+				cb(nil)
 			} else if json == nil {
 				Logger.info("JSON is nil!")
+				cb(nil)
 			} else {
 				if let s = json!.getString("message") {
 					Logger.error("Message: \(s)")
+					cb(nil)
 				} else {
-					out = GithubAPIAuthorization(json: json!, token: token!)
+					makeInstanceFromJson(json!, andToken: token!, cb: cb)
 				}
 			}
-			
-			finished = true
 		}
-		
-		while !finished {}
-		
-		return out
 	}
 	
 	

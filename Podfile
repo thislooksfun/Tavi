@@ -12,7 +12,3 @@ pod 'MBProgressHUD', '~> 0.9.2'
 
 #Swift
 pod 'UIColor_Hex_Swift', '~> 2.1'
-pod 'thenPromise'
-pod 'Arrow'
-pod 'SteviaLayout'
-pod 'thenPromise'

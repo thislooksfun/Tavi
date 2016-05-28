@@ -43,29 +43,23 @@ class TravisAPI
 	
 	/// Whether or not the Travis auth token both exists and is valid
 	///
-	/// - Returns: `true` if the auth token is present and valid, otherwise `false`
-	static func authed() -> Bool
+	/// - Parameter cb: The callback to execute upon checking
+	static func checkAuth(cb: (Bool) -> Void)
 	{
-		if Settings.Travis_Token.get() == nil || Settings.Travis_Token.get() == "" { return false }
-		
-		var exitState: HTTPState?
-		func exit(state: HTTPState) {
-			exitState = state
+		if Settings.Travis_Token.get() == nil || Settings.Travis_Token.get() == "" {
+			cb(false)
+			return
 		}
 		
 		TravisAPIBackend.apiCall("users", method: .GET)
 		{ (let errMsg, let json, let httpResponse) in
 			if errMsg != nil {
 				Logger.warn(errMsg!)
-				exit(.Other)
+				cb(false)
 			} else {
-				exit(.Success)
+				cb(true)
 			}
 		}
-		
-		while exitState == nil {}
-		
-		return exitState == .Success
 	}
 	
 	/// Authenticate with Travis
@@ -93,37 +87,39 @@ class TravisAPI
 			exitState = state
 		}
 		
-		guard GithubAPI.signedIn() else {
-			exit(.NeedsGithub, "Not logged into GitHub")
-			callback(exitState!)
-			return
-		}
-		
-		let authJson = [
-			"github_token": Settings.GitHub_Token.get()!
-		]
-		
-		TravisAPIBackend.apiCall("auth/github", method: .POST, json: authJson)
-		{ (let errMsg, let json, let httpResponse) in
-			if errMsg != nil {
-				Logger.warn(errMsg!)
-				exit(.Other)
-			} else
-			{
-				Settings.Travis_Token.set(json!.getString("access_token"))
-				
-				exit(.Success) //TODO check states
+		GithubAPI.signedIn() { (signedIn) in
+			guard signedIn else {
+				exit(.NeedsGithub, "Not logged into GitHub")
+				callback(exitState!)
+				return
 			}
 			
-			// No need to keep the github token around, discard it
-			GithubAPI.signOut(keepUsername: true)
+			let authJson = [
+				"github_token": Settings.GitHub_Token.get()!
+			]
 			
-			if (forceMainThread) {
-				NSOperationQueue.mainQueue().addOperationWithBlock({
+			TravisAPIBackend.apiCall("auth/github", method: .POST, json: authJson)
+			{ (let errMsg, let json, let httpResponse) in
+				if errMsg != nil {
+					Logger.warn(errMsg!)
+					exit(.Other)
+				} else
+				{
+					Settings.Travis_Token.set(json!.getString("access_token"))
+					
+					exit(.Success) //TODO check states
+				}
+				
+				// No need to keep the github token around, discard it
+				GithubAPI.signOut(keepUsername: true)
+				
+				if (forceMainThread) {
+					NSOperationQueue.mainQueue().addOperationWithBlock({
+						callback(exitState!)
+					})
+				} else {
 					callback(exitState!)
-				})
-			} else {
-				callback(exitState!)
+				}
 			}
 		}
 	}
@@ -135,7 +131,6 @@ class TravisAPI
 	///   - callback: The callback to use upon login completion (or failure)
 	static func load(forceMainThread: Bool = true, callback: (HTTPState, [JSON]?) -> Void)
 	{
-		//TODO: rework to use the '/accounts' and '/repos {member, active}' endpoints
 		Logger.info("\n============== TravisAPI.load")
 		if !forceMainThread {
 			Logger.warn("The callback will not be running on the main thread!")
@@ -154,33 +149,35 @@ class TravisAPI
 			exitState = state
 		}
 		
-		guard authed() && Settings.GitHub_User.get() != nil else {
-			exit(.NeedsGithub, "Not authenticated with Travis-CI")
-			callback(exitState!, nil)
-			return
-		}
-		
-		TravisAPIBackend.apiCall("repos?member=\(Settings.GitHub_User.get()!)&active=true", method: .GET)
-		{ (let errMsg, let json, let httpResponse) in
-			
-			var repos: [JSON]?
-			if errMsg != nil {
-				Logger.warn(errMsg!)
-				exit(.Other)
-			} else if json == nil {
-				Logger.warn("json is nil")
-				exit(.Other)
-			} else {
-				repos = json?.getJsonArray("repos")
-				exit(repos == nil ? .Other : .Success)
+		checkAuth() { (authed) in
+			guard authed && Settings.GitHub_User.get() != nil else {
+				exit(.NeedsGithub, "Not authenticated with Travis-CI")
+				callback(exitState!, nil)
+				return
 			}
 			
-			if (forceMainThread) {
-				NSOperationQueue.mainQueue().addOperationWithBlock({
+			TravisAPIBackend.apiCall("repos?member=\(Settings.GitHub_User.get()!)&active=true", method: .GET)
+			{ (let errMsg, let json, let httpResponse) in
+				
+				var repos: [JSON]?
+				if errMsg != nil {
+					Logger.warn(errMsg!)
+					exit(.Other)
+				} else if json == nil {
+					Logger.warn("json is nil")
+					exit(.Other)
+				} else {
+					repos = json?.getJsonArray("repos")
+					exit(repos == nil ? .Other : .Success)
+				}
+				
+				if (forceMainThread) {
+					NSOperationQueue.mainQueue().addOperationWithBlock({
+						callback(exitState!, repos)
+					})
+				} else {
 					callback(exitState!, repos)
-				})
-			} else {
-				callback(exitState!, repos)
+				}
 			}
 		}
 	}

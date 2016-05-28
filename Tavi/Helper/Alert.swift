@@ -75,4 +75,12 @@ class Alert
 	static func getDestructiveActionWithTitle(title: String, andHandler handler: ((UIAlertAction) -> Void)? = nil) -> UIAlertAction {
 		return UIAlertAction(title: title, style: .Destructive, handler: handler)
 	}
+	
+	/// Checks whether or not there is currently an alert showing
+	///
+	/// - returns: `true` if the current view controller is an
+	///            instance of `UIAlertController`, otherwise false
+	static func isAlertShowing() -> Bool {
+		return UIViewController.currentViewController() is UIAlertController
+	}
 }

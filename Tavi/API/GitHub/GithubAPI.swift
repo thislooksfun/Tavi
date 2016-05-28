@@ -92,10 +92,14 @@ class GithubAPI
 						exit (AuthState.Other, "Token not found")
 					} else if t == "" {
 						exit(AuthState.TokenExists, nil)
-					} else if !self.createAuthToken(json!) {
-						exit(AuthState.Other, "Error creating auth token")
 					} else {
-						exit(AuthState.Success, nil)
+						self.createAuthToken(json!) { (success) in
+							if success {
+								exit(AuthState.Success, nil)
+							} else {
+								exit(AuthState.Other, "Error creating auth token")
+							}
+						}
 					}
 				} else {
 					switch (s!) {
@@ -176,10 +180,14 @@ class GithubAPI
 						exit (Auth2fState.Other, "Token not found")
 					} else if t == "" {
 						exit(Auth2fState.TokenExists, nil)
-					} else if !self.createAuthToken(json!) {
-						exit(Auth2fState.Other, "Error creating auth token")
 					} else {
-						exit(Auth2fState.Success, nil)
+						self.createAuthToken(json!) { (success) in
+							if success {
+								exit(Auth2fState.Success, nil)
+							} else {
+								exit(Auth2fState.Other, "Error creating auth token")
+							}
+						}
 					}
 				} else {
 					if (s! == "Must specify two-factor authentication OTP code.") { exit(Auth2fState.BadCode, nil) }
@@ -206,9 +214,10 @@ class GithubAPI
 	}
 	
 	/// Checks if the user is signed in
+	///
 	/// - Returns: true if the user is signed in and the auth token is still valid, otherwise false
-	static func signedIn() -> Bool {
-		return checkAuthToken()
+	static func signedIn(cb: (Bool) -> Void) {
+		checkAuthToken(cb)
 	}
 	
 	/// Clears the auth token for the current session
@@ -243,20 +252,27 @@ class GithubAPI
 	/// - Parameter json: The `JSON` object to create the auth token from
 	///
 	/// - Returns: `true` if the token creation was successful, otherwise `false`
-	private static func createAuthToken(json: JSON) -> Bool {
-		self.authorization = GithubAPIAuthorization(json: json)
-		guard self.authorization != nil else { return false }
-		
-		self.authorization!.save()
-		return true
+	private static func createAuthToken(json: JSON, cb: (Bool) -> Void) {
+		GithubAPIAuthorization.makeInstanceFromJson(json) { (auth) in
+			self.authorization = auth
+			guard self.authorization != nil else {
+				cb(false)
+				return
+			}
+			
+			self.authorization!.save()
+			cb(true)
+		}
 	}
 	
 	/// Checks the validity of the current auth token
 	///
-	/// - Returns: `true` if the check was successful, otherwise `false`
-	private static func checkAuthToken() -> Bool {
-		self.authorization = GithubAPIAuthorization.load()
-		return self.authorization != nil
+	/// - Parameter cb: The callback to execute upon the check finishing.
+	private static func checkAuthToken(cb: (Bool) -> Void) {
+		GithubAPIAuthorization.load() { (auth) in
+			self.authorization = auth
+			cb(self.authorization != nil)
+		}
 	}
 	
 	// MARK: - Enums

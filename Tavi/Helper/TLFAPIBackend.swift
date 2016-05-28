@@ -44,10 +44,8 @@ extension TLFAPIBackend
 	///   - callback: The callback to use
 	static final func apiCall_internal(apiURL: String, path: String, method: HTTPMethod, headers: [NSObject: AnyObject]?, accept: String, json: [NSObject: AnyObject]?, customHandler: ((NSData?, NSURLResponse?, NSError?) -> Void)?, callback: (String?, JSON?, NSHTTPURLResponse?) -> Void)
 	{
-		if Connection.checkConnection() {
+		Connection.checkConnectionAndPerform() {
 			self.apiCall_internal_do(apiURL, path: path, method: method, headers: headers, accept: accept, json: json, customHandler: customHandler, callback: callback)
-		} else {
-			callback("No internet connection", nil, nil)
 		}
 	}
 	

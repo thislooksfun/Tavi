@@ -39,22 +39,28 @@ class AuthHelper
 		/// Don't try to auth if there is no connection
 		guard Connection.checkConnection() else { return }
 		
-		if TravisAPI.authed() {
-			return
-		} else if GithubAPI.signedIn() {
-			TravisAPI.auth() {
-				(state) in
-				
-				switch state {
-				case .Success: finished?(true)  // Success!
-				case .NeedsGithub: LoginController.openLogin(cb: finished)
-				case .NoJson, .Other:
-					Logger.warn("Other error")
-					finished?(false)
+		TravisAPI.checkAuth() { (authed) in
+			if authed {
+				return
+			} else {
+				GithubAPI.signedIn() { (signedIn) in
+					if signedIn {
+						TravisAPI.auth() {
+							(state) in
+							
+							switch state {
+							case .Success: finished?(true)  // Success!
+							case .NeedsGithub: LoginController.openLogin(cb: finished)
+							case .NoJson, .Other:
+								Logger.warn("Other error")
+								finished?(false)
+							}
+						}
+					} else {
+						LoginController.openLogin(cb: finished)
+					}
 				}
 			}
-		} else {
-			LoginController.openLogin(cb: finished)
 		}
 	}
 }

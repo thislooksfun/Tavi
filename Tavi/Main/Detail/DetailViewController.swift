@@ -164,8 +164,10 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	private func gotRepo(newRepo: TravisRepo?)
 	{
 		guard newRepo != nil else {
-			let action = Alert.getDefaultActionWithTitle("OK", andHandler: { (_) in self.navigationController!.popViewControllerAnimated(true) })
-			Alert.showAlertWithTitle("Error", andMessage: "There was an error loading this repository. Check the slug or try again later", andActions: [action])
+			if !Alert.isAlertShowing() {
+				let action = Alert.getDefaultActionWithTitle("OK", andHandler: { (_) in self.navigationController?.popViewControllerAnimated(true) })
+				Alert.showAlertWithTitle("Error", andMessage: "There was an error loading this repository. Check the slug or try again later", andActions: [action])
+			}
 			return
 		}
 		self.repo?.dismiss()

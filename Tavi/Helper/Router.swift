@@ -32,7 +32,7 @@ class Router
 			
 			Logger.trace("Attempting to open repo from ID")
 			
-			guard TravisAPI.authed() else { return false }
+//			guard TravisAPI.authed() else { return false }
 			
 			let repoView = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("RepoView") as! DetailViewController
 			guard let controller = UIViewController.rootViewController() as? UINavigationController else { return false }
@@ -52,7 +52,7 @@ class Router
 			
 			Logger.trace("Attempting to open repo from slug")
 			
-			guard TravisAPI.authed() else { return false }
+//			guard TravisAPI.authed() else { return false }
 			
 			let repoView = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("RepoView") as! DetailViewController
 			guard let controller = UIViewController.rootViewController() as? UINavigationController else { return false }

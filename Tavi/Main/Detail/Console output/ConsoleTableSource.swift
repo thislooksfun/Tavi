@@ -77,7 +77,7 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 		// Don't bother loading if there's nothing to load
 		guard lines.count > 0 else { return }
 		
-		let maxLines = 1000 //TODO: Populate this ?
+		let maxLines = 1000 //TODO: Populate this from .travis.yml, or wherever it's stored?
 		guard lines.count < maxLines else {
 			Logger.warn("Log too large")
 			self.addRow(NSAttributedString(string: "The log is too large to be displayed"))

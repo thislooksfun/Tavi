@@ -24,6 +24,8 @@ import SystemConfiguration
 /// A simple way to check if the device has internet
 class Connection
 {
+	private static var callQueue: [() -> Void] = []
+	
 	//TODO: Remove this once testing is done
 	static var x = 0
 	
@@ -60,7 +62,8 @@ class Connection
 	
 	/// Checks whether or not there is an internet connection\
 	/// and displays the no connection popup if it can't connect
-	static func checkConnection() -> Bool {
+	static func checkConnection() -> Bool
+	{
 		// We already know there's no connection, don't try again
 		guard !isDisplayingNoConnection else { return false }
 		
@@ -72,7 +75,21 @@ class Connection
 		
 		NoConnectionController.display(cb: { (_) -> Void in
 			self.isDisplayingNoConnection = false
+			for fun in callQueue {
+				fun()
+			}
 		})
 		return false
+	}
+	
+	static func checkConnectionAndPerform(fun: () -> Void)
+	{
+		if checkConnection() {
+			// There is a connection, just execute it
+			fun()
+		} else {
+			// No connection, store the request until it comes back
+			callQueue.append(fun)
+		}
 	}
 }
