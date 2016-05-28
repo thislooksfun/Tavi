@@ -3,5 +3,7 @@ engines:
   fixme:
     enabled: true
 ratings:
-  paths: []
+  paths:
+    - "**.swift"
+    - "**.sh"
 exclude_paths: []
