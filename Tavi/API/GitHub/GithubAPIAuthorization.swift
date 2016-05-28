@@ -59,7 +59,9 @@ class GithubAPIAuthorization
 	
 	/// Creates an instance from a `JSON` object
 	///
-	/// - Parameter json: The `JSON` object to load from
+	/// - Parameters:
+	///   - json: The `JSON` object to load from
+	///   - cb: The callback to execute upon completion
 	static func makeInstanceFromJson(json: JSON, cb: (GithubAPIAuthorization?) -> Void) {
 		let tok = json.getString("token")
 		guard tok != nil && tok != "" else {
@@ -74,6 +76,7 @@ class GithubAPIAuthorization
 	/// - Parameters:
 	///   - json: The `JSON` object to load from
 	///   - token: The authorization token
+	///   - cb: The callback to execute upon completion
 	static func makeInstanceFromJson(json: JSON, andToken token: String, cb: (GithubAPIAuthorization?) -> Void)
 	{
 		Logger.trace("Loading JSON:\n\(json)\nWith token: '\(token)'")
@@ -117,7 +120,7 @@ class GithubAPIAuthorization
 	
 	/// Attempts to load a `GithubAPIAuthorization` instance from the stored information
 	///
-	/// - Returns: A `GithubAPIAuthorization` instance if the token is valid, otherwise `nil`
+	/// - Parameter cb: The callback to execute upon completion
 	static func load(cb: (GithubAPIAuthorization?) -> Void)
 	{
 		let token = Settings.GitHub_Token.get()

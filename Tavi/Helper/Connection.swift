@@ -82,6 +82,10 @@ class Connection
 		return false
 	}
 	
+	/// Checks whether or not there is an internet connection, same as `checkConnection:`\
+	/// but also adds the given closure to a queue to be executed after the connection is regained
+	///
+	/// - Parameter fun: The closure to execute only when there is an internet connection
 	static func checkConnectionAndPerform(fun: () -> Void)
 	{
 		if checkConnection() {

@@ -215,12 +215,13 @@ class GithubAPI
 	
 	/// Checks if the user is signed in
 	///
-	/// - Returns: true if the user is signed in and the auth token is still valid, otherwise false
+	/// - Parameter cb: The callback to call with the result of the check
 	static func signedIn(cb: (Bool) -> Void) {
 		checkAuthToken(cb)
 	}
 	
 	/// Clears the auth token for the current session
+	///
 	/// - Parameter keepUsername: Whether or not to keep the username when clearing the token. (Default: `false`)
 	static func signOut(keepUsername ku: Bool = false) {
 		guard self.authorization != nil else { return } //Authorization is already nil, nothing to do
@@ -249,9 +250,9 @@ class GithubAPI
 	
 	/// Creates an auth token
 	///
-	/// - Parameter json: The `JSON` object to create the auth token from
-	///
-	/// - Returns: `true` if the token creation was successful, otherwise `false`
+	/// - Parameters:
+	///   - json: The `JSON` object to create the auth token from
+	///   - cb: The callback to which to pass the result of the creation
 	private static func createAuthToken(json: JSON, cb: (Bool) -> Void) {
 		GithubAPIAuthorization.makeInstanceFromJson(json) { (auth) in
 			self.authorization = auth
