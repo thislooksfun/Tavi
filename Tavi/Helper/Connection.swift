@@ -27,7 +27,7 @@ class Connection
 	private static var callQueue: [() -> Void] = []
 	
 	//TODO: Remove this once testing is done
-	static var x = 0
+//	static var x = 0
 	
 	/// Please use `checkConnection` instead
 	///
@@ -54,7 +54,8 @@ class Connection
 		let isReachable = flags.contains(.Reachable)
 		let needsConnection = flags.contains(.ConnectionRequired)
 		
-		return (isReachable && !needsConnection) && (++x % 9 != 0)
+		return isReachable && !needsConnection
+//		return (isReachable && !needsConnection) && (++x % 9 != 0)
 	}
 	
 	/// Whether or not the no connection view is being displayed
