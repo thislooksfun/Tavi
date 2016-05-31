@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nlH-Cg-Uq9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nlH-Cg-Uq9">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -79,8 +79,8 @@
                                         </constraints>
                                         <variation key="default">
                                             <mask key="constraints">
-                                                <exclude reference="zYj-e9-gcp"/>
                                                 <exclude reference="dlO-62-l8i"/>
+                                                <exclude reference="zYj-e9-gcp"/>
                                             </mask>
                                         </variation>
                                     </imageView>
@@ -143,7 +143,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="radio-tower-0" width="350" height="350"/>
+        <image name="radio-tower-0" width="175" height="175"/>
         <image name="radio-tower-1" width="175" height="175"/>
         <image name="radio-tower-2" width="175" height="175"/>
     </resources>
