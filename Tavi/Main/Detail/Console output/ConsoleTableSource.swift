@@ -32,6 +32,8 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 	/// The sideways scroll view used by the console
 	@IBOutlet weak var sidewaysScrollView: UIScrollView!
 	
+	/// The selected row - used to highlight the row to be copied
+	private var selectedRow: Int = -1
 	/// The information for the rows
 	private var data = [RowInfo]()
 	/// The information about groups
@@ -46,9 +48,14 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 	/// The font the table uses
 	private let sectionInfoFont = UIFont(descriptor: UIFontDescriptor(name: "Inconsolata", size: 12), size: 12)
 	/// The color for a cell that is the start of a group
-	private var groupStartColor = UIColor(white: 43/255, alpha: 1)
+	private let groupStartColor = UIColor(white: 43/255, alpha: 1)
 	/// The color for all cells that aren't part of a group
-	private var defaultColor = UIColor(white: 34/255, alpha: 1)
+	private let defaultColor = UIColor(white: 34/255, alpha: 1)
+	/// The color for all highlighted cells that aren't part of a group
+	private let cellHighlightColor = UIColor(white: 52/255, alpha: 1)
+	/// The color of the text in the console view
+	private var consoleTextColor = UIColor(white: 241/255, alpha: 1)
+
 	
 	/// Loads information for the table from a given `TravisBuildJob`
 	///
@@ -91,8 +98,7 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 		{
 			let lineStr = NSMutableAttributedString()
 			for segment in line.segments {
-				let fg = UIColor.whiteColor() //TODO: replace with proper color
-				lineStr += segment.toAttributedStringWithFont(lineFont, andBoldFont: lineFontBold, andForegroundColor: fg, andBackgroundColor: line.isGroupStart ? groupStartColor : defaultColor)
+				lineStr += segment.toAttributedStringWithFont(lineFont, andBoldFont: lineFontBold, andForegroundColor: consoleTextColor, andBackgroundColor: line.isGroupStart ? groupStartColor : defaultColor)
 			}
 			self.addRow(lineStr, withSectionTitle: line.groupName, andSectionTime: line.time, isGroupStart: line.isGroupStart, isGroupEnd: line.isGroupEnd)
 		}
@@ -111,6 +117,8 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 	/// - Parameter refresh: Whether or not to update and resize the table (Default: `true`)
 	func clearRows(reloadAndResize refresh: Bool = true) {
 		self.data.removeAll()
+		self.groups.removeAll()
+		
 		longestWidth = -1
 		
 		guard refresh else { return }
@@ -166,8 +174,8 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 		let timeWidth =  timeStr.sizeWithAttributes( [NSFontAttributeName: sectionInfoFont]).width
 		
 		// Calculate the total width.
-		// Formula: [title width] + [time width] + [an 8 px gap between them, if they are both >0] + [an 8 px gap with the right edge, if either of them are >0]
-		let totalWidth = width + titleWidth + timeWidth + (titleWidth > 0 && timeWidth > 0 ? 8 : 0) + (titleWidth + timeWidth > 0 ? 8 : 0)
+		// Formula: [4px + title width + 4px] + [4px + time width + 4px] + [an 8 px gap between them, if they are both >0] + [an 8 px gap with the right edge, if either of them are >0]
+		let totalWidth = width + titleWidth + (titleWidth > 0 ? 8 : 0) + timeWidth + (timeWidth > 0 ? 8 : 0) + (titleWidth > 0 && timeWidth > 0 ? 8 : 0) + (titleWidth + timeWidth > 0 ? 8 : 0)
 
 		if totalWidth > longestWidth {
 			longestWidth = totalWidth
@@ -218,6 +226,29 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 		replaceGroupForConsoleRow(sender.tag, withGroup: group)
 	}
 	
+	/// Highlights a row of the console
+	///
+	/// - Parameter index: The index path to highlight
+	func highlightIndex(index: NSIndexPath) {
+		Logger.debug("Highlighting row \(index.row)")
+		self.selectedRow = index.row
+		self.table.reloadRowsAtIndexPaths([index], withRowAnimation: UITableViewRowAnimation.None)
+	}
+	
+	/// De-highlights all the rows in the console
+	func dehighlightAll() {
+		self.selectedRow = -1
+		self.table.reloadData()
+	}
+	
+	func copyHighlightedRow() {
+		guard self.selectedRow > -1 else { return } //Make sure something is selected
+		guard self.selectedRow < data.count else { return } //Also make sure it's not out of range
+		let cell = self.tableView(self.table, cellForRowAtIndexPath: NSIndexPath(forRow: self.selectedRow, inSection: 0)) as! ConsoleLineCell
+		UIPasteboard.generalPasteboard().string = cell.lineText.string
+		//TODO: Copy attributed string too?
+	}
+	
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return data.count - sumContractedGroups()
 	}
@@ -231,6 +262,7 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 		let offsetRow = offsetTableRowForGroups(indexPath.row)
 		let info = data[offsetRow]
 		let group = groupForTableRow(indexPath.row)
+		
 		if group != nil && group!.startIndex == offsetRow {
 			cell.backgroundColor = groupStartColor
 			
@@ -254,6 +286,23 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 		cell.sectionTime = info.sectionTime
 		
 		return cell
+	}
+
+	func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+		if indexPath.row == selectedRow {
+			//Selected, display that color
+			cell.backgroundColor = cellHighlightColor
+		} else if !(cell as! ConsoleLineCell).disclosureArrow.hidden {
+			//The disclosure arrow is showing, it must be the start of a group!
+			cell.backgroundColor = groupStartColor
+		} else {
+			//Not selected, not part of a group
+			cell.backgroundColor = defaultColor
+		}
+	}
+	
+	func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+		return nil
 	}
 	
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -375,7 +424,6 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 		/// The time the section took to execute
 		var sectionTime: Int?
 	}
-	
 	
 	func scrollViewDidScroll(scrollView: UIScrollView)
 	{

@@ -485,6 +485,77 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		setFavorite(Favorites.isFavorite(self.repo?.slug ?? self.slug!))
 	}
 	
+	/// Called when one of the console table cells is long pressed
+	@IBAction func longPress(sender: UILongPressGestureRecognizer)
+	{
+		guard sender.state == UIGestureRecognizerState.Began else { return }
+		guard let sendView = sender.view else { return }
+		
+		let position = sender.locationInView(sendView)
+		guard let indexPath : NSIndexPath = (sendView as! UITableView).indexPathForRowAtPoint(position) else { return }
+		
+		self.becomeFirstResponder()
+		
+		let menu = UIMenuController.sharedMenuController()
+		let rect = self.consoleTable.rectForRowAtIndexPath(indexPath)
+		
+		let scroll = mainScrollView.contentOffset
+		let screenWidth = UIScreen.mainScreen().bounds.width
+		let rectOffset = CGRectMake(0, rect.origin.y - scroll.y + 200, screenWidth, 20)
+		
+		consoleTableSource.highlightIndex(indexPath)
+		
+		menu.setTargetRect(rectOffset, inView: self.view)
+		menu.setMenuVisible(true, animated: true)
+		
+	}
+	
+	override func becomeFirstResponder() -> Bool {
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIResponder.resignFirstResponder), name: UIMenuControllerWillHideMenuNotification, object: nil)
+		return super.becomeFirstResponder()
+	}
+	
+	override func resignFirstResponder() -> Bool {
+		NSNotificationCenter.defaultCenter().removeObserver(self, name: UIMenuControllerDidHideMenuNotification, object: nil)
+		consoleTableSource.dehighlightAll()
+		return super.resignFirstResponder()
+	}
+	
+	override func canBecomeFirstResponder() -> Bool {
+		return true
+	}
+	
+	override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
+		/* UIMenuController (edit menu) options:
+		cut:
+		copy:
+		select:
+		selectAll:
+		paste:
+		delete:
+		_promptForReplace:
+		_transliterateChinese:
+		_showTextStyleOptions:
+		_define:
+		_addShortcut:
+		_accessibilitySpeak:
+		_accessibilitySpeakLanguageSelection:
+		_accessibilityPauseSpeaking:
+		_share:
+		makeTextWritingDirectionRightToLeft:
+		makeTextWritingDirectionLeftToRight:
+		*/
+		
+		if action.description == "copy:" { return true }
+		if action.description == "_accessibilitySpeak:" { return true }
+		//		if action.description == "_accessibilityPauseSpeaking:" { return true }
+		return false
+	}
+	
+	override func copy(sender: AnyObject?) {
+		self.consoleTableSource.copyHighlightedRow()
+	}
+	
 	override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
 		super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
 		
