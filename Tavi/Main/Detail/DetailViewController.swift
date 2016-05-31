@@ -137,7 +137,12 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 			let master = nav.viewControllers.first as! MasterViewController
 			master.tableView.reloadData()
 		}
-		return [favToggle]
+		
+		let restartBuild = UIPreviewAction(title: "Restart Build", style: .Default) {
+			(action, vc) in
+			self.restartBuild(nil)
+		}
+		return [restartBuild, favToggle]
 	}
 	
 	/// Called when the ID has been set
@@ -466,6 +471,11 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	
 	func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
 		return self.consoleSidewaysScroll.gestureRecognizers?.contains(otherGestureRecognizer) ?? false
+	}
+	
+	@IBAction func restartBuild(sender: AnyObject?) {
+		//TODO: Actually make this restart the build.
+		Logger.trace("Restarting build")
 	}
 	
 	/// Toggles the favorited state of the repo
