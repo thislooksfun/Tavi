@@ -52,8 +52,8 @@ class Settings
 	
 	/// Whether or not to check for builds in the background
 	///
-	/// - TODO: Make this a	`SettingsItem` and add to the menu
-	static var checkForBuildsInBackground = true
+	/// - TODO: Add this to the menu
+	static var CheckForBuildsInBackground = SettingsItem<Bool>(key: "BackgroundBuildCheck")
 	
 	/// Saves all the settings
 	static func save() {
