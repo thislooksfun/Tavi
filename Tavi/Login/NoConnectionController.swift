@@ -20,6 +20,8 @@
 
 import UIKit
 
+/// A small class that displays a pop-up to inform\
+/// the user there is no internet connection
 class NoConnectionController: PortraitViewController
 {
 	// MARK: IBOutlets
@@ -104,6 +106,8 @@ class NoConnectionController: PortraitViewController
 			self.topConstraint.constant = NoConnectionController.shownTopConstant
 			self.view.layoutIfNeeded()
 		}
+		
+		//TODO: Animate the radio tower
 	}
 	
 	
