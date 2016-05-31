@@ -203,8 +203,10 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 	
 	/// Resizes the table to allow for correct scrolling behavior
 	func resizeTable() {
-		tableHeight.constant = table.rowHeight * CGFloat(data.count - sumContractedGroups())
-		tableWidth.constant = 84 + longestWidth
+		let newHeight = table.rowHeight * CGFloat(data.count - sumContractedGroups())
+		tableHeight.constant = newHeight < 0 ? 0 : newHeight //Ensure the height is >= 0
+		let newWidth = 84 + longestWidth
+		tableWidth.constant = newWidth < 0 ? 0 : newWidth //Ensure the width is >= 0
 	}
 	
 	/// Toggles whether or not a group is expanded
