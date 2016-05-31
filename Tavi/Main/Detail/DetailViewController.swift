@@ -232,6 +232,8 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		} else {
 			self.view.layoutIfNeeded()
 		}
+		
+		//TODO: After x seconds, display a message saying "it's still loading"
 	}
 	
 	/// Hides all the hidable sections of the screen
