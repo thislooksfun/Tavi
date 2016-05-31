@@ -21,7 +21,7 @@
 import UIKit
 
 /// The controller for the individual repository views
-class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerDelegate
+class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerDelegate, UIScrollViewDelegate
 {
 	/// The `ConsoleTableSource` instance
 	@IBOutlet var consoleTableSource: ConsoleTableSource!
@@ -103,6 +103,14 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		self.favoriteIconFilled.tintColorDidChange()
 		
 		self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+		
+		self.consoleTableSource.afterReloadResize = {
+			self.scrollViewDidScroll(self.mainScrollView)
+		}
+		
+		//TODO: Decide whether or not to implement this
+//		self.mainScrollView.indicatorStyle = .White
+//		self.consoleSidewaysScroll.indicatorStyle = .White
 	}
 	
 	override func viewWillAppear(animated: Bool) {
@@ -552,6 +560,14 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		return false
 	}
 	
+	func scrollViewDidScroll(scrollView: UIScrollView) {
+		guard scrollView == self.mainScrollView else { return }
+		let navBarHeight = self.navigationController!.navigationBarHidden ? 0 : self.navigationController!.navigationBar.frame.height
+		let distanceFromTop = navBarHeight + UIApplication.sharedApplication().statusBarFrame.size.height
+		let bottom = scrollView.contentSize.height - scrollView.contentOffset.y - UIScreen.mainScreen().bounds.height + distanceFromTop
+		self.consoleSidewaysScroll.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: bottom, right: 0)
+	}
+	
 	override func copy(sender: AnyObject?) {
 		self.consoleTableSource.copyHighlightedRow()
 	}
@@ -569,9 +585,12 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 				self.navigationController?.setNavigationBarHidden(false, animated: true)
 				self.navigationController?.interactivePopGestureRecognizer?.enabled = true
 			}
-		}, completion: { (_) in
-			// Update the console table info labels
-			self.consoleTableSource.scrollViewDidScroll(self.consoleSidewaysScroll)
+			
+			// Update the position of the bottom scroll bar
+			self.scrollViewDidScroll(self.mainScrollView)
+			}, completion: { (_) in
+				// Update the console table info labels
+				self.consoleTableSource.scrollViewDidScroll(self.consoleSidewaysScroll)
 		})
 	}
 }

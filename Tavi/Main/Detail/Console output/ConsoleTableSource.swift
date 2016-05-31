@@ -55,7 +55,10 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 	private let cellHighlightColor = UIColor(white: 52/255, alpha: 1)
 	/// The color of the text in the console view
 	private var consoleTextColor = UIColor(white: 241/255, alpha: 1)
-
+	
+	/// A closure to call after the `reloadAndResize:` function runs
+	var afterReloadResize: (() -> Void)? = nil
+	
 	
 	/// Loads information for the table from a given `TravisBuildJob`
 	///
@@ -206,6 +209,7 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 			// Prevent crash when going in and out quickly
 			guard self.sidewaysScrollView != nil else { return }
 			self.scrollViewDidScroll(self.sidewaysScrollView)
+			self.afterReloadResize?()
 		}
 	}
 	
