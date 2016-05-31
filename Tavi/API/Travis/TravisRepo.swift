@@ -217,6 +217,7 @@ class TravisRepo: Equatable
 		Logger.trace("Event: \(event!.name ?? "")")
 		
 		guard (event!.name ?? "").hasPrefix("build:") else {
+			//TODO: Handle other types of pusher events (job:, etc)
 			Logger.warn("Event prefix is not 'build:'")
 			return
 		}
