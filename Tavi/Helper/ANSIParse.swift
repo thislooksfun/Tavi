@@ -79,8 +79,26 @@ public class ANSIParse
 		for sep in codeSeparations
 		{
 			var sgmtTxt = ""
-			if let codeEnd = sep.characters.indexOf("m")
-			{
+			
+			//TODO: Implement more of these?
+//			if let _ = sep.characters.indexOf("A")        { // Cursor up
+//			} else if let _ = sep.characters.indexOf("B") { // Cursor down
+//			} else if let _ = sep.characters.indexOf("C") { // Cursor forward
+//			} else if let _ = sep.characters.indexOf("D") { // Cursor backwards
+//			} else if let _ = sep.characters.indexOf("E") { // Cursor next line
+//			} else if let _ = sep.characters.indexOf("F") { // Cursor prev line
+//			} else if let _ = sep.characters.indexOf("G") { // Cursor horizontal absolute
+//			} else if let _ = sep.characters.indexOf("H") { // Cursor position
+//			} else if let _ = sep.characters.indexOf("J") { // Erase display
+//			} else if let _ = sep.characters.indexOf("K") { // Erase in line
+//			} else if let _ = sep.characters.indexOf("S") { // Scroll up
+//			} else if let _ = sep.characters.indexOf("T") { // Scroll down
+//			} else if let _ = sep.characters.indexOf("f") { // Same as H
+//			} else if let _ = sep.characters.indexOf("m") { // Select graphic rendition (color/effects)
+//			} else if let _ = sep.characters.indexOf("s") { // Save cursor position
+//			} else if let _ = sep.characters.indexOf("u") { // Restore cursor position
+			
+			if let codeEnd = sep.characters.indexOf("m") { // Select graphic rendition (color/effects)
 				let codeStrs = sep.substringToIndex(codeEnd).split(";")
 				sgmtTxt = sep.substringFromIndex(codeEnd.successor())
 				
