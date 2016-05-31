@@ -33,8 +33,22 @@ class ConsoleLineCell: UITableViewCell
 	/// when the user taps to expand the group
 	@IBOutlet var expandButton: UIButton!
 	
+	/// The container for the title label - used for rounding
+	@IBOutlet var sectionTitleContainer: UIView! {
+		didSet {
+			sectionTitleContainer.layer.cornerRadius = 6
+			sectionTitleContainer.clipsToBounds = true
+		}
+	}
 	/// The title of the console section
 	@IBOutlet var sectionTitleLabel: UILabel!
+	/// The container for the time label - used for rounding
+	@IBOutlet var sectionTimeContainer: UIView! {
+		didSet {
+			sectionTimeContainer.layer.cornerRadius = 6
+			sectionTimeContainer.clipsToBounds = true
+		}
+	}
 	/// The time the section took to execute
 	@IBOutlet var sectionTimeLabel: UILabel!
 	/// The distance from the section information to the
@@ -61,20 +75,22 @@ class ConsoleLineCell: UITableViewCell
 		}
 	}
 	
+	/// The title of the group/section
 	var sectionTitle: String {
 		get {
 			return sectionTitleLabel.text ?? ""
 		}
 		set {
 			if !newValue.isEmpty {
-				sectionTitleLabel.text = newValue
-				sectionTitleLabel.hidden = false
+				sectionTitleLabel.text = "\(newValue)"
+				sectionTitleContainer.hidden = false
 			} else {
-				sectionTitleLabel.hidden = true
+				sectionTitleContainer.hidden = true
 			}
 		}
 	}
 	
+	/// The time that it took for the command to execute
 	var sectionTime: Int? {
 		get {
 			return Int((Double(sectionTimeLabel.text ?? "") ?? 0) * 1000)
@@ -82,9 +98,9 @@ class ConsoleLineCell: UITableViewCell
 		set {
 			if let val = newValue {
 				sectionTimeLabel.text = String(format: "%.2fs", Double(val) / 1000)
-				sectionTimeLabel.hidden = false
+				sectionTimeContainer.hidden = false
 			} else {
-				sectionTimeLabel.hidden = true
+				sectionTimeContainer.hidden = true
 			}
 		}
 	}
