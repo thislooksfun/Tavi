@@ -23,13 +23,22 @@ import UIKit
 //MARK: Extensions
 
 /// Adds easier ways to get the length of and split the string
-extension String {
+extension String
+{
+	/// The length of the string - wrapper for `.characters.count`
 	var length: Int {
 		get {
 			return self.characters.count
 		}
 	}
 	
+	/// Splits this string on the given seperator
+	///
+	/// - Parameters:
+	///   - str: The string to split on
+	///   - ignoreEmpty: Whether or not to ignore empty sections
+	///
+	/// - Returns: A `String` array of the split string
 	public func split(str: String, ignoreEmpty: Bool = false) -> [String] {
 		if ignoreEmpty {
 			var parts = [String]()
@@ -41,6 +50,30 @@ extension String {
 			return parts
 		} else {
 			return self.componentsSeparatedByString(str)
+		}
+	}
+	
+	/// Ensures this string is at least `minLength` characters long
+	///
+	/// - Note: If `fill` is an empty string `""`, this function will abort
+	///
+	/// - Parameters:
+	///   - minLength: The minimum length of the string
+	///   - fill: The string with which to pad out the missing length
+	///   - prepend: Whether or not to prepend the `fill` string - used to right-justify text
+	public mutating func ensureAtLeast(minLength: Int, fillWith fill: String = " ", prepend: Bool = false){
+		guard !fill.isEmpty else { return } //Don't try to append nothing to the end, won't go well
+		
+		if self.length >= minLength {
+			return // Length is already at least `length`, no point
+		}
+		
+		while self.length < minLength {
+			if prepend {
+				self = fill + self
+			} else {
+				self += fill
+			}
 		}
 	}
 }
