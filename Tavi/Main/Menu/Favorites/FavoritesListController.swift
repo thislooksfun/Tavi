@@ -105,9 +105,8 @@ class FavoritesListController: PortraitTableViewController
 	/// - Note: Both the orange bar and the info button are only visible when the app is running
 	///         on a device that both supports 3D touch, and has it enabled.
 	///
-	/// - TODO: Actually implement this
+	/// - TODO: Make this button explain that the orange bar on the left of the screen indicates the items that will be in the homescreen quick action window thing
 	func showInfo(sender: AnyObject?) {
-		//TODO: Make this button explain that the orange bar on the left of the screen indicates the items that will be in the homescreen quick action window thing
 		Logger.info("Showing info")
 	}
 	
