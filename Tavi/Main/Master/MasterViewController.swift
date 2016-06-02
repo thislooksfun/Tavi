@@ -32,6 +32,9 @@ class MasterViewController: PortraitTableViewController
 	/// The view to put in the background when the user isn't authed
 	private var notAuthedBackground: UIView!
 	
+	/// Used by `reload` to track whether or not a reload is already scheduled
+	private var reloadScheduled = false
+	
 	/// The timer used for ticking all the in-progress builds
 	private var timer: NSTimer!
 	
@@ -147,13 +150,24 @@ class MasterViewController: PortraitTableViewController
 		reload()
 	}
 	
+	/// A wrapper for `reload_do` to ensure that the connection exists
+	/// Used to prevent the screen from darkening repeatly on app re-entry
+	func reload() {
+		guard !reloadScheduled else { return } //If there is already going to be a reload, don't bother
+		reloadScheduled = true
+		Connection.checkConnectionAndPerform(reload_do)
+	}
+	
 	/// Reloads all the repositories in the view
+	///
+	/// - Warning: This should never be called! Use `reload` instead
 	///
 	/// - Note: This doesn't actually technically reload anything.
 	///         It fetches a complete list from the API, and if it is different,
 	///         it throws away the old list and replaces it with the new one.
-	func reload()
+	func reload_do()
 	{
+		reloadScheduled = false
 		self.refreshControl?.endRefreshing()
 		let hud = MBProgressHUD.showHUDAddedTo(self.navigationController!.view, animated: true)
 		hud.labelText = "Loading"
