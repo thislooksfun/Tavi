@@ -20,6 +20,8 @@
 
 import Pusher
 
+//TODO: Figure out how to automatically reconnect when the connection times out (maybe implement PTPusherConnectionDelegate?)
+
 /// A simple class for interacting with [libPusher](https://github.com/lukeredpath/libPusher)
 class Pusher: NSObject, PTPusherDelegate
 {
