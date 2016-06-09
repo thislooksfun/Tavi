@@ -58,7 +58,7 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	var master: MasterViewController?
 	
 	/// The ID to load from
-	var id: Int? {
+	var repoId: Int? {
 		didSet {
 			self.idSet()
 		}
@@ -155,9 +155,9 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	
 	/// Called when the ID has been set
 	private func idSet() {
-		guard id != nil else { return }
+		guard self.repoId != nil else { return }
 		
-		TravisRepo.repoForID(self.id!, done: gotRepo)
+		TravisRepo.repoForID(self.repoId!, done: gotRepo)
 	}
 	
 	/// Called when the slug has been set
@@ -207,7 +207,7 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 			if self.slug != nil {
 				self.moveToMainLoading(!isInDidLoad)
 				setFavorite(Favorites.isFavorite(self.slug!))
-			} else if self.id != nil {
+			} else if self.repoId != nil {
 				self.moveToMainLoading(!isInDidLoad)
 			}
 		}

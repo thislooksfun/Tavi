@@ -37,9 +37,9 @@ class Router
 			let repoView = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("RepoView") as! DetailViewController
 			guard let controller = UIViewController.rootViewController() as? UINavigationController else { return false }
 			
-			repoView.id = params["id"] as? Int
+			repoView.repoId = params["id"] as? Int
 			
-			Logger.trace("ID to open: \(repoView.id)")
+			Logger.trace("ID to open: \(repoView.repoId)")
 			
 			controller.popToRootViewControllerAnimated(true)
 			controller.pushViewController(repoView, animated: true)
