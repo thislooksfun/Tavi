@@ -32,6 +32,12 @@ extension String
 		}
 	}
 	
+	var range: NSRange {
+		get {
+			return NSMakeRange(0, self.length)
+		}
+	}
+	
 	/// Splits this string on the given seperator
 	///
 	/// - Parameters:
@@ -474,22 +480,15 @@ func async(onNewThread onNewThread: Bool = false, withPriority priority: dispatc
 
 //MARK: - Overloads
 
-//func += <KeyType, ValueType> (inout left: Dictionary<KeyType, ValueType>, right: Dictionary<KeyType, ValueType>) {
-//	for (k, v) in right {
-//		left.updateValue(v, forKey: k)
-//	}
-//}
-//
-//func + <KeyType, ValueType> (left: Dictionary<KeyType, ValueType>, right: Dictionary<KeyType, ValueType>) -> Dictionary<KeyType, ValueType> {
-//	var out = left
-//	out += right
-//	return out
-//}
-//
-//func + <KeyType, ValueType> (left: Dictionary<KeyType, ValueType>, right: Dictionary<KeyType, ValueType>?) -> Dictionary<KeyType, ValueType> {
-//	guard right != nil else { return left }
-//	return left + right!
-//}
+/// Easy regex matching
+infix operator =~ {}
+/// Easy regex matching
+func =~(input: String, pattern: String) -> Bool {
+	guard let regex = try? NSRegularExpression(pattern: pattern, options: []) else { return false }
+	let matches = regex.matchesInString(input, options: [], range: input.range)
+	return matches.count > 0
+}
+
 
 /// Inserts `left` into `right` at index `0`
 ///

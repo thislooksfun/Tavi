@@ -24,6 +24,9 @@ import UIColor_Hex_Swift
 /// A fairly simple class for parsing ANSI formatted text into usable segments
 public class ANSIParse
 {
+	/// Whether or not to add extra debug information to the output
+	public static var includeDebugPrinting = false
+	
 	/// The regular color scheme
 	public static let colors = [
 		0: UIColor(rgba: "#4E4E4E"), //Black
@@ -33,20 +36,19 @@ public class ANSIParse
 		4: UIColor(rgba: "#96CBFE"), //Blue
 		5: UIColor(rgba: "#FF73FD"), //Magenta
 		6: UIColor(rgba: "#00AAAA"), //Cyan
-		7: UIColor(rgba: "#969696")  //Gray
+		7: UIColor(rgba: "#CCCCCC")  //Gray
 	]
 	/// The lightened color scheme
 	public static let lightColors = [
-		0: UIColor(rgba: "#969696"), //Dark Gray
-		1: UIColor(rgba: "#FFB6B0"), //Red
-		2: UIColor(rgba: "#CEFFAB"), //Green
-		3: UIColor(rgba: "#FFFFCB"), //Yellow
+		0: UIColor(rgba: "#7C7C7C"), //Dark Gray
+		1: UIColor(rgba: "#FF9B93"), //Red
+		2: UIColor(rgba: "#B1FD79"), //Green
+		3: UIColor(rgba: "#FFFF91"), //Yellow
 		4: UIColor(rgba: "#B5DCFE"), //Blue
 		5: UIColor(rgba: "#FF9CFE"), //Magenta
 		6: UIColor(rgba: "#55FFFF"), //Cyan
 		7: UIColor(rgba: "#FFFFFF")  //White
 	]
-	
 
 	// Used to do proper cross-line formatting
 	private static var formatting: ANSIAttributes = []
@@ -78,28 +80,66 @@ public class ANSIParse
 		
 		for sep in codeSeparations
 		{
+			var debugTxt = ""
 			var sgmtTxt = ""
 			
 			//TODO: Implement more of these?
-//			if let _ = sep.characters.indexOf("A")        { // Cursor up
-//			} else if let _ = sep.characters.indexOf("B") { // Cursor down
-//			} else if let _ = sep.characters.indexOf("C") { // Cursor forward
-//			} else if let _ = sep.characters.indexOf("D") { // Cursor backwards
-//			} else if let _ = sep.characters.indexOf("E") { // Cursor next line
-//			} else if let _ = sep.characters.indexOf("F") { // Cursor prev line
-//			} else if let _ = sep.characters.indexOf("G") { // Cursor horizontal absolute
-//			} else if let _ = sep.characters.indexOf("H") { // Cursor position
-//			} else if let _ = sep.characters.indexOf("J") { // Erase display
-//			} else if let _ = sep.characters.indexOf("K") { // Erase in line
-//			} else if let _ = sep.characters.indexOf("S") { // Scroll up
-//			} else if let _ = sep.characters.indexOf("T") { // Scroll down
-//			} else if let _ = sep.characters.indexOf("f") { // Same as H
-//			} else if let _ = sep.characters.indexOf("m") { // Select graphic rendition (color/effects)
-//			} else if let _ = sep.characters.indexOf("s") { // Save cursor position
-//			} else if let _ = sep.characters.indexOf("u") { // Restore cursor position
 			
-			if let codeEnd = sep.characters.indexOf("m") { // Select graphic rendition (color/effects)
+			if let codeEnd = sep.characters.indexOf("A") where sep.substringToIndex(codeEnd) =~ "^\\d?$" { // Cursor up
+				let codeStr = sep.substringToIndex(codeEnd)
+				debugTxt = "ESC[\(codeStr)A"
+				sgmtTxt = sep.substringFromIndex(codeEnd.successor())
+			} else if let codeEnd = sep.characters.indexOf("B") where sep.substringToIndex(codeEnd) =~ "^\\d?$" { // Cursor down
+				let codeStr = sep.substringToIndex(codeEnd)
+				debugTxt = "ESC[\(codeStr)B"
+				sgmtTxt = sep.substringFromIndex(codeEnd.successor())
+			} else if let codeEnd = sep.characters.indexOf("C") where sep.substringToIndex(codeEnd) =~ "^\\d?$" { // Cursor forward
+				let codeStr = sep.substringToIndex(codeEnd)
+				debugTxt = "ESC[\(codeStr)C"
+				sgmtTxt = sep.substringFromIndex(codeEnd.successor())
+			} else if let codeEnd = sep.characters.indexOf("D") where sep.substringToIndex(codeEnd) =~ "^\\d?$" { // Cursor backwards
+				let codeStr = sep.substringToIndex(codeEnd)
+				debugTxt = "ESC[\(codeStr)D"
+				sgmtTxt = sep.substringFromIndex(codeEnd.successor())
+			} else if let codeEnd = sep.characters.indexOf("E") where sep.substringToIndex(codeEnd) =~ "^\\d?$" { // Cursor next line
+				let codeStr = sep.substringToIndex(codeEnd)
+				debugTxt = "ESC[\(codeStr)E"
+				sgmtTxt = sep.substringFromIndex(codeEnd.successor())
+			} else if let codeEnd = sep.characters.indexOf("F") where sep.substringToIndex(codeEnd) =~ "^\\d?$" { // Cursor prev line
+				let codeStr = sep.substringToIndex(codeEnd)
+				debugTxt = "ESC[\(codeStr)F"
+				sgmtTxt = sep.substringFromIndex(codeEnd.successor())
+			} else if let codeEnd = sep.characters.indexOf("G") where sep.substringToIndex(codeEnd) =~ "^\\d?$" { // Cursor horizontal absolute
+				let codeStr = sep.substringToIndex(codeEnd)
+				debugTxt = "ESC[\(codeStr)G"
+				sgmtTxt = sep.substringFromIndex(codeEnd.successor())
+			} else if let codeEnd = sep.characters.indexOf("H") where sep.substringToIndex(codeEnd) =~ "^\\d;\\d$" { // Cursor position
 				let codeStrs = sep.substringToIndex(codeEnd).split(";")
+				debugTxt = "ESC[\(codeStrs.joinWithSeparator(";"))H"
+				sgmtTxt = sep.substringFromIndex(codeEnd.successor())
+			} else if let codeEnd = sep.characters.indexOf("J") where sep.substringToIndex(codeEnd) =~ "^\\d?$" { // Erase display
+				let codeStr = sep.substringToIndex(codeEnd)
+				debugTxt = "ESC[\(codeStr)J"
+				sgmtTxt = sep.substringFromIndex(codeEnd.successor())
+			} else if let codeEnd = sep.characters.indexOf("K") where sep.substringToIndex(codeEnd) =~ "^\\d?$" { // Erase in line
+				let codeStr = sep.substringToIndex(codeEnd)
+				debugTxt = "ESC[\(codeStr)K"
+				sgmtTxt = sep.substringFromIndex(codeEnd.successor())
+			} else if let codeEnd = sep.characters.indexOf("S") where sep.substringToIndex(codeEnd) =~ "^\\d?$" { // Scroll up
+				let codeStr = sep.substringToIndex(codeEnd)
+				debugTxt = "ESC[\(codeStr)S"
+				sgmtTxt = sep.substringFromIndex(codeEnd.successor())
+			} else if let codeEnd = sep.characters.indexOf("T") where sep.substringToIndex(codeEnd) =~ "^\\d?$" { // Scroll down
+				let codeStr = sep.substringToIndex(codeEnd)
+				debugTxt = "ESC[\(codeStr)T"
+				sgmtTxt = sep.substringFromIndex(codeEnd.successor())
+			} else if let codeEnd = sep.characters.indexOf("f") where sep.substringToIndex(codeEnd) =~ "^\\d;\\d$" { // Same as H
+				let codeStrs = sep.substringToIndex(codeEnd).split(";")
+				debugTxt = "ESC[\(codeStrs.joinWithSeparator(";"))f"
+				sgmtTxt = sep.substringFromIndex(codeEnd.successor())
+			} else if let codeEnd = sep.characters.indexOf("m") where sep.substringToIndex(codeEnd) =~ "^(\\d\\d?;?)+$" { // Select graphic rendition (color/effects)
+				let codeStrs = sep.substringToIndex(codeEnd).split(";")
+				debugTxt = "ESC[\(codeStrs.joinWithSeparator(";"))m"
 				sgmtTxt = sep.substringFromIndex(codeEnd.successor())
 				
 				for codeStr in codeStrs {
@@ -125,8 +165,19 @@ public class ANSIParse
 					default: print("Unknown \(code)") //Unknown code
 					}
 				}
+			} else if let codeEnd = sep.characters.indexOf("s") where sep.substringToIndex(codeEnd) =~ "^$" { // Save cursor position
+				debugTxt = "ESC[s"
+				sgmtTxt = sep.substringFromIndex(codeEnd.successor())
+			} else if let codeEnd = sep.characters.indexOf("u") where sep.substringToIndex(codeEnd) =~ "^$" { // Restore cursor position
+				debugTxt = "ESC[u"
+				sgmtTxt = sep.substringFromIndex(codeEnd.successor())
 			} else {
 				sgmtTxt = sep
+			}
+			
+			// If debug printing is on, show it (but without any formatting)
+			if includeDebugPrinting && !debugTxt.isEmpty {
+				segments.append(ANSISegment(formatting: [], foreground: nil, background: nil, text: debugTxt))
 			}
 			
 			// If there is no text, don't try to add it

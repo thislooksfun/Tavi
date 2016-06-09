@@ -66,4 +66,15 @@ class MenuController: PortraitTableViewController
 		Logger.warn("Unspecified menu index selected: [section: \(index.section), row: \(index.row)]")
 		self.tableView.deselectRowAtIndexPath(index, animated: true)
 	}
+	
+	/// Toggles the secret debug options
+	///
+	/// - WARNING: This will be shipped. Don't disable or reveal
+	///            anything secret or critical!
+	@IBAction func toggleSecrets(sender: UILongPressGestureRecognizer) {
+		guard sender.state == .Began else { return } //Only do this once
+		
+		Logger.info("secrets!")
+		ANSIParse.includeDebugPrinting.invert()
+	}
 }
