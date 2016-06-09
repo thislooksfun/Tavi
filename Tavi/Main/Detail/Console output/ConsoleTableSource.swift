@@ -107,6 +107,35 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 		}
 		
 		async(cb: self.reloadAndResize)
+		
+		
+		//TODO: add this somewhere for testing, and toggle it via the secret button
+		/*
+		var lines: [TravisBuildLog.Line] = []
+		
+		// Control
+		lines.append(TravisBuildLog.Line(segments: ANSIParse.parse("Control codes"), groupName: "", isGroupStart: false, isGroupEnd: false, time: nil))
+		for i in 1...8 {
+		let segments = ANSIParse.parse("\u{001B}[\(i)m" + "ESC[\(i)m" + "\u{001B}[2\(i)m (Reset with ESC[2\(i)m)")
+		lines.append(TravisBuildLog.Line(segments: segments, groupName: "", isGroupStart: false, isGroupEnd: false, time: nil))
+		}
+		
+		// Foreground
+		lines.append(TravisBuildLog.Line(segments: ANSIParse.parse("\nForeground colors"), groupName: "", isGroupStart: false, isGroupEnd: false, time: nil))
+		for i in [Int](30...37) + [Int](90...97) {
+		let segments = ANSIParse.parse("\u{001B}[\(i)m" + "ESC[\(i)m" + " \u{001B}[40m" + "ESC[\(i)m" + " \u{001B}[47m" + "ESC[\(i)m" + "\u{001B}[0m")
+		lines.append(TravisBuildLog.Line(segments: segments, groupName: "", isGroupStart: false, isGroupEnd: false, time: nil))
+		}
+		
+		// Background
+		lines.append(TravisBuildLog.Line(segments: ANSIParse.parse("\nBackground colors"), groupName: "", isGroupStart: false, isGroupEnd: false, time: nil))
+		for i in [Int](40...47) + [Int](100...107) {
+		let segments = ANSIParse.parse("\u{001B}[\(i)m" + "ESC[\(i)m" + " \u{001B}[30m" + "ESC[\(i)m" + " \u{001B}[37m" + "ESC[\(i)m" + "\u{001B}[0m")
+		lines.append(TravisBuildLog.Line(segments: segments, groupName: "", isGroupStart: false, isGroupEnd: false, time: nil))
+		}
+		
+		self.consoleTableSource.loadFromLineArray(lines)
+		*/
 	}
 	
 	/// Called by `DetailViewController` to tell this class that
