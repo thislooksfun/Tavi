@@ -78,9 +78,9 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 		}
 	}
 	
-	/// Loads the row information from a `JSON` object
+	/// Loads the row information from a `TravisBuildLog` object
 	///
-	/// - Parameter json: The `JSON` object to load from
+	/// - Parameter log: The `TravisBuildLog` to load from
 	private func loadFromLog(log: TravisBuildLog) {
 		let lines = log.lines
 		
