@@ -28,16 +28,12 @@ class TravisAPI
 {
 	/// The color used when a build is passing
 	static let passingColor = UIColor(red:  63/255, green: 167/255, blue: 95/255, alpha: 1)
-	
 	/// The color used when a build is failing
 	static let failingColor = UIColor(red: 219/255, green:  66/255, blue: 60/255, alpha: 1)
-	
 	/// The color used when a build is in progress
 	static let inProgressColor = UIColor(red: 190/255, green: 171/225, blue:  4/225, alpha: 1)
-	
 	/// The color used when no builds are present
 	static let noBuildColor = UIColor.clearColor()
-	
 	/// The color used when a build was cancelled
 	static let cancelColor = UIColor(white: 102/255, alpha: 1)
 	
@@ -567,19 +563,14 @@ class TravisAPI
 	{
 		/// The build passed
 		case Passing
-		
 		/// The build failed
 		case Failing
-		
 		/// The build was created, but not yet started
 		case Created
-		
 		/// The build has started
 		case Started
-		
 		/// The build was cancelled
 		case Cancelled
-		
 		/// None of the other states apply, for whatever reason.
 		/// (This *should* never be used, but it's here just in case).
 		case Unknown
@@ -595,13 +586,10 @@ class TravisAPI
 	{
 		/// The request succeeded
 		case Success
-		
 		/// The request did not contain valid JSON
 		case NoJson
-		
 		/// Travis is not authed, and neither is GitHub
 		case NeedsGithub
-		
 		/// None of the other states apply
 		case Other
 	}
