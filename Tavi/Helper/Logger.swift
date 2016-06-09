@@ -25,11 +25,11 @@ import UIKit
 /// A (decently) simple logging system
 public class Logger
 {
-	/// The longest caller info section we have yet seen
-	/// used to try to equalize the log positions
-	//TODO:Document
+	/// The longest function name we have yet seen - used to try to equalize the log positions
 	private static var longestFunctionNameSoFar = 0
+	/// The longest file name we have yet seen - used to try to equalize the log positions
 	private static var longestFileNameSoFar = 0
+	/// The longest line number we have yet seen - used to try to equalize the log positions
 	private static var longestLineNumberSoFar = 0
 	
 	/// The minimum level required for a message to be displayed
