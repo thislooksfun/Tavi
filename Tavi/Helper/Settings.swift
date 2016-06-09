@@ -53,6 +53,7 @@ class Settings
 	/// Whether or not to check for builds in the background
 	///
 	/// - TODO: Add this to the menu
+	/// - TODO: Replace with push notifications
 	static var CheckForBuildsInBackground = SettingsItem<Bool>(key: "BackgroundBuildCheck")
 	
 	/// Saves all the settings
