@@ -83,8 +83,6 @@ public class ANSIParse
 			var debugTxt = ""
 			var sgmtTxt = ""
 			
-			//TODO: Implement more of these?
-			
 			if let codeEnd = sep.characters.indexOf("A") where sep.substringToIndex(codeEnd) =~ "^\\d?$" { // Cursor up
 				let codeStr = sep.substringToIndex(codeEnd)
 				debugTxt = "ESC[\(codeStr)A"
