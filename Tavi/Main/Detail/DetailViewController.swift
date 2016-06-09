@@ -482,8 +482,10 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 	}
 	
 	@IBAction func restartBuild(sender: AnyObject?) {
-		//TODO: Actually make this restart the build.
 		Logger.trace("Restarting build")
+		guard self.repo != nil else { return }
+		guard self.repo!.builds.count > 0 else { return }
+		TravisAPI.restartBuild(self.repo!.builds[0].buildID)
 	}
 	
 	/// Toggles the favorited state of the repo

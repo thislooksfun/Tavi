@@ -368,6 +368,14 @@ class TravisAPI
 		}
 	}
 	
+	//TODO: Document
+	static func restartBuild(buildID: Int)
+	{
+		Logger.info("\n============== TravisAPI.restartBuild")
+		
+		TravisAPIBackend.apiCall("builds/\(buildID)/restart", method: .POST) { (_,_,_) in }
+	}
+	
 	/// Loads a specific job from its ID
 	///
 	/// - Parameters:
