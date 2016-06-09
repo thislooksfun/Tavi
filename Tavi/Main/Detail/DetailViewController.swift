@@ -556,13 +556,15 @@ class DetailViewController: LandscapeCapableViewController, UIGestureRecognizerD
 		
 		if action.description == "copy:" { return true }
 		if action.description == "_accessibilitySpeak:" { return true }
-		//		if action.description == "_accessibilityPauseSpeaking:" { return true }
+//		if action.description == "_accessibilityPauseSpeaking:" { return true }
 		return false
 	}
 	
 	func scrollViewDidScroll(scrollView: UIScrollView) {
 		guard scrollView == self.mainScrollView else { return }
-		let navBarHeight = self.navigationController!.navigationBarHidden ? 0 : self.navigationController!.navigationBar.frame.height
+		guard let navControl = self.navigationController else { return }
+		
+		let navBarHeight = navControl.navigationBarHidden ? 0 : navControl.navigationBar.frame.height
 		let distanceFromTop = navBarHeight + UIApplication.sharedApplication().statusBarFrame.size.height
 		let bottom = scrollView.contentSize.height - scrollView.contentOffset.y - UIScreen.mainScreen().bounds.height + distanceFromTop
 		self.consoleSidewaysScroll.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: bottom, right: 0)
