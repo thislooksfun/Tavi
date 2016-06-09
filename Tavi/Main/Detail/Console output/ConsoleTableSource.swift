@@ -472,6 +472,7 @@ class ConsoleTableSource: NSObject, UITableViewDelegate, UITableViewDataSource
 		
 		for cell in table.visibleCells as! [ConsoleLineCell] where !cell.sectionTitleLabel.hidden || !cell.sectionTimeLabel.hidden {
 			cell.sectionInfoDistanceToRight.constant = distance
+			cell.sectionInfoEdgeLockDistanceToRight.constant = distance - 8 //Only keep part of the first letter
 		}
 	}
 }

@@ -55,6 +55,12 @@ class ConsoleLineCell: UITableViewCell
 	/// right edge of the screen
 	@IBOutlet var sectionInfoDistanceToRight: NSLayoutConstraint!
 	
+	/// The distance from the leading edge of the section info
+	/// to the right edge of the screen.\
+	/// Used to lock the view in place
+	/// to show where the labels are when the lines are too long.
+	@IBOutlet var sectionInfoEdgeLockDistanceToRight: NSLayoutConstraint!
+	
 	/// The line number this cell represents
 	var lineNumber: Int {
 		get {

@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Segues with Peek and Pop" minToolsVersion="7.1"/>
@@ -356,7 +357,7 @@
                                                                                                 <constraint firstItem="3L0-Us-b8b" firstAttribute="centerY" secondItem="Nuj-Ek-dSH" secondAttribute="centerY" id="4Iz-PV-Xsp"/>
                                                                                                 <constraint firstItem="aaA-Tf-6wD" firstAttribute="height" secondItem="KOP-fU-jdo" secondAttribute="height" id="A1S-dH-bDR"/>
                                                                                                 <constraint firstItem="KOP-fU-jdo" firstAttribute="centerY" secondItem="Nuj-Ek-dSH" secondAttribute="centerY" id="BEC-eL-GFu"/>
-                                                                                                <constraint firstItem="pzb-6z-Ajq" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="aaA-Tf-6wD" secondAttribute="trailing" constant="12" id="GSr-S4-dNM"/>
+                                                                                                <constraint firstItem="pzb-6z-Ajq" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="aaA-Tf-6wD" secondAttribute="trailing" priority="500" constant="12" id="GSr-S4-dNM"/>
                                                                                                 <constraint firstItem="KOP-fU-jdo" firstAttribute="leading" secondItem="3L0-Us-b8b" secondAttribute="trailing" constant="4" id="IbI-uN-nMm"/>
                                                                                                 <constraint firstItem="aaA-Tf-6wD" firstAttribute="centerY" secondItem="Nuj-Ek-dSH" secondAttribute="centerY" id="K2R-JZ-q67"/>
                                                                                                 <constraint firstItem="1Bo-l6-gZ5" firstAttribute="trailing" secondItem="3L0-Us-b8b" secondAttribute="trailing" constant="4" id="LVm-Jg-cDg"/>
@@ -365,16 +366,19 @@
                                                                                                 <constraint firstAttribute="bottomMargin" secondItem="pzb-6z-Ajq" secondAttribute="bottom" id="Vc2-mY-eXv"/>
                                                                                                 <constraint firstItem="aaA-Tf-6wD" firstAttribute="leading" secondItem="KOP-fU-jdo" secondAttribute="trailing" constant="8" id="aAy-2Q-50c"/>
                                                                                                 <constraint firstItem="1Bo-l6-gZ5" firstAttribute="leading" secondItem="3L0-Us-b8b" secondAttribute="leading" constant="-4" id="aY9-zi-tUR"/>
+                                                                                                <constraint firstAttribute="trailingMargin" secondItem="pzb-6z-Ajq" secondAttribute="leading" constant="-3" id="dDW-cc-hB2"/>
                                                                                                 <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="aaA-Tf-6wD" secondAttribute="trailing" constant="8" id="dSD-BC-ek3"/>
                                                                                                 <constraint firstItem="3L0-Us-b8b" firstAttribute="leading" secondItem="Nuj-Ek-dSH" secondAttribute="leadingMargin" constant="4" id="eQM-yz-qLE"/>
                                                                                                 <constraint firstItem="1Bo-l6-gZ5" firstAttribute="bottom" secondItem="3L0-Us-b8b" secondAttribute="bottom" constant="4" id="kG6-NT-EV5"/>
                                                                                                 <constraint firstItem="pzb-6z-Ajq" firstAttribute="centerY" secondItem="Nuj-Ek-dSH" secondAttribute="centerY" id="l5Y-Pj-hka"/>
+                                                                                                <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="pzb-6z-Ajq" secondAttribute="leading" id="qxg-Zu-B3K"/>
                                                                                                 <constraint firstItem="1Bo-l6-gZ5" firstAttribute="top" secondItem="3L0-Us-b8b" secondAttribute="top" constant="-4" id="vya-M5-zo9"/>
                                                                                             </constraints>
                                                                                             <variation key="default">
                                                                                                 <mask key="constraints">
                                                                                                     <exclude reference="Pr3-dF-R7U"/>
                                                                                                     <exclude reference="Vc2-mY-eXv"/>
+                                                                                                    <exclude reference="dDW-cc-hB2"/>
                                                                                                 </mask>
                                                                                             </variation>
                                                                                         </tableViewCellContentView>
@@ -396,6 +400,7 @@
                                                                                             <outlet property="lineNumberLabel" destination="KOP-fU-jdo" id="4h2-0c-v6S"/>
                                                                                             <outlet property="lineTextLabel" destination="aaA-Tf-6wD" id="OBv-3Y-DTI"/>
                                                                                             <outlet property="sectionInfoDistanceToRight" destination="Lds-BM-Yu9" id="i4B-6m-3kg"/>
+                                                                                            <outlet property="sectionInfoEdgeLockDistanceToRight" destination="qxg-Zu-B3K" id="gqd-94-gk2"/>
                                                                                             <outlet property="sectionTimeContainer" destination="7UX-Oa-fxx" id="or1-MY-qYK"/>
                                                                                             <outlet property="sectionTimeLabel" destination="t66-KO-zHq" id="QX2-rX-3m8"/>
                                                                                             <outlet property="sectionTitleContainer" destination="1KS-CM-dau" id="JaE-v4-Jjg"/>
@@ -895,8 +900,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notifications" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hWf-bv-EeU">
-                                                    <rect key="frame" x="12" y="11.5" width="102" height="21.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Push Notifications" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hWf-bv-EeU">
+                                                    <rect key="frame" x="12" y="11.5" width="147" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1082,7 +1087,7 @@
             </objects>
             <point key="canvasLocation" x="3260" y="-1707"/>
         </scene>
-        <!--Notifications-->
+        <!--Push Notifications-->
         <scene sceneID="V6R-8S-zUU">
             <objects>
                 <tableViewController id="JqB-wz-dU5" customClass="NotificationController" customModule="Tavi" customModuleProvider="target" sceneMemberID="viewController">
@@ -1182,7 +1187,7 @@
                             <outlet property="delegate" destination="JqB-wz-dU5" id="hbX-oz-leC"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Notifications" id="p1w-PG-wOr"/>
+                    <navigationItem key="navigationItem" title="Push Notifications" id="p1w-PG-wOr"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bRk-Fi-OeO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
